@@ -7,16 +7,22 @@
   <van-button type="primary" @click="changleSkin">
     {{ $t("skin") }}
   </van-button>
+
+  <van-button type="primary" @click="login">
+    {{ $t("login") }}
+  </van-button>
 </template>
 
 <script>
 import { useI18n } from "vue-i18n/index";
-import {useStore} from "vuex";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const { locale } = useI18n();
     const store = useStore();
+    const router = useRouter();
     const changleLanguage = () => {
       locale.value = locale.value == "cn" ? "en" : "cn";
     };
@@ -24,7 +30,12 @@ export default {
       const skin = store.state.app.theme == "light" ? "dark" : "light";
       store.commit("setTheme", skin);
     };
-    return { store, changleLanguage, changleSkin };
+    const login = () => {
+      router.push({
+        name: "login",
+      });
+    };
+    return { store, changleLanguage, changleSkin, login };
   },
 };
 </script>
