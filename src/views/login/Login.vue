@@ -26,15 +26,20 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { getCurrentInstance, reactive } from "vue";
 export default {
   setup() {
     const state = reactive({
       username: "",
       password: "",
     });
+    const { proxy } = getCurrentInstance();
     const onSubmit = (values) => {
-      console.log("submit", values);
+      proxy.$http.post("/hello", { message: state.username }).then((res) => {
+        console.log(values);
+        console.log(res);
+
+      });
     };
 
     return {
