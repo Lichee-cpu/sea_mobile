@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "less": "^2.7.3",
+    "less-loader": "^7.3.0",
     "vant": "^4.0.0-alpha.3",
     "vue": "^3.0.0",
     "vue-i18n": "^9.1.10",
