@@ -1,18 +1,20 @@
+
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <h1>{{ $t('home') }}</h1>
+  <van-button type="primary" @click="changleLanguage">{{$t('language')}}</van-button>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { useI18n } from 'vue-i18n/index'
+// import useStore from 'vuex'
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+  setup() {
+    const { locale } = useI18n()
+    const changleLanguage = () => {
+      locale.value = locale.value == 'cn' ? 'en' : 'cn'
+    }
+    return { changleLanguage }
+  },
 }
 </script>

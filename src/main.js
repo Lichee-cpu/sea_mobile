@@ -1,6 +1,12 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import { createApp } from "vue";
+import App from "./App.vue";
+import { router } from "./router";
+import { i18n } from "./i18n";
+import { Button, ConfigProvider } from "vant";
 
-createApp(App).use(store).use(router).mount('#app')
+const app = createApp(App);
+app.use(ConfigProvider);
+app.use(Button);
+app.use(router);
+app.use(i18n);
+app.mount("#app");
