@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-25 19:36:08
  * @LastEditors: lxiang
- * @LastEditTime: 2022-05-25 20:33:17
+ * @LastEditTime: 2022-05-26 15:22:35
  * @description: 图片上传处理页
  * @FilePath: \sea_mobile\src\components\upload\UploadImage.vue
 -->
@@ -13,23 +13,15 @@
       multiple
       :max-size="500 * 1024"
       accept="image/*"
+      @click-upload="show = true"
       @oversize="onOversize"
     >
-      <template #default>
-        <div class="van-uploader__upload upbutton" @click-upload="addFile">
-          自定义上传
-        </div>
-      </template>
     </van-uploader>
-    <van-popup
+    <van-action-sheet
       v-model:show="show"
-      closeable
-      position="bottom"
-      :style="{ height: '30%' }"
-    >
-      <div>立即拍照</div>
-      <div>打开相册</div>
-    </van-popup>
+      :actions="actions"
+      @select="onSelect"
+    />
   </div>
 </template>
 <script>
@@ -39,7 +31,7 @@ import { Toast } from 'vant'
 export default {
   setup() {
     const show = ref(false)
-
+    const actions = [{ name: '拍照' }, { name: '相册' }]
     const fileList = ref([
       {
         url: 'http://lichee-img.oss-cn-hangzhou.aliyuncs.com/car-img/1625894251540cb8bf4279a31f2f3e1ec056e44d743f1.jpg',
@@ -56,17 +48,23 @@ export default {
       console.log(file)
       Toast('文件大小不能超过 500kb')
     }
+
+    const onSelect = (value) => {
+      console.log(value)
+    }
     // 添加文件
-    const addFile = () => {
-      console.log('ss')
+    const addFile = (res) => {
+      console.log('ss', res)
       show.value = true
     }
 
     return {
       show,
+      actions,
       fileList,
       onOversize,
       addFile,
+      onSelect,
     }
   },
 }
@@ -77,5 +75,13 @@ export default {
 }
 .van-uploader {
   display: flex;
+}
+.popup {
+  text-align: center;
+  margin-top: 50px;
+  div {
+    height: 40px;
+    line-height: 30px;
+  }
 }
 </style>

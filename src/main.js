@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
  * @LastEditors: lxiang
- * @LastEditTime: 2022-05-25 20:18:44
+ * @LastEditTime: 2022-05-26 14:50:37
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -24,6 +24,8 @@ import {
   CollapseItem,
   Uploader,
   Popup,
+  Picker,
+  ActionSheet,
 } from 'vant'
 
 const app = createApp(App)
@@ -36,6 +38,9 @@ app.use(Collapse)
 app.use(CollapseItem)
 app.use(Uploader)
 app.use(Popup)
+app.use(Picker)
+app.use(ActionSheet)
+
 
 app.use(router)
 app.use(i18n)
