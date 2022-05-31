@@ -1,3 +1,11 @@
+<!--
+ * @Author: lxiang
+ * @Date: 2022-05-30 17:45:34
+ * @LastEditors: lxiang
+ * @LastEditTime: 2022-05-31 10:55:13
+ * @description: Modify here please
+ * @FilePath: \sea_mobile\src\views\Home.vue
+-->
 <template>
   <h1>{{ $t("home") }}</h1>
   <van-button type="primary" @click="changleLanguage">
@@ -11,18 +19,26 @@
   <van-button type="primary" @click="login">
     {{ $t("login") }}
   </van-button>
+
+  <van-button type="primary" @click="close">
+    {{ $t("close") }}
+  </van-button>
 </template>
 
 <script>
 import { useI18n } from "vue-i18n/index";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { getCurrentInstance } from "vue";
+import { Dialog, Toast } from "vant";
 
 export default {
   setup() {
     const { locale } = useI18n();
     const store = useStore();
     const router = useRouter();
+    const { proxy } = getCurrentInstance();
+
     const changleLanguage = () => {
       locale.value = locale.value == "cn" ? "en" : "cn";
     };
@@ -35,7 +51,25 @@ export default {
         name: "login",
       });
     };
-    return { store, changleLanguage, changleSkin, login };
+
+    const close = () => {
+      Dialog.confirm({
+        title: "注销账户",
+        message: "注销账户后将无法登录，是否继续？",
+      })
+        .then(() => {
+          proxy.$http.post("/user/close").then((res) => {
+            const { description } = res.data;
+            Toast.success(description);
+          });
+          proxy.$http.removeToken();
+        })
+        .catch(() => {
+          // on cancel
+        });
+    };
+
+    return { store, changleLanguage, changleSkin, login, close };
   },
 };
 </script>

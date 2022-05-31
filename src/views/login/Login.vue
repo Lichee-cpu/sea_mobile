@@ -1,3 +1,11 @@
+<!--
+ * @Author: lxiang
+ * @Date: 2022-05-16 09:50:42
+ * @LastEditors: lxiang
+ * @LastEditTime: 2022-05-31 10:17:16
+ * @description: Modify here please
+ * @FilePath: \sea_mobile\src\views\login\Login.vue
+-->
 <template>
   <van-form @submit="onSubmit">
     <van-cell-group inset>
@@ -27,6 +35,8 @@
 
 <script>
 import { getCurrentInstance, reactive } from "vue";
+import { Toast } from "vant";
+import router from "../../router";
 export default {
   setup() {
     const state = reactive({
@@ -34,11 +44,16 @@ export default {
       password: "",
     });
     const { proxy } = getCurrentInstance();
-    const onSubmit = (values) => {
-      proxy.$http.post("/hello", { message: state.username }).then((res) => {
-        console.log(values);
-        console.log(res);
-
+    const onSubmit = () => {
+      proxy.$http.post("/user/login", state).then((res) => {
+        const { status, body, description } = res.data;
+        if (status == 200) {
+          proxy.$http.setToken(body.token);
+          Toast.success(description);
+          router.push({ name: "tabbar" });
+        } else {
+          Toast.fail(description);
+        }
       });
     };
 
