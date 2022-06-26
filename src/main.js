@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-30 18:02:07
  * @LastEditors: lxiang
- * @LastEditTime: 2022-05-31 09:59:39
+ * @LastEditTime: 2022-06-26 13:37:49
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -22,6 +22,8 @@ import {
   CellGroup,
   Tabbar,
   TabbarItem,
+  Search,
+  NavBar,
 } from "vant";
 
 const app = createApp(App);
@@ -32,6 +34,8 @@ app.use(Field);
 app.use(CellGroup);
 app.use(Tabbar);
 app.use(TabbarItem);
+app.use(Search);
+app.use(NavBar);
 
 app.use(router);
 app.use(i18n);

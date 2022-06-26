@@ -2,11 +2,12 @@
  * @Author: lxiang
  * @Date: 2022-05-30 17:45:34
  * @LastEditors: lxiang
- * @LastEditTime: 2022-05-31 10:17:09
+ * @LastEditTime: 2022-06-26 13:32:04
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\index.js
  */
 import { createRouter, createWebHashHistory } from "vue-router";
+import { home } from "./home";
 import { login } from "./login";
 
 const routes = [
@@ -27,6 +28,7 @@ const routes = [
     },
   },
   ...login,
+  ...home,
 ];
 const router = createRouter({
   routes,

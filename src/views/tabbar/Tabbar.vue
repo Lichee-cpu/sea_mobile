@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 09:59:04
  * @LastEditors: lxiang
- * @LastEditTime: 2022-05-31 10:20:58
+ * @LastEditTime: 2022-06-26 10:59:12
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\tabbar\Tabbar.vue
 -->
@@ -22,7 +22,7 @@
 
 <script>
 import { ref, shallowRef } from "vue";
-import Home from "@/views/Home.vue";
+import Home from "@/views/home/Home.vue";
 import Search from "@/views/search/Search.vue";
 import Setting from "@/views/setting/Setting.vue";
 

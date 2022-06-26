@@ -1,3 +1,8 @@
+body {
+  --statusbar-height: 0px;
+  --nav-bar-height: calc(var(--statusbar-height) + var(--van-nav-bar-height));
+}
+
 .app-body {
   width: 100vw;
   height: 100vh;
