@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-30 17:45:34
  * @LastEditors: lxiang
- * @LastEditTime: 2022-05-31 10:55:13
+ * @LastEditTime: 2022-06-30 15:51:22
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\Home.vue
 -->
@@ -22,6 +22,10 @@
 
   <van-button type="primary" @click="close">
     {{ $t("close") }}
+  </van-button>
+
+  <van-button type="primary" @click="logout">
+    {{ $t("logout") }}
   </van-button>
 </template>
 
@@ -51,6 +55,11 @@ export default {
         name: "login",
       });
     };
+    const logout = () => {
+      proxy.$http.post("/user/logout").then(() => {
+        login();
+      });
+    };
 
     const close = () => {
       Dialog.confirm({
@@ -69,7 +78,7 @@ export default {
         });
     };
 
-    return { store, changleLanguage, changleSkin, login, close };
+    return { store, changleLanguage, changleSkin, login, close, logout };
   },
 };
 </script>
