@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-06-30 15:04:49
  * @LastEditors: lxiang
- * @LastEditTime: 2022-06-30 15:54:32
+ * @LastEditTime: 2022-07-06 17:49:02
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\star\Star.vue
 -->
@@ -10,7 +10,7 @@
   <div class="star-box">
     <div>
       <span>
-        {{ myattention }}
+        {{ follow }}
         关注
       </span>
     </div>
@@ -29,27 +29,21 @@ export default {
   setup() {
     const { proxy } = getCurrentInstance();
     const myfan = ref(0);
-    const myattention = ref(0);
-    const getMyattention = () => {
-      proxy.$http.post("/star/myattention").then((res) => {
+    const follow = ref(0);
+    const getUserInfo = () => {
+      proxy.$http.post("/user/userinfo").then((res) => {
         const data = res.data.message;
-        console.log(data[0].froms);
-        myattention.value = data[0].froms.length;
+        console.log(data);
+        myfan.value = data.fan;
+        follow.value = data.follow;
       });
     };
-    const getMyfan = () => {
-      proxy.$http.post("/star/myfan").then((res) => {
-        const data = res.data.message;
-        console.log(data[0].tolist);
-        myfan.value = data[0].tolist.length;
-      });
-    };
+
     onMounted(() => {
-      getMyattention();
-      getMyfan();
+      getUserInfo();
     });
     return {
-      myattention,
+      follow,
       myfan,
     };
   },

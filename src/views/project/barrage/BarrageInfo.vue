@@ -2,8 +2,18 @@
   <div>
     <div class="bullet-wrap">
       <div
-        class="bullet-item bullet-animation"
-        :class="{ 'bullet-item--c': item.isLoginUser }"
+        class="bullet-item"
+        :class="
+          item.isImportant
+            ? 'bold bullet-item-color-' +
+              item.color +
+              ' bullet-animation-' +
+              item.random
+            : 'bullet-item-color-' +
+              item.color +
+              ' bullet-animation-' +
+              item.random
+        "
         :data-line="item.line"
         v-for="item in state.bulletlist"
         @animationend="animationend"
@@ -47,9 +57,33 @@ export default {
     }
     const state = reactive({
       list: [
-        { id: getUUID(), name: "11111", isLoginUser: true, line: 0 },
-        { id: getUUID(), name: "2222222", isLoginUser: true, line: 0 },
-        { id: getUUID(), name: "3333", isLoginUser: true, line: 0 },
+        {
+          id: getUUID(),
+          name: "弹幕即将来袭~",
+          isLoginUser: true,
+          isImportant: true,
+          color: 0,
+          random: 0,
+          line: 0,
+        },
+        {
+          id: getUUID(),
+          name: "2222222",
+          isLoginUser: true,
+          isImportant: false,
+          color: 1,
+          random: 1,
+          line: 0,
+        },
+        {
+          id: getUUID(),
+          name: "3333",
+          isLoginUser: true,
+          isImportant: true,
+          color: 1,
+          random: 2,
+          line: 0,
+        },
       ], // 普通的弹幕队列
       clist: [], // c位的弹幕队列
       bulletlist: [], // 当前正在执行的
@@ -63,15 +97,20 @@ export default {
 
     function sendBullet() {
       if (state.values) {
+        // 随机生成重要性和颜色
         state.clist.push({
           id: getUUID(),
           name: state.values,
           isLoginUser: true,
+          isImportant: Math.random() >= 0.5,
+          color: parseInt(Math.random() * (4 - 0 + 1) + 0, 10),
+          random: parseInt(Math.random() * (3 - 0 + 1) + 0, 10),
           line: 0,
         });
         state.values = "";
       }
     }
+
     onMounted(() => {
       setInterval(() => {
         var item = null;
@@ -118,14 +157,14 @@ export default {
 .van-cell {
   background: #f8f8f8;
 }
-
+.bold {
+  font-weight: bold;
+}
 .bullet-wrap {
   height: 400px;
   position: relative;
   overflow: hidden;
-  font-size: 36px;
-  background: url(https://www.lilnong.top/static/img/Desert.jpg) center center
-    no-repeat;
+  background: #333;
   background-size: cover;
   margin-bottom: 40px;
 }
@@ -138,8 +177,20 @@ export default {
   top: 0;
   left: 0;
 }
-.bullet-item--c {
-  border: 1px solid #ff000082;
+.bullet-item-color-0 {
+  color: rgb(71, 104, 244);
+}
+.bullet-item-color-1 {
+  color: rgb(231, 59, 80);
+}
+.bullet-item-color-2 {
+  color: rgb(255, 121, 0);
+}
+.bullet-item-color-3 {
+  color: rgb(18, 195, 153);
+}
+.bullet-item-color-4 {
+  color: rgb(100, 104, 102);
 }
 .bullet-item[data-line="1"] {
   top: 0px;
@@ -156,8 +207,17 @@ export default {
 .bullet-item[data-line="5"] {
   top: 320px;
 }
-.bullet-animation {
-  animation: right2left 7s linear both;
+.bullet-animation-0 {
+  animation: right2left 6s linear both;
+}
+.bullet-animation-1 {
+  animation: right2left 4s linear both;
+}
+.bullet-animation-2 {
+  animation: right2left 8s linear both;
+}
+.bullet-animation-3 {
+  animation: right2left 5s linear both;
 }
 
 @keyframes right2left {
