@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2022-06-26 13:32:28
+ * @LastEditTime: 2022-07-12 16:35:37
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -28,7 +28,11 @@
         <img src="@/assets/home/item/360.png" alt="全景" />
       </div>
       <div class="item">
-        <img src="@/assets/home/item/liaotian.png" alt="聊天" />
+        <img
+          src="@/assets/home/item/liaotian.png"
+          alt="聊天"
+          @click="goto('Chat')"
+        />
       </div>
       <div class="item">
         <img src="@/assets/home/item/upload.png" alt="文件上传" />

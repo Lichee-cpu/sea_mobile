@@ -4,8 +4,6 @@ body {
 }
 
 .app-body {
-  width: 100vw;
-  height: 100vh;
   background: var(--bg-primary);
   color: var(--text-primary);
 }
