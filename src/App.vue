@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-05-08 18:58:26
- * @LastEditTime: 2022-06-26 15:23:38
+ * @LastEditTime: 2022-07-13 19:39:24
  * @LastEditors: lxiang
  * @Description: 入口
  * @FilePath: \sea_mobile\src\App.vue
@@ -50,3 +50,10 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+.van-config-provider,
+.app-body {
+  height: 100%;
+}
+</style>

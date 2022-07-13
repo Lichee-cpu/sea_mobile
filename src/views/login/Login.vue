@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
  * @LastEditors: lxiang
- * @LastEditTime: 2022-07-12 17:21:48
+ * @LastEditTime: 2022-07-13 19:41:26
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -75,6 +75,7 @@ export default {
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   padding: 16px;
+  height: 100%;
   .logo {
     padding: 40% 40% 10% 40%;
     img {
