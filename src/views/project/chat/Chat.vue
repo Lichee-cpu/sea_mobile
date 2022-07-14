@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-07-12 16:30:51
  * @LastEditors: lxiang
- * @LastEditTime: 2022-07-13 20:02:19
+ * @LastEditTime: 2022-07-14 11:29:43
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\chat\Chat.vue
 -->
@@ -11,39 +11,57 @@
     <Header title="聊天" />
     <div class="chat-box">
       <div class="chat-info">
-        <div v-for="(item, index) in messageList" :key="index">
+        <div v-for="(item, index) in messageList" :key="index" class="item">
           <div class="user">
             <span>{{ item.name }}</span>
             <span>{{ item.time }}</span>
           </div>
-          <div class="message">{{ item.info }}</div>
+          <div class="message">{{ item.message }}</div>
         </div>
       </div>
     </div>
     <div class="input">
-      <input type="text" />
-      <button>发送</button>
+      <input type="text" v-model="message" />
+      <button @click="send">发送</button>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 import { io } from "socket.io-client";
 import Header from "@/components/header/Header.vue";
+import { getCurrentInstance, reactive, ref } from "vue";
+import { Toast } from "vant";
 
 export default {
   components: { Header },
   setup() {
-    const messageList = [{ name: "zhang", time: "13:45", info: "章程" }];
-
+    const socket = io("http://localhost:3000");
+    const { proxy } = getCurrentInstance();
+    const messageList = reactive([
+      { name: "system", time: "00:00", message: "初始化" },
+    ]);
+    const message = ref("");
+    const send = () => {
+      if (message.value != "") {
+        proxy.$http.post("/chat/send", { message: message.value }).then(() => {
+          message.value = "";
+        });
+      } else {
+        Toast("不允许发送空内容");
+      }
+    };
     onMounted(() => {
-      const socket = io("http://localhost:3000");
-      socket.emit("findAllDashboard", (res) => {
-        console.log(res);
+      socket.on("send", (res) => {
+        res.data.time = new Date(res.data.time).Format("hh:mm");
+        messageList.push(res.data);
       });
     });
-    return { messageList };
+    onUnmounted(() => {
+      socket.off("send", () => {});
+    });
+    return { messageList, message, send };
   },
 };
 </script>
@@ -60,6 +78,14 @@ export default {
       padding: 8px;
       border-radius: 8px;
       background: #fff;
+      .user {
+        span {
+          margin-right: 10px;
+        }
+      }
+      .item {
+        margin-bottom: 5px;
+      }
     }
   }
   .input {

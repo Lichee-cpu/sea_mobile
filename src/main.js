@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-30 18:02:07
  * @LastEditors: lxiang
- * @LastEditTime: 2022-06-26 13:37:49
+ * @LastEditTime: 2022-07-14 10:36:40
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -42,3 +42,21 @@ app.use(i18n);
 app.use(store);
 app.config.globalProperties.$http = instance;
 app.mount("#app");
+
+
+
+Date.prototype.Format = function (fmt) { //author: meizz 
+  var o = {
+      "M+": this.getMonth() + 1, //月份 
+      "d+": this.getDate(), //日 
+      "h+": this.getHours(), //小时 
+      "m+": this.getMinutes(), //分 
+      "s+": this.getSeconds(), //秒 
+      "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+      "S": this.getMilliseconds() //毫秒 
+  };
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+  if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  return fmt;
+}
