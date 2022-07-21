@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-07-12 16:30:51
  * @LastEditors: lxiang
- * @LastEditTime: 2022-07-14 11:29:43
+ * @LastEditTime: 2022-07-21 16:32:12
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\chat\Chat.vue
 -->
@@ -14,7 +14,6 @@
         <div v-for="(item, index) in messageList" :key="index" class="item">
           <div class="user">
             <span>{{ item.name }}</span>
-            <span>{{ item.time }}</span>
           </div>
           <div class="message">{{ item.message }}</div>
         </div>
@@ -82,6 +81,13 @@ export default {
         span {
           margin-right: 10px;
         }
+      }
+      .message {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 8px;
+        background: #d9d9d9;
+        margin-left: 36px;
       }
       .item {
         margin-bottom: 5px;
