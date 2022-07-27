@@ -6,7 +6,7 @@ module.exports = {
         describe: "",
         secure: false,
         changeOrigin: true,
-        logLwvwe: "debug",
+        logLevel: "debug",
       },
     },
   },
