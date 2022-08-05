@@ -21,8 +21,8 @@ function refreshToken() {
 
 // 创建一个axios实例
 const instance = axios.create({
-  baseURL: "/api/",
-  timeout: 300000,
+  baseURL: "/",
+  timeout: 3000,
   headers: {
     "Content-Type": "application/json",
     token: getLocalToken(), // headers塞token
