@@ -36,7 +36,7 @@ import { Toast } from "vant";
 export default {
   components: { Header },
   setup() {
-    const socket = io("http://localhost:3000");
+    const socket = io("http://localhost:8989");
     const { proxy } = getCurrentInstance();
     const messageList = reactive([
       { name: "system", time: "00:00", message: "初始化" },

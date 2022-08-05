@@ -25,7 +25,11 @@
         />
       </div>
       <div class="item">
-        <img src="@/assets/home/item/360.png" alt="全景" />
+        <img
+          src="@/assets/home/item/360.png"
+          alt="车展"
+          @click="goto('AutoShow')"
+        />
       </div>
       <div class="item">
         <img

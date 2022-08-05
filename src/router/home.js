@@ -17,4 +17,9 @@ export const home = [
     name: "Chat",
     component: () => import("@/views/project/chat/Chat.vue"),
   },
+  {
+    path: "/auto-show",
+    name: "AutoShow",
+    component: () => import("@/views/project/auto-show/AutoShow.vue"),
+  },
 ];
