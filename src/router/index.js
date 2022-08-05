@@ -6,7 +6,7 @@
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\index.js
  */
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import { home } from "./home";
 import { login } from "./login";
 
@@ -32,7 +32,7 @@ const routes = [
 ];
 const router = createRouter({
   routes,
-  history: createWebHistory(),
+  history: createWebHashHistory(),
 });
 
 // 路由守卫
@@ -48,6 +48,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
 
 export default router;
