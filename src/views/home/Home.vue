@@ -1,8 +1,8 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2022-07-12 16:35:37
- * @LastEditors: lxiang
+ * @LastEditTime: 2022-08-21 21:08:18
+ * @LastEditors: home 1400256031@qq.com
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
 -->
@@ -42,7 +42,7 @@
         <img src="@/assets/home/item/upload.png" alt="文件上传" />
       </div>
     </div>
-    <div class="lower"></div>
+    <div class="lower"  @click="goto('SeaPicker')">picker</div>
   </div>
 </template>
 

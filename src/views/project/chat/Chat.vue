@@ -1,8 +1,8 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-07-12 16:30:51
- * @LastEditors: lxiang
- * @LastEditTime: 2022-07-21 16:32:12
+ * @LastEditors: home 1400256031@qq.com
+ * @LastEditTime: 2022-08-13 11:24:57
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\chat\Chat.vue
 -->
@@ -18,10 +18,10 @@
           <div class="message">{{ item.message }}</div>
         </div>
       </div>
-    </div>
-    <div class="input">
-      <input type="text" v-model="message" />
-      <button @click="send">发送</button>
+      <div class="input">
+        <input type="text" v-model="message" @keyup.enter="send" />
+        <button @click="send">发送</button>
+      </div>
     </div>
   </div>
 </template>
@@ -67,16 +67,16 @@ export default {
 <style lang="less" scoped>
 .wrap {
   height: 100%;
+  position: relative;
   padding-top: var(--nav-bar-height);
   .chat-box {
-    height: calc(~"100% - 56px");
-    background: #d9d9d9;
     padding: 20px 10px;
+    overflow: auto;
     .chat-info {
       height: 100%;
       padding: 8px;
       border-radius: 8px;
-      background: #fff;
+      background: var(--van-background-2);
       .user {
         span {
           margin-right: 10px;
@@ -86,7 +86,7 @@ export default {
         display: inline-block;
         padding: 8px 16px;
         border-radius: 8px;
-        background: #d9d9d9;
+        background: var(--van-background-3);
         margin-left: 36px;
       }
       .item {
@@ -95,23 +95,32 @@ export default {
     }
   }
   .input {
+    display: flex;
     position: fixed;
     bottom: 10px;
     height: 36px;
     width: 100%;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     input {
       height: 100%;
-      width: 81%;
+      width: 75%;
       line-height: 80%;
       padding: 2px;
       font-size: 14px;
       box-sizing: border-box;
-      border: 1px solid #2f00ff;
+      border: none;
+      border-radius: 8px;
+      background: var(--van-background);
     }
     button {
       height: 100%;
       width: 15%;
+      border: none;
+      border-radius: 8px;
+      margin-left: 0.5em;
+      background: var(--van-background);
     }
   }
 }
