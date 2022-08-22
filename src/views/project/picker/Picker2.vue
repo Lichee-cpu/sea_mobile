@@ -108,22 +108,25 @@ export default {
           state.guodu,
           newtrans
         );
-        if (Math.abs(state.changePoint) / 56 > 1) {
-          console.log("state.changePoint,", state.changePoint);
-          state.changeNum = Math.trunc(state.changePoint / 56); //取整
-          console.log("%c state.changeNum %s", "color: red; ", state.changeNum);
-          console.log("%c newtrans %s", "color: green; ", newtrans);
-          if (newtrans > state.min) {
-            state.translate = state.min + "px";
-            state.standIn = 0;
-          } else if (newtrans < -state.max) {
-            state.translate = -state.max + "px";
-          } else {
-            if (Math.abs(state.changeNum) > 0) {
-              console.log("大于0", Math.abs(state.changeNum));
-            }
+
+        // if (Math.abs(state.changePoint) / 56 > 1) {
+        console.log("state.changePoint,", state.changePoint);
+        state.changeNum = Math.trunc(state.changePoint / 56); //取整
+        console.log("%c state.changeNum %s", "color: red; ", state.changeNum);
+        console.log("%c newtrans %s", "color: green; ", newtrans);
+        if (newtrans > state.min) {
+          state.translate = state.min + "px";
+          state.standIn = 0;
+        } else if (newtrans < -state.max) {
+          state.translate = -state.max + "px";
+        } else {
+          state.standIn -= state.changeNum;
+          console.log("%c索引%s", "color: yellow; ", state.standIn);
+          if (Math.abs(state.changeNum) > 0) {
+            console.log("大于0", Math.abs(state.changeNum));
           }
         }
+        // }
       }
     };
     const touchEnd = () => {

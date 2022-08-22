@@ -43,6 +43,7 @@
       </div>
     </div>
     <div class="lower"  @click="goto('SeaPicker')">picker</div>
+    <div class="lower"  @click="goto('SeaPicker2')">picker2</div>
   </div>
 </template>
 

@@ -27,4 +27,9 @@ export const home = [
     name: "SeaPicker",
     component: () => import("@/views/project/picker/Picker.vue"),
   },
+  {
+    path: "/sea-picker2",
+    name: "SeaPicker2",
+    component: () => import("@/views/project/picker/Picker2.vue"),
+  },
 ];
