@@ -7,28 +7,30 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="_picker-box">
-    <div
-      class="_picker-content"
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-    >
-      <ul
-        @click="clickul"
-        class="_picker-row-box"
-        :style="
-          'transform: translate3d(' +
-          state.translate +
-          ', 0px, 0px);transition: transform 300ms ease 0s;'
-        "
+  <div>
+    <div class="_picker-box">
+      <div
+        class="_picker-content"
+        @touchstart="touchStart"
+        @touchmove="touchMove"
+        @touchend="touchEnd"
       >
-        <li v-for="(i, o) in state.pickerData" :key="o" class="">
-          {{ i }}
-        </li>
-        <li v-for="(i, o) in state.standIn" :key="o" class=""></li>
-      </ul>
+        <ul
+          @click="clickul"
+          class="_picker-row-box"
+          :style="
+            'transform: translate3d(' +
+            state.translate +
+            ', 0px, 0px);transition: transform 300ms ease 0s;'
+          "
+        >
+          <li v-for="(i, o) in state.pickerData" :key="o" class="">
+            {{ i }}
+          </li>
+        </ul>
+      </div>
     </div>
+    {{ state.pickerData[state.standIn] }}
   </div>
 </template>
 
@@ -58,16 +60,16 @@ export default {
         "12-17",
         "12-18",
         "12-19",
-        "12-20",
       ],
       min: 0,
       max: 0,
       translate: 0,
       isPointerdown: false,
-      standIn: 0,
-      startPoint: 0,
-      movePoint: 0,
-      changePoint: 0,
+      changeNum: 0, //改变的个数
+      standIn: 0, //指针
+      startPoint: 0, //起始点
+      movePoint: 0, //终点
+      changePoint: 0, //变化距离
     });
     const clickul = () => {
       console.log("点击了ul");
@@ -77,12 +79,12 @@ export default {
       const li = document.querySelector("._picker-row-box");
       const liWidth = li.querySelector("li").offsetWidth;
       const rem = window.getComputedStyle(content, "after").width;
-      state.standIn = Math.trunc(content.offsetWidth / 56 / 2); //替补占位
-      state.min = rem.replace(/[a-zA-Z]+/g, "") - 8;
-      state.max = liWidth * (state.pickerData.length - 1 - state.standIn);
+
+      state.min = rem.replace(/[a-zA-Z]+/g, "");
+      state.max =
+        liWidth * (state.pickerData.length - 1) - state.min;
       state.translate = state.min + "px";
-      console.log("zuidawei", state.max);
-      console.log("替补", state.standIn);
+      console.log("最大位置", state.max);
     };
 
     const touchStart = (e) => {
@@ -97,35 +99,62 @@ export default {
         state.movePoint = e.targetTouches[0].clientX;
         state.changePoint = state.movePoint - state.startPoint; //触摸移动距离
         const newtrans =
-          Number(state.translate.replace(/[a-zA-Z]+/g, "")) + state.changePoint; //加上原始距离
-        const really = Math.ceil(newtrans / 56) * 56; //宽度的倍数，确保每个在中间
-        if (newtrans > state.min) {
-          state.translate = state.min + "px";
-        } else if (newtrans < -state.max) {
-          state.translate = -state.max + "px";
-        } else {
-          state.translate = really + "px";
+          Number(state.translate.replace(/[a-zA-Z]+/g, "")) +
+          state.changePoint * 1.5; //加上原始距离
+        if (Math.abs(state.changePoint) / 28 > 1) {
+          state.changeNum = Math.ceil(state.changePoint / 28);
+          // const really = Math.ceil(state.changePoint / 28) * 28; //宽度的倍数，确保每个在中间
+          if (newtrans > state.min) {
+            state.translate = state.min + "px";
+            state.standIn = 0;
+          } else if (newtrans < -state.max) {
+            state.translate = -state.max + "px";
+            // state.standIn = state.pickerData.length;
+          }
+
+          console.log(
+            "终点",
+            state.movePoint,
+            "起点",
+            state.startPoint,
+            "移动了",
+            state.movePoint - state.startPoint
+          );
+          console.log();
+
+          console.log(
+            "ul开始",
+            Number(state.translate.replace(/[a-zA-Z]+/g, "")),
+            "移动数量",
+            state.changeNum,
+            "应该移动距离",
+            Number(state.translate.replace(/[a-zA-Z]+/g, "")) +
+              state.changeNum * 56,
+            "最后位置",
+            state.translate
+          );
         }
       }
     };
     const touchEnd = () => {
-      state.changePoint = state.movePoint - state.startPoint; //触摸移动距离
-      const newtrans =
-        Number(state.translate.replace(/[a-zA-Z]+/g, "")) + state.changePoint; //加上原始距离
-      const really = Math.ceil(newtrans / 56) * 56; //宽度的倍数，确保每个在中间
-      if (newtrans > state.min) {
-        state.translate = state.min + "px";
-      } else if (newtrans < -state.max) {
-        state.translate = -state.max + "px";
-      } else {
-        state.translate = really + "px";
-      }
+      state.translate =
+        state.changeNum * 56 +
+        Number(state.translate.replace(/[a-zA-Z]+/g, "")) +
+        "px";
+      state.standIn -= state.changeNum;
 
-      console.log(state.movePoint, state.startPoint);
-      console.log("state.translate", state.translate);
+      console.log("state.standIn", state.standIn);
+      if (state.translate.replace(/[a-zA-Z]+/g, "") > state.min) {
+        state.translate = state.min + "px";
+        state.standIn = 0;
+      } else if (state.translate.replace(/[a-zA-Z]+/g, "") < -state.max) {
+        state.translate = -state.max + "px";
+        state.standIn = state.pickerData.length - 1;
+      }
 
       state.startPoint = 0;
       state.movePoint = 0;
+      state.changeNum = 0;
       state.isPointerdown = false;
     };
 
@@ -153,7 +182,6 @@ export default {
   border: 1px solid #ebebeb;
 }
 ._picker-content {
-  padding: 0.5rem;
   overflow: hidden;
 }
 ._picker-row-box {
