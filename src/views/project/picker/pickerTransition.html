@@ -221,11 +221,13 @@
         constructor(options) {
           this.options = Object.assign({}, options);
           this.isPointerdown = false;
-          const width = document.querySelector(".picker-content");
-          this.itemWidth = width.querySelector("li").offsetWidth; // 列表项宽度
-          console.log(this.itemWidth);
-          this.maxX = this.itemWidth * 2;
-          this.minX = this.itemWidth * (3 - this.options.list.length);
+          const ul = document.querySelector(".picker-content");
+          const pickerRow = document.querySelector(".picker-row");
+          this.itemWidth = ul.querySelector("li").offsetWidth; // 列表项宽度
+          const pseudoWidth = window.getComputedStyle(pickerRow, "after").width; //伪元素宽度
+          this.maxX = pseudoWidth.replace(/[a-zA-Z]+/g, ""); //初始位置也是最大的位置
+          this.minX =
+            this.itemWidth * (this.options.list.length - 1) - this.maxX; //最小的位置
           this.lastX = 0;
           this.diffX = 0;
           this.translateX = 0; // 当前位置
@@ -238,9 +240,8 @@
         render() {
           let html = "";
           for (const item of this.options.list) {
-            html += "<li> 06-" + item + "</li>";
+            html += "<li>" + item + "</li>";
           }
-          console.log("1234564");
           this.options.pickerContent.innerHTML = html;
           this.options.pickerContent.style.transform =
             "translate3d(" + this.maxX + "px, 0px, 0px)";
@@ -312,7 +313,7 @@
           const transform = window
             .getComputedStyle(this.options.pickerContent)
             .getPropertyValue("transform");
-          this.translateX = parseFloat(transform.split(",")[5]);
+          this.translateX = parseFloat(transform.split(",")[4]);
         }
         getTranslateX() {
           let speed = this.diffX;
@@ -325,16 +326,17 @@
           if (y > this.maxX) {
             this.translateX = this.maxX;
             this.distanceX = this.maxX - this.translateX;
-          } else if (y < this.minX) {
-            this.translateX = this.minX;
+          } else if (y < -this.minX) {
+            this.translateX = -this.minX;
             this.distanceX = this.minX - this.translateX;
           } else {
             this.translateX = y;
           }
+
           // 计算停止位置使其为itemWidth的整数倍
-          let i = Math.round(this.translateX / this.itemWidth);
-          this.translateX = i * this.itemWidth;
-          this.result = this.options.list[2 - this.translateX / this.itemWidth];
+          let i = Math.round((this.translateX - this.maxX) / this.itemWidth);
+          this.translateX = Number(this.maxX) + Number(i * this.itemWidth);
+          this.result = this.options.list[Math.abs(i)];
         }
       }
 
