@@ -12,7 +12,9 @@
           :style="
             'transform: translate3d(' +
             option.translateX +
-            'px, 0px, 0px);transition: transform 300ms ease 0s;display: flex;'
+            'px, 0px, 0px);display: flex;transition:' +
+            option.pointerdown +
+            ' ease 0s'
           "
         >
           <li
@@ -46,6 +48,7 @@ export default {
     });
     const option = reactive({
       isPointerdown: false,
+      pointerdown: "transform 300ms",
       ul: null,
       pickerRow: null,
       itemWidth: 56, // 列表项宽度
@@ -59,6 +62,7 @@ export default {
       distanceX: 0, // 滑动距离
       activeItem: 0,
       result: state.pickerData[0],
+      item: 0, //监听变化震动
     });
     /**
      * @description: 初始化
@@ -101,6 +105,17 @@ export default {
         option.diffX = e.touches[0].clientX - option.lastX;
         option.translateX += option.diffX;
         option.lastX = e.touches[0].clientX;
+
+        //震动操作
+        let y = option.translateX + option.distanceX;
+        let item = Math.round(
+          (option.translateX - option.maxX) / option.itemWidth
+        );
+        //跳过边界震动
+        if (!(y > option.maxX || y < -option.minX) && item !== option.item) {
+          navigator.vibrate(20);
+          option.item = item;
+        }
       }
     };
     /**
@@ -116,6 +131,7 @@ export default {
         // 滑动距离与时长成正比且最短时长为300ms
         const duration = Math.max(Math.abs(option.distanceX) * 1.5, 300);
         option.ul.style.transition = "transform " + duration + "ms ease";
+        option.pointerdown = "transform 300ms";
       }
     };
 
@@ -158,7 +174,7 @@ export default {
         .getComputedStyle(option.ul)
         .getPropertyValue("transform");
       option.translateX = parseFloat(transform.split(",")[4]);
-      option.ul.style.transition = "none";
+      option.pointerdown = "none 0s";
     };
 
     onMounted(() => {

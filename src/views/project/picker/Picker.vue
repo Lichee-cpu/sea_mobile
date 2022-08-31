@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div>
+  <div class="pic">
     <picker-2 :pickerData="state.pickerdata" @result="result" />
     {{ state.result }}
   </div>
@@ -28,19 +28,6 @@ export default {
         "12-05",
         "12-06",
         "12-07",
-        "12-08",
-        "12-09",
-        "12-10",
-        "12-11",
-        "12-12",
-        "12-13",
-        "12-14",
-        "12-15",
-        "12-16",
-        "12-17",
-        "12-18",
-        "12-19",
-        "12-20",
       ],
       result: 0,
     });
@@ -52,3 +39,8 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.pic {
+  margin-top: 30px;
+}
+</style>
