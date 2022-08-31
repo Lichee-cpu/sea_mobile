@@ -39,11 +39,13 @@
         />
       </div>
       <div class="item">
-        <img src="@/assets/home/item/upload.png" alt="文件上传" />
+        <img
+          src="@/assets/home/item/upload.png"
+          alt="文件上传"
+          @click="goto('SeaPicker')"
+        />
       </div>
     </div>
-    <div class="lower"  @click="goto('SeaPicker')">picker</div>
-    <div class="lower"  @click="goto('SeaPicker2')">picker2</div>
   </div>
 </template>
 

@@ -14,7 +14,7 @@ const routes = [
   {
     name: "home",
     path: "/",
-    component: () => import("@/views/Home"),
+    component: () => import("@/views/tabbar/Tabbar.vue"),
     meta: {
       title: "主页",
     },
