@@ -8,26 +8,31 @@
 -->
 <template>
   <div class="pic">
+    <div class="title">横向滚动</div>
     <picker-2 :pickerData="state.pickerdata" @result="result" />
-    {{ state.result }}
+    <div class="title">3D滚动</div>
+    <picker-3 :pickerData="state.pickerdata" @result="result" />
+    <div class="title">返回数据</div>
+    <div>{{ state.result }}</div>
   </div>
 </template>
 <script>
 import { reactive } from "@vue/reactivity";
 import Picker2 from "./Picker2.vue";
+import Picker3 from "./Picker3.vue";
 
 export default {
-  components: { Picker2 },
+  components: { Picker2, Picker3 },
   setup() {
     const state = reactive({
       pickerdata: [
-        "12-01",
-        "12-02",
-        "12-03",
-        "12-04",
-        "12-05",
-        "12-06",
-        "12-07",
+        "2022-12-01",
+        "2022-12-02",
+        "2022-12-03",
+        "2022-12-04",
+        "2022-12-05",
+        "2022-12-06",
+        "2022-12-07",
       ],
       result: 0,
     });
@@ -42,5 +47,9 @@ export default {
 <style lang="less" scoped>
 .pic {
   margin-top: 30px;
+}
+.title {
+  margin: 10px;
+  font-weight: 700;
 }
 </style>

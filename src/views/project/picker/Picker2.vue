@@ -51,7 +51,7 @@ export default {
       pointerdown: "transform 300ms",
       ul: null,
       pickerRow: null,
-      itemWidth: 56, // 列表项宽度
+      itemWidth: 120, // 列表项宽度
       pseudoWidth: 0, //伪元素宽度
       maxX: 0, //初始位置也是最大的位置
       minX: 0, //最小的位置
@@ -113,6 +113,7 @@ export default {
         );
         //跳过边界震动
         if (!(y > option.maxX || y < -option.minX) && item !== option.item) {
+          option.activeItem = Math.abs(item);
           navigator.vibrate(20);
           option.item = item;
         }
@@ -208,7 +209,7 @@ export default {
   left: 0;
   bottom: 0;
   z-index: 1;
-  width: calc(~"50% - 28px");
+  width: calc(~"50% - 60px");
   border-right: 1px solid #ebebeb;
   background: linear-gradient(
     to bottom,
@@ -225,7 +226,7 @@ export default {
   right: 0;
   top: 0;
   z-index: 1;
-  width: calc(~"50% - 28px");
+  width: calc(~"50% - 60px");
   border-left: 1px solid #ebebeb;
   background: linear-gradient(
     to bottom,
@@ -237,7 +238,7 @@ export default {
 li {
   list-style: none;
   font-size: 14px;
-  width: 56px;
+  width: 120px;
   line-height: 20px;
   text-align: center;
 }
