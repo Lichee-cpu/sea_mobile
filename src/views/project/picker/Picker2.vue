@@ -211,11 +211,7 @@ export default {
   z-index: 1;
   width: calc(~"50% - 60px");
   border-right: 1px solid #ebebeb;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.9)
-  );
+  background: linear-gradient(to right, transparent, var(--gradient-color));
 }
 
 .picker-row::after {
@@ -228,11 +224,7 @@ export default {
   z-index: 1;
   width: calc(~"50% - 60px");
   border-left: 1px solid #ebebeb;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.6)
-  );
+  background: linear-gradient(to left, var(--gradient-color), transparent);
 }
 
 li {

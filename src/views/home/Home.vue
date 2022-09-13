@@ -1,14 +1,15 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2022-08-21 21:08:18
+ * @LastEditTime: 2022-09-13 09:54:42
  * @LastEditors: home 1400256031@qq.com
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
 -->
 
 <template>
-  <div>
+  <div class="home">
+    <Header  transparent :primary="false" />
     <div class="upper">
       <van-search
         v-model="value"
@@ -17,34 +18,10 @@
       />
     </div>
     <div class="middle">
-      <div class="item">
-        <img
-          src="@/assets/home/item/danmu.png"
-          alt="弹幕"
-          @click="goto('Barrage')"
-        />
-      </div>
-      <div class="item">
-        <img
-          src="@/assets/home/item/360.png"
-          alt="车展"
-          @click="goto('AutoShow')"
-        />
-      </div>
-      <div class="item">
-        <img
-          src="@/assets/home/item/liaotian.png"
-          alt="聊天"
-          @click="goto('Chat')"
-        />
-      </div>
-      <div class="item">
-        <img
-          src="@/assets/home/item/upload.png"
-          alt="文件上传"
-          @click="goto('SeaPicker')"
-        />
-      </div>
+      <div class="item" @click="goto('Barrage')">弹幕</div>
+      <div class="item" @click="goto('AutoShow')">360°</div>
+      <div class="item" @click="goto('Chat')">聊天室</div>
+      <div class="item" @click="goto('SeaPicker')">横向拉动选择</div>
     </div>
   </div>
 </template>
@@ -52,8 +29,12 @@
 <script>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import Header from "@/components/header/Header.vue";
 
 export default {
+  components: {
+    Header,
+  },
   setup() {
     const value = ref("");
     const router = useRouter();
@@ -67,6 +48,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.home{
+  padding-top: var(--statusbar-height);
+}
 .middle {
   padding: 16px;
   /* 声明一个容器 */

@@ -1,14 +1,14 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 13:02:26
- * @LastEditTime: 2022-06-26 14:35:50
- * @LastEditors: lxiang
+ * @LastEditTime: 2022-09-13 09:42:00
+ * @LastEditors: home 1400256031@qq.com
  * @Description: 弹幕页
  * @FilePath: \sea_mobile\src\views\project\barrage\Barrage.vue
 -->
 <template>
   <div class="wrap">
-    <Header title="弹幕" />
+    <Header title="弹幕" transparent :nav="true" :defaultNav="true" />
     <div class="barrage-box">
       <BarrageInfo />
     </div>

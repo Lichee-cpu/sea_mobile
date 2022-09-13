@@ -2,13 +2,13 @@
  * @Author: lxiang
  * @Date: 2022-07-12 16:30:51
  * @LastEditors: home 1400256031@qq.com
- * @LastEditTime: 2022-08-13 11:24:57
+ * @LastEditTime: 2022-09-13 09:41:43
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\chat\Chat.vue
 -->
 <template>
   <div class="wrap">
-    <Header title="聊天" />
+    <Header title="聊天" transparent :nav="true" :defaultNav="true" />
     <div class="chat-box">
       <div class="chat-info">
         <div v-for="(item, index) in messageList" :key="index" class="item">

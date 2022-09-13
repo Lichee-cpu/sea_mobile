@@ -207,10 +207,10 @@ li {
   display: block;
   position: absolute;
   width: 135px;
-  background: #fff;
+  background: var(--bg-primary);
   font-size: 1em;
   text-align: center;
-  color: #000;
+  color: var(--text-primary);
 }
 .active {
   font-size: 16px;

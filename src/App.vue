@@ -1,8 +1,8 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-05-08 18:58:26
- * @LastEditTime: 2022-07-13 19:39:24
- * @LastEditors: lxiang
+ * @LastEditTime: 2022-09-12 10:49:34
+ * @LastEditors: home 1400256031@qq.com
  * @Description: 入口
  * @FilePath: \sea_mobile\src\App.vue
 -->
@@ -37,6 +37,9 @@ export default {
 
     // 返回
     const content = ref(null);
+
+    //获取statusbar高度
+    document.body.style.setProperty("--statusbar-height", "24px");
 
     const getBack = () => {
       if (typeof content.value?.goBack === "function") {
