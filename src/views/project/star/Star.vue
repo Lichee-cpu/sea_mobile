@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-06-30 15:04:49
  * @LastEditors: lxiang
- * @LastEditTime: 2022-07-06 17:49:02
+ * @LastEditTime: 2023-03-09 11:03:28
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\star\Star.vue
 -->
@@ -54,5 +54,6 @@ export default {
 .star-box {
   display: flex;
   justify-content: space-around;
+  padding: 16px;
 }
 </style>

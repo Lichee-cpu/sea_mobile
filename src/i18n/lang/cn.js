@@ -12,5 +12,6 @@ const cn = {
   skin: "主题",
   login: "登录",
   close: "注销账户",
+  logout: "退出登录",
 };
 export default cn;
