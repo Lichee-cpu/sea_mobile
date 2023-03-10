@@ -19,7 +19,7 @@ export default {
     const video = ref(null); // video实例
     const canvas = ref(null); // canvas实例
     const mask = ref(null); //遮罩层实例
-
+    const stream = ref(null); // 摄像头流
     // 设置摄像头参数
     const constraints = {
       audio: false,
@@ -33,8 +33,8 @@ export default {
     // 启动摄像头
     const startCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia(constraints); // 获取摄像头流
-        video.value.srcObject = stream; // 设置video的src为摄像头流
+        stream.value = await navigator.mediaDevices.getUserMedia(constraints); // 获取摄像头流
+        video.value.srcObject = stream.value; // 设置video的src为摄像头流
       } catch (err) {
         console.log(err);
       }
@@ -64,7 +64,7 @@ export default {
       );
       const dataURL = canvas.value.toDataURL("image/png");
       console.log(dataURL);
-      // Do something with the dataURL, e.g. upload it to a server or display it in an image tag
+      // stream.value.getVideoTracks()[0].stop(); // 关闭摄像头
     };
 
     onMounted(() => {
