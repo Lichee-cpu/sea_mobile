@@ -146,11 +146,13 @@ export default {
     border-radius: 50%;
     margin: auto;
     cursor: move;
-    z-index: 2;
+    z-index: 3;
   }
   .camera-video {
     height: 100%;
     display: block;
+    transform: rotateY(180deg);
+    z-index: 1;
   }
 }
 
@@ -160,7 +162,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
 }
 
 .camera-button {
