@@ -1,8 +1,8 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
- * @LastEditors: lxiang
- * @LastEditTime: 2022-07-13 19:41:26
+ * @LastEditors: home 1400256031@qq.com
+ * @LastEditTime: 2023-03-11 14:56:30
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -35,14 +35,33 @@
         </van-button>
       </div>
     </van-form>
+    <!-- 其他登录方式 -->
+    <div class="other-login">
+      <div class="other-login-title">其他登录方式</div>
+      <div class="other-login-list">
+        <van-icon name="smile-o" @click="facePopup" />
+      </div>
+    </div>
+    <!-- 弹出人脸登录 -->
+    <van-popup
+      v-model:show="faceLogin"
+      position="left"
+      :style="{ width: '100%', height: '100%' }"
+    >
+      <FaceLogin />
+    </van-popup>
   </div>
 </template>
 
 <script>
-import { getCurrentInstance, reactive } from "vue";
+import { getCurrentInstance, reactive, ref } from "vue";
 import { Toast } from "vant";
 import router from "../../router";
+import FaceLogin from "@/views/login/FaceLogin.vue";
 export default {
+  components: {
+    FaceLogin,
+  },
   setup() {
     const state = reactive({
       username: "",
@@ -62,9 +81,16 @@ export default {
       });
     };
 
+    const faceLogin = ref(false);
+    const facePopup = () => {
+      faceLogin.value = true;
+    };
+
     return {
       state,
       onSubmit,
+      faceLogin,
+      facePopup,
     };
   },
 };
@@ -92,6 +118,24 @@ export default {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+.other-login {
+  margin-top: 20px;
+  .other-login-title {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+  }
+  .other-login-list {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    .van-icon {
+      font-size: 30px;
+      margin: 0 10px;
+      color: white;
+    }
   }
 }
 </style>

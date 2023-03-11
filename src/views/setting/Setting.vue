@@ -1,17 +1,14 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:54
- * @LastEditors: lxiang
- * @LastEditTime: 2023-03-10 13:46:22
+ * @LastEditors: home 1400256031@qq.com
+ * @LastEditTime: 2023-03-11 15:02:27
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\setting\Setting.vue
 -->
 <template>
   <div>
     <Star />
-    <div class="face">
-      <face-login />
-    </div>
     <div class="setting">
       <van-cell-group inset>
         <van-field
@@ -36,11 +33,9 @@ import { useRouter } from "vue-router";
 import { getCurrentInstance } from "vue";
 import { Dialog, Toast } from "vant";
 import Star from "@/views/project/star/Star.vue";
-import FaceLogin from "@/views/login/FaceLogin.vue";
 export default {
   components: {
     Star,
-    FaceLogin,
   },
   setup() {
     const { locale } = useI18n();
@@ -95,8 +90,5 @@ export default {
 <style lang="less" scoped>
 .setting {
   margin-top: 20px;
-}
-.face {
-  height: 200px;
 }
 </style>

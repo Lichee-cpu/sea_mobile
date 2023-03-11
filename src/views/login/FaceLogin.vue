@@ -1,12 +1,25 @@
 <template>
-  <div class="camera-container">
-    <video ref="video" class="camera-video" autoplay></video>
-    <div class="camera-mask"></div>
-
-    <button @click="takePicture" class="camera-button">拍照</button>
-  </div>
-  <div class="photo">
-    <canvas ref="canvas" class="camera-canvas"></canvas>
+  <div class="face-camera">
+    <!-- 相机模块 -->
+    <div class="camera-container">
+      <video ref="video" class="camera-video" autoplay></video>
+      <div class="photo">
+        <canvas ref="canvas" class="camera-canvas"></canvas>
+      </div>
+      <div class="camera-mask"></div>
+    </div>
+    <!-- 拍照按钮 -->
+    <div class="camera-button">
+      <van-icon
+        v-if="!loading"
+        name="passed"
+        @click="passed"
+        size="60px"
+        color="green"
+      />
+      <van-icon v-else name="revoke" @click="revoke" size="50px" />
+    </div>
+    <!-- 图显示 -->
   </div>
 </template>
 
@@ -20,6 +33,7 @@ export default {
     const canvas = ref(null); // canvas实例
     const mask = ref(null); //遮罩层实例
     const stream = ref(null); // 摄像头流
+    const loading = ref(false); // 验证中
     // 设置摄像头参数
     const constraints = {
       audio: false,
@@ -32,28 +46,42 @@ export default {
 
     // 启动摄像头
     const startCamera = async () => {
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+      }
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+          var getUserMedia =
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.getUserMedia;
+          if (!getUserMedia) {
+            return Promise.reject(
+              new Error("getUserMedia is not implemented in this browser")
+            );
+          }
+          return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+          });
+        };
+      }
+      if (window.stream) {
+        window.stream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+
       try {
         stream.value = await navigator.mediaDevices.getUserMedia(constraints); // 获取摄像头流
         video.value.srcObject = stream.value; // 设置video的src为摄像头流
       } catch (err) {
-        console.log(err);
+        console.log("开启摄像头失败：" + err);
       }
     };
 
-    // 绘制遮罩层
-    const drawImage = () => {
-      const context = canvas.value.getContext("2d");
-      context.drawImage(
-        video.value,
-        0,
-        0,
-        canvas.value.width,
-        canvas.value.height
-      );
-    };
-
     // 拍照
-    const takePicture = () => {
+    const passed = () => {
+      loading.value = true; // 开启验证中
       const context = canvas.value.getContext("2d");
       context.drawImage(
         video.value,
@@ -64,7 +92,15 @@ export default {
       );
       const dataURL = canvas.value.toDataURL("image/png");
       console.log(dataURL);
-      // stream.value.getVideoTracks()[0].stop(); // 关闭摄像头
+      stream.value.getVideoTracks()[0].stop(); // 关闭摄像头
+    };
+
+    // 撤销
+    const revoke = () => {
+      loading.value = false; // 关闭验证中
+      const context = canvas.value.getContext("2d");
+      context.clearRect(0, 0, canvas.value.width, canvas.value.height); // 清空canvas
+      startCamera();
     };
 
     onMounted(() => {
@@ -75,39 +111,47 @@ export default {
       video,
       canvas,
       mask,
-      drawImage,
-      takePicture,
+      passed,
+      revoke,
+      loading,
     };
   },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.face-camera {
+  width: 100%;
+  height: 100%;
+  padding: 20% 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .camera-container {
-  width: 50vw;
-  height: 50vw;
+  width: 50%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   position: relative;
   margin: 0 auto;
-}
-
-.camera-mask {
-  width: 100%;
-  height: 100%;
-  outline: 9999px solid #fff;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  border-radius: 50%;
-  margin: auto;
-  cursor: move;
-}
-
-.camera-video {
-  height: 100%;
-  display: block;
+  .camera-mask {
+    width: 100%;
+    height: 100%;
+    outline: 9999px solid #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 50%;
+    margin: auto;
+    cursor: move;
+    z-index: 2;
+  }
+  .camera-video {
+    height: 100%;
+    display: block;
+  }
 }
 
 .camera-canvas {
@@ -116,18 +160,20 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 3;
+  z-index: 1;
 }
 
 .camera-button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4;
+  margin: 0 auto;
+  bottom: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
 }
 .photo {
-  width: 200px;
-  height: 200px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  aspect-ratio: 1 / 1;
 }
 </style>
