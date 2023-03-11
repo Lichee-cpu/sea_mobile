@@ -37,8 +37,9 @@ export default {
       audio: false,
       video: {
         facingMode: { exact: "user" }, // 优先使用前置摄像头
-        width: 720,
-        height: 720,
+        aspectRatio: 1, // 设置宽高比
+        width: { min: 480, ideal: 720, max: 1080 }, // 设置视频宽度
+        height: { min: 480, ideal: 720, max: 1080 }, // 设置视频高度
       },
     };
 
