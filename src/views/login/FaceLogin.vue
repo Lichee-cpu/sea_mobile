@@ -149,6 +149,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
     transform: rotateY(180deg);
     z-index: 2;
   }
@@ -156,12 +157,13 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
+
     outline: 50vw solid #fff;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    border-radius: 50%;
     z-index: 3;
   }
 }
