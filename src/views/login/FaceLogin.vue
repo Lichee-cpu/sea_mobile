@@ -3,9 +3,7 @@
     <!-- 相机模块 -->
     <div class="camera-container">
       <video ref="video" class="camera-video" autoplay></video>
-      <div class="photo">
-        <canvas ref="canvas" class="camera-canvas"></canvas>
-      </div>
+      <canvas ref="canvas" class="camera-canvas"></canvas>
       <div class="camera-mask"></div>
     </div>
     <!-- 拍照按钮 -->
@@ -141,33 +139,31 @@ export default {
     height: 100%;
     aspect-ratio: 1 / 1;
     display: block;
+    border-radius: 50%;
     transform: rotateY(180deg);
     z-index: 1;
+  }
+  .camera-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotateY(180deg);
+    z-index: 2;
   }
   .camera-mask {
     position: absolute;
     width: 100%;
     height: 100%;
-    outline: 9999px solid #fff;
+    outline: 50vw solid #fff;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     border-radius: 50%;
-    margin: auto;
-    cursor: move;
     z-index: 3;
   }
-}
-
-.camera-canvas {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform: rotateY(180deg);
-  z-index: 2;
 }
 
 .camera-button {
@@ -176,11 +172,5 @@ export default {
   text-align: center;
   display: flex;
   align-items: center;
-}
-.photo {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  aspect-ratio: 1 / 1;
 }
 </style>
