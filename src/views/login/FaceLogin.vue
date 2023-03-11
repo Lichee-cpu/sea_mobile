@@ -134,11 +134,21 @@ export default {
   overflow: hidden;
   position: relative;
   margin: 0 auto;
+  .camera-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    display: block;
+    transform: rotateY(180deg);
+    z-index: 1;
+  }
   .camera-mask {
+    position: absolute;
     width: 100%;
     height: 100%;
     outline: 9999px solid #fff;
-    position: absolute;
     left: 0;
     right: 0;
     top: 0;
@@ -147,12 +157,6 @@ export default {
     margin: auto;
     cursor: move;
     z-index: 3;
-  }
-  .camera-video {
-    height: 100%;
-    display: block;
-    transform: rotateY(180deg);
-    z-index: 1;
   }
 }
 
