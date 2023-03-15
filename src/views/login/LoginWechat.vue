@@ -29,6 +29,10 @@ export default {
     this.code = route.query.code;
     this.getAccessToken();
   },
+  mounted() {
+    const route = useRoute();
+    this.code = route.query.code + "mounted";
+  },
   methods: {
     getAccessToken() {
       const { proxy } = getCurrentInstance();
