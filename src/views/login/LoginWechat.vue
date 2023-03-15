@@ -26,13 +26,10 @@ export default {
   },
   created() {
     const route = useRoute();
-    this.code = route.query.code;
+    this.code = route;
     this.getAccessToken();
   },
-  mounted() {
-    const route = useRoute();
-    this.code = route.query.code + "mounted";
-  },
+  mounted() {},
   methods: {
     getAccessToken() {
       const { proxy } = getCurrentInstance();
