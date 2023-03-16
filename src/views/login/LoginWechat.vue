@@ -1,3 +1,11 @@
+<!--
+ * @Author: lxiang
+ * @Date: 2023-03-15 21:08:34
+ * @LastEditors: lxiang
+ * @LastEditTime: 2023-03-16 08:42:19
+ * @description: Modify here please
+ * @FilePath: \sea_mobile\src\views\login\LoginWechat.vue
+-->
 <template>
   <div class="login-wechat">
     <div class="login-wechat__title">企业微信登录页</div>
@@ -8,6 +16,10 @@
     <div>
       <span>accessToken:</span>
       <span>{{ accessToken }}</span>
+    </div>
+    <div>
+      <span>userinfo:</span>
+      <span>{{ userinfo }}</span>
     </div>
   </div>
 </template>
@@ -22,12 +34,14 @@ export default {
     return {
       code: "",
       accessToken: "",
+      userinfo: {},
     };
   },
   created() {
     const route = useRoute();
-    this.code = route;
+    this.code = route?.query?.code;
     this.getAccessToken();
+    this.getUserinfo();
   },
   mounted() {},
   methods: {
@@ -35,10 +49,20 @@ export default {
       const { proxy } = getCurrentInstance();
       proxy.$http
         .get(
-          "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wwa67bbd475fc10d1f&corpsecret=xnOvejzHmg5A_UaBPPCE0Oau0xHQlJ8XOC3CFL-aA98"
+          "/cgi-bin/gettoken?corpid=wwa67bbd475fc10d1f&corpsecret=xnOvejzHmg5A_UaBPPCE0Oau0xHQlJ8XOC3CFL-aA98"
         )
         .then((res) => {
-          this.accessToken = res;
+          this.accessToken = res.data?.access_token;
+        });
+    },
+    getUserinfo() {
+      const { proxy } = getCurrentInstance();
+      proxy.$http
+        .get(
+          `/cgi-bin/user/getuserinfo?access_token=${this.accessToken}&code=${this.code}`
+        )
+        .then((res) => {
+          this.userinfo = res.data;
           console.log(res);
         });
     },
