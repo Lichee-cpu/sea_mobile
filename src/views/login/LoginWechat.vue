@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-15 21:08:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-16 08:42:19
+ * @LastEditTime: 2023-03-16 09:09:17
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\login\LoginWechat.vue
 -->
@@ -49,7 +49,7 @@ export default {
       const { proxy } = getCurrentInstance();
       proxy.$http
         .get(
-          "/cgi-bin/gettoken?corpid=wwa67bbd475fc10d1f&corpsecret=xnOvejzHmg5A_UaBPPCE0Oau0xHQlJ8XOC3CFL-aA98"
+          "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wwa67bbd475fc10d1f&corpsecret=xnOvejzHmg5A_UaBPPCE0Oau0xHQlJ8XOC3CFL-aA98"
         )
         .then((res) => {
           this.accessToken = res.data?.access_token;
@@ -59,7 +59,7 @@ export default {
       const { proxy } = getCurrentInstance();
       proxy.$http
         .get(
-          `/cgi-bin/user/getuserinfo?access_token=${this.accessToken}&code=${this.code}`
+          `https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=${this.accessToken}&code=${this.code}`
         )
         .then((res) => {
           this.userinfo = res.data;
