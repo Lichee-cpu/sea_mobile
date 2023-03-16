@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-15 21:08:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-16 14:03:01
+ * @LastEditTime: 2023-03-16 14:24:31
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\login\LoginWechat.vue
 -->
@@ -59,7 +59,7 @@ export default {
       const { proxy } = getCurrentInstance();
       proxy.$http
         .get(
-          `/cgi-bin/user/getuserinfo?access_token=${this.accessToken}&code=${this.code}`
+          `/cgi-bin/user2/getuserinfo?access_token=${this.accessToken}&code=${this.code}`
         )
         .then((res) => {
           this.userinfo = res.data;
