@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-08-05 17:14:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-16 09:02:37
+ * @LastEditTime: 2023-03-16 14:17:25
  * @description: Modify here please
  * @FilePath: \sea_mobile\vue.config.js
  */
@@ -10,7 +10,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/cgi-bin": {
-        target: "https://qyapi.weixin.qq.com",
+        target: "https://qyapi.weixin11.qq.com",
         describe: "", // 代理描述
         secure: false, // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
