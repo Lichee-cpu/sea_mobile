@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-16 14:22:51
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 17:14:51
+ * @LastEditTime: 2023-03-19 17:47:06
  * @description: Modify here please
  * @FilePath: \sea_mobile\vue.config.js
  */
@@ -12,12 +12,12 @@ module.exports = {
     proxy: {
       "/api": {
         // target: "http://localhost:8989",
-        target: "https://car-service.lichee.top/",
+        target: "http://1.15.15.164:8989/",
         secure: false,
         changeOrigin: true,
         logLevel: "debug",
         pathRewrite: {
-          "^/api": "/",
+          "^/api": "",
         },
       },
     },
