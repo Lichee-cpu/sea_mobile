@@ -1,4 +1,3 @@
-
 module.exports = {
   devServer: {
     proxy: {
@@ -9,6 +8,9 @@ module.exports = {
         secure: false,
         changeOrigin: true,
         logLevel: "debug",
+        pathRewrite: {
+          "^/": "/",
+        },
       },
     },
   },
