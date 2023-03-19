@@ -42,10 +42,12 @@ export default {
   methods: {
     getUserinfo() {
       const { proxy } = getCurrentInstance();
-      proxy.$http.post("/api/user/wxuserinfo").then((res) => {
-        this.userinfo = res.data;
-        console.log(res);
-      });
+      proxy.$http
+        .post("/api/user/wxuserinfo", { code: this.code })
+        .then((res) => {
+          this.userinfo = res.data;
+          console.log(res);
+        });
     },
   },
 };
