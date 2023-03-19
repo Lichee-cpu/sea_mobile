@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-15 21:08:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-16 14:24:31
+ * @LastEditTime: 2023-03-19 11:01:17
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\login\LoginWechat.vue
 -->
@@ -12,10 +12,6 @@
     <div>
       <span>code:</span>
       <span>{{ code }}</span>
-    </div>
-    <div>
-      <span>accessToken:</span>
-      <span>{{ accessToken }}</span>
     </div>
     <div>
       <span>userinfo:</span>
@@ -40,31 +36,16 @@ export default {
   created() {
     const route = useRoute();
     this.code = route?.query?.code;
-    this.getAccessToken();
     this.getUserinfo();
   },
   mounted() {},
   methods: {
-    getAccessToken() {
-      const { proxy } = getCurrentInstance();
-      proxy.$http
-        .get(
-          "/cgi-bin/gettoken?corpid=wwa67bbd475fc10d1f&corpsecret=xnOvejzHmg5A_UaBPPCE0Oau0xHQlJ8XOC3CFL-aA98"
-        )
-        .then((res) => {
-          this.accessToken = res.data?.access_token;
-        });
-    },
     getUserinfo() {
       const { proxy } = getCurrentInstance();
-      proxy.$http
-        .get(
-          `/cgi-bin/user2/getuserinfo?access_token=${this.accessToken}&code=${this.code}`
-        )
-        .then((res) => {
-          this.userinfo = res.data;
-          console.log(res);
-        });
+      proxy.$http.post(`/user/wxuserinfo`).then((res) => {
+        this.userinfo = res.data;
+        console.log(res);
+      });
     },
   },
 };
