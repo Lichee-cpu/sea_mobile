@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-30 17:45:34
  * @LastEditors: lxiang
- * @LastEditTime: 2022-06-30 15:51:22
+ * @LastEditTime: 2023-03-19 17:24:05
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\Home.vue
 -->
@@ -56,7 +56,7 @@ export default {
       });
     };
     const logout = () => {
-      proxy.$http.post("/user/logout").then(() => {
+      proxy.$http.post("/api/user/logout").then(() => {
         login();
       });
     };
@@ -67,7 +67,7 @@ export default {
         message: "注销账户后将无法登录，是否继续？",
       })
         .then(() => {
-          proxy.$http.post("/user/close").then((res) => {
+          proxy.$http.post("/api/user/close").then((res) => {
             const { description } = res.data;
             Toast.success(description);
           });

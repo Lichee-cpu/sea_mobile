@@ -70,7 +70,7 @@ export default {
     });
     const { proxy } = getCurrentInstance();
     const onSubmit = () => {
-      proxy.$http.post("/user/login", state).then((res) => {
+      proxy.$http.post("/api/user/login", state).then((res) => {
         const { status, body, description } = res.data;
         if (status == 200) {
           proxy.$http.setToken(body.token);

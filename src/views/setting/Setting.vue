@@ -60,7 +60,7 @@ export default {
     };
     // 退出登录
     const logout = () => {
-      proxy.$http.post("/user/logout").then(() => {
+      proxy.$http.post("/api/user/logout").then(() => {
         login();
       });
     };
@@ -71,7 +71,7 @@ export default {
         message: "注销账户后将无法登录，是否继续？",
       })
         .then(() => {
-          proxy.$http.post("/user/close").then((res) => {
+          proxy.$http.post("/api/user/close").then((res) => {
             const { description } = res.data;
             Toast.success(description);
           });
