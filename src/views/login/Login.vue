@@ -1,8 +1,8 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
- * @LastEditors: home 1400256031@qq.com
- * @LastEditTime: 2023-03-11 14:56:30
+ * @LastEditors: lxiang
+ * @LastEditTime: 2023-03-19 14:12:24
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -40,6 +40,7 @@
       <div class="other-login-title">其他登录方式</div>
       <div class="other-login-list">
         <van-icon name="smile-o" @click="facePopup" />
+        <van-icon name="wechat" @click="wechat" />
       </div>
     </div>
     <!-- 弹出人脸登录 -->
@@ -86,11 +87,19 @@ export default {
       faceLogin.value = true;
     };
 
+    const wechat = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlhash = new URLSearchParams(window.location.hash.split("?")[1]);
+      const code = urlParams.get("code") || urlhash.get("code");
+      router.push({ name: "wxlogin", query: { code: code } });
+    };
+
     return {
       state,
       onSubmit,
       faceLogin,
       facePopup,
+      wechat,
     };
   },
 };

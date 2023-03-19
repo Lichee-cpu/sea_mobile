@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-15 21:08:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 11:01:17
+ * @LastEditTime: 2023-03-19 14:11:47
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\login\LoginWechat.vue
 -->
@@ -34,7 +34,8 @@ export default {
   },
   created() {
     const urlParams = new URLSearchParams(window.location.search);
-    this.code = urlParams.get("code");
+    const urlhash = new URLSearchParams(window.location.hash.split("?")[1]);
+    this.code = urlParams.get("code") || urlhash.get("code");
     this.getUserinfo();
   },
   mounted() {},

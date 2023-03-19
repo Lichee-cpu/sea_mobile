@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-30 17:45:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 13:18:48
+ * @LastEditTime: 2023-03-19 14:12:42
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\index.js
  */
@@ -11,7 +11,7 @@ import { home } from "./home";
 import { login } from "./login";
 
 const routes = [
-  { path: "/", redirect: "/wxlogin" },
+  { path: "/", redirect: "/login" },
   {
     name: "home",
     path: "/home",
