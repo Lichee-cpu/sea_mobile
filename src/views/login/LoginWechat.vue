@@ -42,7 +42,7 @@ export default {
   methods: {
     getUserinfo() {
       const { proxy } = getCurrentInstance();
-      proxy.$http.post(`/user/wxuserinfo`).then((res) => {
+      proxy.$http.post("/api/user/wxuserinfo").then((res) => {
         this.userinfo = res.data;
         console.log(res);
       });

@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 14:50:18
+ * @LastEditTime: 2023-03-19 15:30:18
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -70,7 +70,7 @@ export default {
     });
     const { proxy } = getCurrentInstance();
     const onSubmit = () => {
-      proxy.$http.post("/user/login", state).then((res) => {
+      proxy.$http.post("/api/user/login", state).then((res) => {
         const { status, body, description } = res.data;
         if (status == 200) {
           proxy.$http.setToken(body.token);

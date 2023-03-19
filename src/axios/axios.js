@@ -16,7 +16,7 @@ function getLocalToken() {
 
 function refreshToken() {
   // instance是当前request.js中已创建的axios实例
-  return instance.post("/login").then((res) => res.data);
+  return instance.post("/api/login").then((res) => res.data);
 }
 
 // 创建一个axios实例
