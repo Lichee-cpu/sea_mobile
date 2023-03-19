@@ -92,7 +92,7 @@ export default {
       const urlhash = new URLSearchParams(window.location.hash.split("?")[1]);
       const code = urlParams.get("code") || urlhash.get("code");
       if (!code) return Toast.fail("请在微信中打开");
-      router.push({ name: "wxlogin", query: { code: code } });
+      router.push({ name: "wxlogin" });
     };
 
     return {
