@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 14:12:24
+ * @LastEditTime: 2023-03-19 14:13:51
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -91,6 +91,7 @@ export default {
       const urlParams = new URLSearchParams(window.location.search);
       const urlhash = new URLSearchParams(window.location.hash.split("?")[1]);
       const code = urlParams.get("code") || urlhash.get("code");
+      if (!code) return Toast.fail("请在微信中打开");
       router.push({ name: "wxlogin", query: { code: code } });
     };
 
