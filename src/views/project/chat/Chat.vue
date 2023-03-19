@@ -44,7 +44,7 @@ export default {
     const message = ref("");
     const send = () => {
       if (message.value != "") {
-        proxy.$http.post("/api/chat/send", { message: message.value }).then(() => {
+        proxy.$http.post("/chat/send", { message: message.value }).then(() => {
           message.value = "";
         });
       } else {

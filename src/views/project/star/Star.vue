@@ -31,7 +31,7 @@ export default {
     const myfan = ref(0);
     const follow = ref(0);
     const getUserInfo = () => {
-      proxy.$http.post("/api/user/userinfo").then((res) => {
+      proxy.$http.post("/user/userinfo").then((res) => {
         const data = res.data.message;
         console.log(data);
         myfan.value = data.fan;
