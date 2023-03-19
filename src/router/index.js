@@ -2,11 +2,11 @@
  * @Author: lxiang
  * @Date: 2022-05-30 17:45:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-15 22:26:44
+ * @LastEditTime: 2023-03-19 13:18:48
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\index.js
  */
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import { home } from "./home";
 import { login } from "./login";
 
@@ -33,7 +33,7 @@ const routes = [
 ];
 const router = createRouter({
   routes,
-  history: createWebHistory(),
+  history: createWebHashHistory(),
 });
 
 // 路由守卫
