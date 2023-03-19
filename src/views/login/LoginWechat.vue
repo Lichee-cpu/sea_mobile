@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-15 21:08:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 14:11:47
+ * @LastEditTime: 2023-03-19 19:05:22
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\login\LoginWechat.vue
 -->
@@ -21,38 +21,40 @@
 </template>
 
 <script>
-import { getCurrentInstance } from "vue";
+import { getCurrentInstance, ref, onMounted } from "vue";
 
 export default {
   name: "LoginWechat",
-  data() {
-    return {
-      code: "",
-      accessToken: "",
-      userinfo: {},
-    };
-  },
-  created() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlhash = new URLSearchParams(window.location.hash.split("?")[1]);
-    this.code = urlParams.get("code") || urlhash.get("code");
-    this.getUserinfo();
-  },
-  mounted() {},
-  methods: {
-    getUserinfo() {
+  setup() {
+    const code = ref("");
+    const accessToken = ref("");
+    const userinfo = ref({});
+
+    const getUserinfo = () => {
       const { proxy } = getCurrentInstance();
       proxy.$http
-        .post("/api/user/wxuserinfo", { code: this.code })
+        .post("/api/user/wxuserinfo", { code: code.value })
         .then((res) => {
-          this.userinfo = res.data;
+          userinfo.value = res.data;
           console.log(res);
         });
-    },
+    };
+
+    onMounted(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlhash = new URLSearchParams(window.location.hash.split("?")[1]);
+      code.value = urlParams.get("code") || urlhash.get("code");
+      getUserinfo();
+    });
+
+    return {
+      code,
+      accessToken,
+      userinfo,
+    };
   },
 };
 </script>
-
 <style>
 .login-wechat {
   width: 100%;
