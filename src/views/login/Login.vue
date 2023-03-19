@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 14:13:51
+ * @LastEditTime: 2023-03-19 14:50:18
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -113,7 +113,7 @@ export default {
   padding: 16px;
   height: 100%;
   .logo {
-    padding: 40% 40% 10% 40%;
+    padding: 20% 40% 10% 40%;
     img {
       width: 100%;
     }
