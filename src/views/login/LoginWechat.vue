@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router";
 import { getCurrentInstance } from "vue";
 
 export default {
@@ -34,8 +33,8 @@ export default {
     };
   },
   created() {
-    const route = useRoute();
-    this.code = route?.query?.code;
+    const urlParams = new URLSearchParams(window.location.search);
+    this.code = urlParams.get("code");
     this.getUserinfo();
   },
   mounted() {},
