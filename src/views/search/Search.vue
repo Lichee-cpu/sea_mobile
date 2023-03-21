@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-20 21:07:30
+ * @LastEditTime: 2023-03-21 23:14:12
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -13,10 +13,11 @@
       name="location-o"
       :color="active ? '#0014ff' : ''"
       class="location"
-      @click="getLocation"
+      @click="getLocations"
       size="30"
     />
     <div class="locations">{{ location }}</div>
+    <van-button @click="getadd">获取定位</van-button>
   </div>
 </template>
 
@@ -24,6 +25,7 @@
 import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
 import { onMounted, ref, getCurrentInstance } from "vue";
+import WeChat from "@/utils/wechat.js";
 
 export default {
   components: {
@@ -45,7 +47,7 @@ export default {
       });
     };
 
-    const getLocation = () => {
+    const getLocations = () => {
       if (active.value) {
         active.value = false;
       } else {
@@ -88,7 +90,52 @@ export default {
       }
     };
 
+    const getadd = () => {
+      Toast("获取用户位置信息");
+      WeChat.getLocation()
+        .then((location) => {
+          console.log("获取到用户位置信息：", location);
+          Toast.success("获取用户位置信息成功");
+          this.location = location;
+        })
+        .catch((err) => {
+          console.log("获取用户位置信息失败：", err);
+          Toast.fail("获取用户位置信息失败");
+          // 处理获取位置失败的情况
+        });
+    };
+
     onMounted(() => {
+      // 获取ticket
+      proxy.$http.post("/api/user/wxticket").then((res) => {
+        res.data?.ticket && localStorage.setItem("ticket", res.data.ticket);
+        const appId = "wwa67bbd475fc10d1f";
+        const ticket = localStorage.getItem("ticket");
+        const noncestr = "Y7a8KkqX041bsSwT";
+        const timestamp = parseInt(new Date().getTime() / 1000).toString();
+        const currentUrl = window.location.href.split("#")[0];
+        const string1 = `jsapi_ticket=${ticket}&noncestr=${noncestr}&timestamp=${timestamp}&url=${currentUrl}`;
+        // let buffer = new TextEncoder().encode(string1);
+        // let signature = crypto.subtle.digest("SHA-1", buffer).then((hash) => {
+        //   return Array.from(new Uint8Array(hash))
+        //     .map((b) => b.toString(16).padStart(2, "0"))
+        //     .join("");
+        // });
+        WeChat.init({
+          appId: appId,
+          timestamp: timestamp,
+          nonceStr: noncestr,
+          signature: string1,
+          jsApiList: ["getLocation", "openSetting", "authorize"],
+        })
+          .then(() => {
+            Toast.success("初始化成功");
+          })
+          .catch(() => {
+            Toast.fail("初始化失败");
+          });
+      });
+
       const locations = localStorage.getItem("location");
       if (locations) {
         const { latitude, longitude, accuracy, adcode, address_component } =
@@ -98,7 +145,7 @@ export default {
       }
     });
 
-    return { active, location, getLocation };
+    return { active, location, getLocations, getadd };
   },
 };
 </script>
