@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-22 16:10:26
+ * @LastEditTime: 2023-03-22 16:29:11
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -17,7 +17,7 @@
       size="30"
     />
     <div class="locations">{{ location }}</div>
-    <van-button @click="getadd">获取定位</van-button>
+    <van-button @click="getadd" v-if="isWechat">获取定位</van-button>
   </div>
 </template>
 
@@ -36,6 +36,7 @@ export default {
 
     const active = ref(false);
     const location = ref("");
+    const isWechat = ref(false); // 是否是微信中打开
 
     /* 获取行政区位码 */
     const getAdcode = async (lat, lng) => {
@@ -62,7 +63,6 @@ export default {
             })
           );
           location.value = `纬度：${lat}，经度：${lng}，行政区码:${adcode},地址信息:${address_component}`;
-          Toast.success("定位已开启");
         });
     };
 
@@ -77,6 +77,7 @@ export default {
               // 获取到设备的位置信息
               const latitude = position.coords.latitude; // 纬度
               const longitude = Math.abs(position.coords.longitude); // 经度
+              Toast.success("原生H5定位中...");
               getAdcode(latitude, longitude);
             },
             function () {
@@ -91,21 +92,8 @@ export default {
       }
     };
 
-    /* 企业微信SDK获取定位信息 */
-    const getadd = () => {
-      WeChat.getLocation()
-        .then((position) => {
-          const latitude = position.latitude; // 纬度
-          const longitude = position.longitude; // 经度
-          getAdcode(latitude, longitude);
-        })
-        .catch(() => {
-          Toast.fail("获取位置信息失败");
-        });
-    };
-
-    onMounted(() => {
-      /* h5微信SDK初始化 */
+    /* 初始化微信SDK */
+    const initWechat = () => {
       const currentUrl = window.location.href.split("#")[0];
       proxy.$http
         .post("/api/user/wxticket", { currentUrl: currentUrl })
@@ -160,9 +148,34 @@ export default {
               Toast.fail("初始化失败");
             });
         });
+    };
+
+    /* 企业微信SDK获取定位信息 */
+    const getadd = () => {
+      WeChat.getLocation()
+        .then((position) => {
+          const latitude = position.latitude; // 纬度
+          const longitude = position.longitude; // 经度
+          Toast.success("微信SDK定位中...");
+          getAdcode(latitude, longitude);
+        })
+        .catch(() => {
+          Toast.fail("获取位置信息失败");
+        });
+    };
+
+    onMounted(() => {
+      // 判断是不是微信中打开
+      const ua = navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        initWechat();
+        isWechat.value = true;
+      } else {
+        isWechat.value = false;
+      }
     });
 
-    return { active, location, getLocations, getadd };
+    return { active, location, isWechat, getLocations, getadd };
   },
 };
 </script>
