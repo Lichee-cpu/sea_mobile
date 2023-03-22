@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-21 23:14:12
+ * @LastEditTime: 2023-03-22 15:23:57
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -106,35 +106,62 @@ export default {
     };
 
     onMounted(() => {
+      const currentUrl = window.location.href.split("#")[0];
       // 获取ticket
-      proxy.$http.post("/api/user/wxticket").then((res) => {
-        res.data?.ticket && localStorage.setItem("ticket", res.data.ticket);
-        const appId = "wwa67bbd475fc10d1f";
-        const ticket = localStorage.getItem("ticket");
-        const noncestr = "Y7a8KkqX041bsSwT";
-        const timestamp = parseInt(new Date().getTime() / 1000).toString();
-        const currentUrl = window.location.href.split("#")[0];
-        const string1 = `jsapi_ticket=${ticket}&noncestr=${noncestr}&timestamp=${timestamp}&url=${currentUrl}`;
-        // let buffer = new TextEncoder().encode(string1);
-        // let signature = crypto.subtle.digest("SHA-1", buffer).then((hash) => {
-        //   return Array.from(new Uint8Array(hash))
-        //     .map((b) => b.toString(16).padStart(2, "0"))
-        //     .join("");
-        // });
-        WeChat.init({
-          appId: appId,
-          timestamp: timestamp,
-          nonceStr: noncestr,
-          signature: string1,
-          jsApiList: ["getLocation", "openSetting", "authorize"],
-        })
-          .then(() => {
-            Toast.success("初始化成功");
+      proxy.$http
+        .post("/api/user/wxticket", { currentUrl: currentUrl })
+        .then((res) => {
+          const { appId, timestamp, noncestr, signature } = res.data;
+          Toast("初始化微信" + appId);
+          WeChat.init({
+            appId: appId,
+            timestamp: timestamp,
+            nonceStr: noncestr,
+            signature: signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareAppMessage",
+              "onMenuShareWechat",
+              "onMenuShareTimeline",
+              "shareAppMessage",
+              "shareWechatMessage",
+              "startRecord",
+              "stopRecord",
+              "onVoiceRecordEnd",
+              "playVoice",
+              "pauseVoice",
+              "stopVoice",
+              "uploadVoice",
+              "downloadVoice",
+              "chooseImage",
+              "previewImage",
+              "uploadImage",
+              "downloadImage",
+              "getNetworkType",
+              "openLocation",
+              "getLocation",
+              "hideOptionMenu",
+              "showOptionMenu",
+              "hideMenuItems",
+              "showMenuItems",
+              "hideAllNonBaseMenuItem",
+              "showAllNonBaseMenuItem",
+              "closeWindow",
+              "scanQRCode",
+              "previewFile",
+              "openEnterpriseChat",
+              "selectEnterpriseContact",
+              "onHistoryBack",
+              "openDefaultBrowser",
+            ],
           })
-          .catch(() => {
-            Toast.fail("初始化失败");
-          });
-      });
+            .then(() => {
+              Toast.success("初始化成功");
+            })
+            .catch(() => {
+              Toast.fail("初始化失败");
+            });
+        });
 
       const locations = localStorage.getItem("location");
       if (locations) {

@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-16 14:22:51
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-20 20:02:32
+ * @LastEditTime: 2023-03-22 15:34:51
  * @description: Modify here please
  * @FilePath: \sea_mobile\vue.config.js
  */
