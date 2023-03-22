@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-22 15:23:57
+ * @LastEditTime: 2023-03-22 15:49:36
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -91,17 +91,13 @@ export default {
     };
 
     const getadd = () => {
-      Toast("获取用户位置信息");
       WeChat.getLocation()
         .then((location) => {
-          console.log("获取到用户位置信息：", location);
           Toast.success("获取用户位置信息成功");
-          this.location = location;
+          location.value = location.toString();
         })
-        .catch((err) => {
-          console.log("获取用户位置信息失败：", err);
+        .catch(() => {
           Toast.fail("获取用户位置信息失败");
-          // 处理获取位置失败的情况
         });
     };
 
