@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-22 15:49:36
+ * @LastEditTime: 2023-03-22 16:03:00
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -90,25 +90,42 @@ export default {
       }
     };
 
+    /* 企业微信SDK获取定位信息 */
     const getadd = () => {
       WeChat.getLocation()
-        .then((location) => {
-          Toast.success("获取用户位置信息成功");
-          location.value = location.toString();
+        .then((position) => {
+          const latitude = position.latitude; // 纬度
+          const longitude = position.longitude; // 经度
+          getAdcode(latitude, longitude).then((res) => {
+            const adcode = res.data.result?.ad_info.adcode; // 行政区码
+            const address_component = JSON.stringify(
+              res.data.result?.address_component
+            ); // 地址信息
+            localStorage.setItem(
+              "location",
+              JSON.stringify({
+                latitude,
+                longitude,
+                adcode,
+                address_component,
+              })
+            );
+            location.value = `企业微信SDK--纬度：${latitude}，经度：${longitude},行政区码:${adcode},地址信息:${address_component}`;
+            Toast.success("定位已开启");
+          });
         })
         .catch(() => {
-          Toast.fail("获取用户位置信息失败");
+          Toast.fail("获取位置信息失败");
         });
     };
 
     onMounted(() => {
+      /* h5微信SDK初始化 */
       const currentUrl = window.location.href.split("#")[0];
-      // 获取ticket
       proxy.$http
         .post("/api/user/wxticket", { currentUrl: currentUrl })
         .then((res) => {
           const { appId, timestamp, noncestr, signature } = res.data;
-          Toast("初始化微信" + appId);
           WeChat.init({
             appId: appId,
             timestamp: timestamp,
@@ -159,6 +176,7 @@ export default {
             });
         });
 
+      /* h5获取定位信息 */
       const locations = localStorage.getItem("location");
       if (locations) {
         const { latitude, longitude, accuracy, adcode, address_component } =
