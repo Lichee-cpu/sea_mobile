@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-22 16:03:00
+ * @LastEditTime: 2023-03-22 16:10:26
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -37,16 +37,36 @@ export default {
     const active = ref(false);
     const location = ref("");
 
+    /* 获取行政区位码 */
     const getAdcode = async (lat, lng) => {
-      return proxy.$http.get("/ws/geocoder/v1/", {
-        params: {
-          location: `${lat},${lng}`,
-          key: "OEDBZ-AGQR3-BRF3W-RQH4D-YMRWT-52BPP",
-          get_poi: 0,
-        },
-      });
+      proxy.$http
+        .get("/ws/geocoder/v1/", {
+          params: {
+            location: `${lat},${lng}`,
+            key: "OEDBZ-AGQR3-BRF3W-RQH4D-YMRWT-52BPP",
+            get_poi: 0,
+          },
+        })
+        .then((res) => {
+          const adcode = res.data.result?.ad_info.adcode; // 行政区码
+          const address_component = JSON.stringify(
+            res.data.result?.address_component
+          ); // 地址信息
+          localStorage.setItem(
+            "location",
+            JSON.stringify({
+              lat,
+              lng,
+              adcode,
+              address_component,
+            })
+          );
+          location.value = `纬度：${lat}，经度：${lng}，行政区码:${adcode},地址信息:${address_component}`;
+          Toast.success("定位已开启");
+        });
     };
 
+    /* h5定位获取定位信息 */
     const getLocations = () => {
       if (active.value) {
         active.value = false;
@@ -57,26 +77,7 @@ export default {
               // 获取到设备的位置信息
               const latitude = position.coords.latitude; // 纬度
               const longitude = Math.abs(position.coords.longitude); // 经度
-              const accuracy = position.coords.accuracy; // 精度
-              getAdcode(latitude, longitude).then((res) => {
-                console.log(res);
-                const adcode = res.data.result?.ad_info.adcode; // 行政区码
-                const address_component = JSON.stringify(
-                  res.data.result?.address_component
-                ); // 地址信息
-                localStorage.setItem(
-                  "location",
-                  JSON.stringify({
-                    latitude,
-                    longitude,
-                    accuracy,
-                    adcode,
-                    address_component,
-                  })
-                );
-                location.value = `纬度：${latitude}，经度：${longitude}，精度：${accuracy},行政区码:${adcode},地址信息:${address_component}`;
-                Toast.success("定位已开启");
-              });
+              getAdcode(latitude, longitude);
             },
             function () {
               active.value = false;
@@ -96,23 +97,7 @@ export default {
         .then((position) => {
           const latitude = position.latitude; // 纬度
           const longitude = position.longitude; // 经度
-          getAdcode(latitude, longitude).then((res) => {
-            const adcode = res.data.result?.ad_info.adcode; // 行政区码
-            const address_component = JSON.stringify(
-              res.data.result?.address_component
-            ); // 地址信息
-            localStorage.setItem(
-              "location",
-              JSON.stringify({
-                latitude,
-                longitude,
-                adcode,
-                address_component,
-              })
-            );
-            location.value = `企业微信SDK--纬度：${latitude}，经度：${longitude},行政区码:${adcode},地址信息:${address_component}`;
-            Toast.success("定位已开启");
-          });
+          getAdcode(latitude, longitude);
         })
         .catch(() => {
           Toast.fail("获取位置信息失败");
@@ -175,15 +160,6 @@ export default {
               Toast.fail("初始化失败");
             });
         });
-
-      /* h5获取定位信息 */
-      const locations = localStorage.getItem("location");
-      if (locations) {
-        const { latitude, longitude, accuracy, adcode, address_component } =
-          JSON.parse(locations);
-        location.value = `纬度：${latitude}，经度：${longitude}，精度：${accuracy},行政区码:${adcode},
-        地址信息:${address_component}`;
-      }
     });
 
     return { active, location, getLocations, getadd };

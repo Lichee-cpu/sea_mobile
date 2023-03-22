@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:56
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-22 15:48:45
+ * @LastEditTime: 2023-03-22 16:16:52
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\utils\wechat.js
  */
@@ -13,7 +13,7 @@ const WeChat = {
     return new Promise((resolve, reject) => {
       wx.config({
         beta: true,
-        debug: true,
+        debug: false,
         appId: config.appId,
         timestamp: config.timestamp,
         nonceStr: config.nonceStr,
