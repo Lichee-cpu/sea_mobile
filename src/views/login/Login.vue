@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-23 11:57:45
+ * @LastEditTime: 2023-03-23 12:07:50
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -95,6 +95,7 @@ export default {
       // router.push({ name: "wxlogin" }); // 跳转到微信登录页获取用户信息
       proxy.$http.post("/api/user/qywxlogin", { code: code }).then((res) => {
         const { status, body, description } = res.data;
+        console.log(res);
         if (status == 200) {
           proxy.$http.setToken(body.token);
           Toast.success(description);
