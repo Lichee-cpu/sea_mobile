@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-23 16:11:45
+ * @LastEditTime: 2023-03-23 17:14:25
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -52,7 +52,7 @@ export default {
     const isWechat = /MicroMessenger/.test(navigator.userAgent);
     const wx = isWechat ? inject("$wx") : null;
     const active = ref(false); //是否定位成功
-    const location = ref("定位中..."); //定位信息
+    const location = ref(""); //定位信息
 
     /* 获取行政区位码 */
     const getAdcode = async (lat, lng) => {
@@ -82,18 +82,19 @@ export default {
 
     // 获取当前位置
     const getadd = async () => {
-      wx.getLocation()
-        .then((position) => {
-          active.value = true;
-          const latitude = position.latitude; // 纬度
-          const longitude = position.longitude; // 经度
-          Toast.success("微信SDK定位中...");
+      Toast("定位中...");
+      wx.getLocation({
+        type: "gcj02", // 返回国测局坐标系经纬度，可用于wx.openLocation的坐标参数
+        success: function (res) {
+          const latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+          const longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
           getAdcode(latitude, longitude);
-        })
-        .catch(() => {
-          active.value = false;
-          Toast.fail("获取位置信息失败");
-        });
+          Toast.success("微信SDK定位中...");
+        },
+        fail: function (err) {
+          Toast.fail("获取位置信息失败" + err);
+        },
+      });
     };
 
     const goto = (item) => {
