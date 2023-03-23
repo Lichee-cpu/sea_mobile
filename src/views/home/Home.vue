@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-23 15:22:34
+ * @LastEditTime: 2023-03-23 16:11:45
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -17,9 +17,8 @@
         placeholder="请输入搜索关键词"
       />
     </div>
-    <div>
+    <div v-if="isWechat">
       <van-icon
-        v-if="isWechat"
         name="location-o"
         :color="active ? '#0fa905' : ''"
         @click="getadd"
@@ -50,8 +49,8 @@ export default {
     const value = ref("");
     const router = useRouter();
     const { proxy } = getCurrentInstance();
-    const wx = inject("$wx"); // 注入企业微信SDK
-    const isWechat = ref(false); //是否企微中打开
+    const isWechat = /MicroMessenger/.test(navigator.userAgent);
+    const wx = isWechat ? inject("$wx") : null;
     const active = ref(false); //是否定位成功
     const location = ref("定位中..."); //定位信息
 
@@ -106,9 +105,6 @@ export default {
       const ua = navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         getadd();
-        isWechat.value = true;
-      } else {
-        isWechat.value = false;
       }
     });
     return { value, isWechat, active, location, goto, getadd };
