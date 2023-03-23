@@ -12,9 +12,4 @@ export const login = [
     name: "login",
     component: () => import("@/views/login/Login"),
   },
-  {
-    path: "/wxlogin",
-    name: "wxlogin",
-    component: () => import("@/views/login/LoginWechat"),
-  },
 ];

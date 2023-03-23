@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-16 09:50:42
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-19 15:30:18
+ * @LastEditTime: 2023-03-23 11:57:45
  * @description: 登录页
  * @FilePath: \sea_mobile\src\views\login\Login.vue
 -->
@@ -91,8 +91,18 @@ export default {
       const urlParams = new URLSearchParams(window.location.search);
       const urlhash = new URLSearchParams(window.location.hash.split("?")[1]);
       const code = urlParams.get("code") || urlhash.get("code");
-      if (!code) return Toast.fail("请在微信中打开");
-      router.push({ name: "wxlogin" });
+      if (!code) return Toast.fail("请在企业微信中打开");
+      // router.push({ name: "wxlogin" }); // 跳转到微信登录页获取用户信息
+      proxy.$http.post("/api/user/qywxlogin", { code: code }).then((res) => {
+        const { status, body, description } = res.data;
+        if (status == 200) {
+          proxy.$http.setToken(body.token);
+          Toast.success(description);
+          router.push({ name: "tabbar" });
+        } else {
+          Toast.fail(description);
+        }
+      });
     };
 
     return {
