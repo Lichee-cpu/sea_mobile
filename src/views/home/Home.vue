@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-23 17:31:52
+ * @LastEditTime: 2023-03-23 18:02:05
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -84,7 +84,10 @@ export default {
     // 获取当前位置
     const getadd = async () => {
       Toast("定位中...");
-      wx.openLocation({
+      console.log("wx", wx);
+      const qywx = inject("$wx");
+      console.log("qywx", qywx);
+      qywx.openLocation({
         type: "gcj02", // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: function (res) {
           Toast("微信SDK定位中...");
