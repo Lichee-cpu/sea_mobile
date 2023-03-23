@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-23 14:29:38
+ * @LastEditTime: 2023-03-23 17:29:08
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -33,7 +33,7 @@
 import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
 import { onMounted, ref, getCurrentInstance } from "vue";
-import WeChat from "@/utils/wechat.js";
+import WeChat from "@/utils/initWechat.js";
 
 export default {
   components: {

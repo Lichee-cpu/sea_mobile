@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-23 17:14:25
+ * @LastEditTime: 2023-03-23 17:29:29
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -56,6 +56,7 @@ export default {
 
     /* 获取行政区位码 */
     const getAdcode = async (lat, lng) => {
+      Toast("获取定位中信息...");
       proxy.$http
         .get("/ws/geocoder/v1/", {
           params: {
@@ -84,15 +85,15 @@ export default {
     const getadd = async () => {
       Toast("定位中...");
       wx.getLocation({
-        type: "gcj02", // 返回国测局坐标系经纬度，可用于wx.openLocation的坐标参数
+        type: "gcj02", // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: function (res) {
+          Toast("微信SDK定位中...");
           const latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
           const longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
           getAdcode(latitude, longitude);
-          Toast.success("微信SDK定位中...");
         },
         fail: function (err) {
-          Toast.fail("获取位置信息失败" + err);
+          Toast.fail("定位失败" + err);
         },
       });
     };
