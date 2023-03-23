@@ -1,8 +1,8 @@
 /*
  * @Author: lxiang
- * @Date: 2022-05-30 18:02:07
- * @LastEditors: home 1400256031@qq.com
- * @LastEditTime: 2023-03-11 14:48:41
+ * @Date: 2023-03-21 21:36:23
+ * @LastEditors: lxiang
+ * @LastEditTime: 2023-03-23 14:58:26
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -27,7 +27,10 @@ import {
   Icon,
   Popup,
 } from "vant";
+import wx from "./utils/init-wechat";
 
+// 判断是不是微信中打开
+const ua = navigator.userAgent.toLowerCase();
 const app = createApp(App);
 app.use(ConfigProvider);
 app.use(Button);
@@ -45,6 +48,9 @@ app.use(router);
 app.use(i18n);
 app.use(store);
 app.config.globalProperties.$http = instance;
+if (ua.match(/MicroMessenger/i) == "micromessenger") {
+  app.config.globalProperties.$wx = wx;
+}
 app.mount("#app");
 
 Date.prototype.Format = function (fmt) {

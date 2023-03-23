@@ -2,22 +2,30 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-22 16:29:11
+ * @LastEditTime: 2023-03-23 14:29:38
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
 <template>
   <div class="search">
     <Header transparent :primary="false" />
-    <van-icon
-      name="location-o"
-      :color="active ? '#0014ff' : ''"
-      class="location"
-      @click="getLocations"
-      size="30"
-    />
-    <div class="locations">{{ location }}</div>
-    <van-button @click="getadd" v-if="isWechat">获取定位</van-button>
+    <div class="location">
+      <van-icon
+        v-if="isWechat"
+        name="location-o"
+        :color="active ? '#0fa905' : ''"
+        @click="getadd"
+        size="30"
+      />
+      <van-icon
+        v-else
+        name="location-o"
+        :color="active ? '#0014ff' : ''"
+        @click="getLocations"
+        size="30"
+      />
+      <span>{{ location }}</span>
+    </div>
   </div>
 </template>
 
@@ -50,19 +58,17 @@ export default {
         })
         .then((res) => {
           const adcode = res.data.result?.ad_info.adcode; // 行政区码
-          const address_component = JSON.stringify(
-            res.data.result?.address_component
-          ); // 地址信息
+          const address = JSON.stringify(res.data.result?.address); // 地址信息
           localStorage.setItem(
             "location",
             JSON.stringify({
               lat,
               lng,
               adcode,
-              address_component,
+              address,
             })
           );
-          location.value = `纬度：${lat}，经度：${lng}，行政区码:${adcode},地址信息:${address_component}`;
+          location.value = res.data.result?.address;
         });
     };
 
@@ -154,12 +160,14 @@ export default {
     const getadd = () => {
       WeChat.getLocation()
         .then((position) => {
+          active.value = true;
           const latitude = position.latitude; // 纬度
           const longitude = position.longitude; // 经度
           Toast.success("微信SDK定位中...");
           getAdcode(latitude, longitude);
         })
         .catch(() => {
+          active.value = false;
           Toast.fail("获取位置信息失败");
         });
     };
@@ -187,13 +195,10 @@ export default {
   height: 100%;
 }
 .location {
-  position: absolute;
-  right: 16px;
+  padding: 8px;
   top: var(--statusbar-height);
-}
-.locations {
-  padding: 16px;
-  margin-top: var(--statusbar-height);
-  margin-left: 16px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
 }
 </style>
