@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-23 14:51:00
+ * @LastEditTime: 2023-03-23 15:05:25
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -17,7 +17,7 @@
         placeholder="请输入搜索关键词"
       />
     </div>
-    <div v-if="isWechat">
+    <div>
       <van-icon
         v-if="isWechat"
         name="location-o"
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { ref, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
@@ -101,6 +101,14 @@ export default {
         name: item,
       });
     };
+    onMounted(() => {
+      const ua = navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        isWechat.value = true;
+      } else {
+        isWechat.value = false;
+      }
+    });
     return { value, isWechat, active, goto, getadd };
   },
 };
