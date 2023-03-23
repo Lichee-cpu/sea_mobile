@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-23 15:05:25
+ * @LastEditTime: 2023-03-23 15:22:34
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { ref, getCurrentInstance, onMounted } from "vue";
+import { ref, inject, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
@@ -49,9 +49,11 @@ export default {
   setup() {
     const value = ref("");
     const router = useRouter();
+    const { proxy } = getCurrentInstance();
+    const wx = inject("$wx"); // 注入企业微信SDK
     const isWechat = ref(false); //是否企微中打开
     const active = ref(false); //是否定位成功
-    const { proxy } = getCurrentInstance();
+    const location = ref("定位中..."); //定位信息
 
     /* 获取行政区位码 */
     const getAdcode = async (lat, lng) => {
@@ -81,8 +83,7 @@ export default {
 
     // 获取当前位置
     const getadd = async () => {
-      proxy.$wx
-        .getLocation()
+      wx.getLocation()
         .then((position) => {
           active.value = true;
           const latitude = position.latitude; // 纬度
@@ -104,12 +105,13 @@ export default {
     onMounted(() => {
       const ua = navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        getadd();
         isWechat.value = true;
       } else {
         isWechat.value = false;
       }
     });
-    return { value, isWechat, active, goto, getadd };
+    return { value, isWechat, active, location, goto, getadd };
   },
 };
 </script>

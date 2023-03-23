@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:23
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-23 14:58:26
+ * @LastEditTime: 2023-03-23 15:19:16
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -27,7 +27,7 @@ import {
   Icon,
   Popup,
 } from "vant";
-import wx from "./utils/init-wechat";
+import wx from "./utils/wechat";
 
 // 判断是不是微信中打开
 const ua = navigator.userAgent.toLowerCase();
@@ -47,9 +47,10 @@ app.use(Popup);
 app.use(router);
 app.use(i18n);
 app.use(store);
-app.config.globalProperties.$http = instance;
+app.config.globalProperties.$http = instance; // 挂载axios
+// 判断是不是微信中打开
 if (ua.match(/MicroMessenger/i) == "micromessenger") {
-  app.config.globalProperties.$wx = wx;
+  app.provide("$wx", wx); // 挂载微信sdk
 }
 app.mount("#app");
 
