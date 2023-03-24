@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:56
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-24 09:38:00
+ * @LastEditTime: 2023-03-24 10:21:36
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\utils\wechat.js
  */
@@ -27,7 +27,8 @@ const WeChat = {
               jsApiList: jsApiList,
             });
             wx.ready((res) => {
-              resolve(wx, res);
+              wx.hideOptionMenu(); //隐藏右上角菜单接口
+              resolve(wx, res); //初始化成功
             });
             wx.error((err) => {
               reject(err);
