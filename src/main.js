@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:23
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-23 16:19:14
+ * @LastEditTime: 2023-03-24 08:58:14
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -26,11 +26,8 @@ import {
   NavBar,
   Icon,
   Popup,
-  Toast,
 } from "vant";
 
-// 判断是不是微信中打开
-const ua = navigator.userAgent.toLowerCase();
 const app = createApp(App);
 app.use(ConfigProvider);
 app.use(Button);
@@ -48,13 +45,6 @@ app.use(router);
 app.use(i18n);
 app.use(store);
 app.config.globalProperties.$http = instance; // 挂载axios
-// 判断是不是微信中打开
-if (ua.match(/MicroMessenger/i) == "micromessenger") {
-  import("./utils/wechat").then((wechat) => {
-    Toast("开始挂载微信sdk");
-    app.provide("$wx", wechat); // 挂载微信sdk
-  });
-}
 
 app.mount("#app");
 

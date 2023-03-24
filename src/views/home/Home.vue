@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-23 18:02:05
+ * @LastEditTime: 2023-03-24 10:02:19
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -17,11 +17,19 @@
         placeholder="请输入搜索关键词"
       />
     </div>
-    <div v-if="isWechat">
+    <div class="location">
       <van-icon
+        v-if="isWechat"
         name="location-o"
-        :color="active ? '#0fa905' : ''"
-        @click="getadd"
+        :color="active ? '#1989fa' : ''"
+        @click="getWxLocation"
+        size="30"
+      />
+      <van-icon
+        v-else
+        name="location-o"
+        :color="active ? '#1989fa' : ''"
+        @click="getLocation"
         size="30"
       />
       <span>{{ location }}</span>
@@ -36,10 +44,11 @@
 </template>
 
 <script>
-import { ref, inject, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
+import WeChat from "@/utils/wechat";
 
 export default {
   components: {
@@ -50,13 +59,11 @@ export default {
     const router = useRouter();
     const { proxy } = getCurrentInstance();
     const isWechat = /MicroMessenger/.test(navigator.userAgent);
-    const wx = isWechat ? inject("$wx") : null;
     const active = ref(false); //是否定位成功
     const location = ref(""); //定位信息
 
     /* 获取行政区位码 */
     const getAdcode = async (lat, lng) => {
-      Toast("获取定位中信息...");
       proxy.$http
         .get("/ws/geocoder/v1/", {
           params: {
@@ -81,24 +88,58 @@ export default {
         });
     };
 
+    /* h5定位获取定位信息 */
+    const getLocation = () => {
+      if (active.value) {
+        active.value = false;
+      } else {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              // 获取到设备的位置信息
+              const latitude = position.coords.latitude; // 纬度
+              const longitude = Math.abs(position.coords.longitude); // 经度
+              active.value = true;
+              getAdcode(latitude, longitude);
+            },
+            function () {
+              active.value = false;
+              Toast.fail("定位失败");
+            }
+          );
+        } else {
+          active.value = false;
+          Toast.fail("不支持H5定位");
+        }
+      }
+    };
+
     // 获取当前位置
-    const getadd = async () => {
-      Toast("定位中...");
-      console.log("wx", wx);
-      const qywx = inject("$wx");
-      console.log("qywx", qywx);
-      qywx.openLocation({
-        type: "gcj02", // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-        success: function (res) {
-          Toast("微信SDK定位中...");
-          const latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-          const longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-          getAdcode(latitude, longitude);
-        },
-        fail: function (err) {
-          Toast.fail("定位失败" + err);
-        },
-      });
+    const getWxLocation = async () => {
+      if (active.value) {
+        active.value = false;
+      } else {
+        const currentUrl = window.location.href.split("#")[0]; // 获取当前url
+        WeChat.init(["getLocation"], currentUrl)
+          .then((wx) => {
+            wx.getLocation({
+              type: "gcj02",
+              success: (res) => {
+                const lat = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                const lng = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                getAdcode(lat, lng);
+                active.value = true;
+              },
+              fail: () => {
+                Toast("获取定位失败");
+                active.value = false;
+              },
+            });
+          })
+          .catch(() => {
+            this.getLocation(); // 微信环境下获取定位失败，使用h5定位
+          });
+      }
     };
 
     const goto = (item) => {
@@ -107,12 +148,22 @@ export default {
       });
     };
     onMounted(() => {
-      const ua = navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        getadd();
+      location.value = JSON.parse(localStorage.getItem("location"))?.address;
+      if (/MicroMessenger/.test(navigator.userAgent)) {
+        getWxLocation(); // 微信环境下获取定位
+      } else {
+        getLocation(); // 非微信环境下获取定位
       }
     });
-    return { value, isWechat, active, location, goto, getadd };
+    return {
+      value,
+      isWechat,
+      active,
+      location,
+      goto,
+      getWxLocation,
+      getLocation,
+    };
   },
 };
 </script>
@@ -139,6 +190,15 @@ export default {
     img {
       width: 40%;
     }
+  }
+}
+.location {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  margin-top: 16px;
+  span {
+    margin-left: 8px;
   }
 }
 </style>
