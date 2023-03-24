@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:23
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-24 08:58:14
+ * @LastEditTime: 2023-03-24 17:00:53
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -72,3 +72,7 @@ Date.prototype.Format = function (fmt) {
       );
   return fmt;
 };
+
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+}); // 禁止右键和长按弹出菜单

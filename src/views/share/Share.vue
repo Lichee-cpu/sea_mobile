@@ -8,19 +8,19 @@
   </div>
 
   <van-popup v-model:show="showCenter" round style="width: 80%">
-    <div class="save">
-      <img :src="posterUrl" class="share" />
-      <span>长按保存</span>
-    </div>
+    <Poster :posterUrl="posterUrl" />
   </van-popup>
 </template>
 
 <script>
 import html2canvas from "html2canvas";
 import { ref } from "vue";
-
+import Poster from "./Poster.vue";
 export default {
   name: "Share",
+  components: {
+    Poster,
+  },
   setup() {
     const posterUrl = ref(""); // 海报地址
     const containerDom = ref(null); // 海报容器
@@ -55,21 +55,14 @@ export default {
   width: 100%;
   height: 100%;
   background: #fff;
-}
-img {
-  width: 100%;
-  height: 100%;
-  border: 1px solid #dfdfdf;
-  pointer-events: none;
-}
-.save {
-  width: 100%;
-  height: 100%;
-  background: #dfdfdf;
-  padding: 8px;
   text-align: center;
 }
-.share{
-    pointer-events: auto;
+img {
+  width: 80%;
+  height: 100%;
+  border: 1px solid #dfdfdf;
+}
+.button-group {
+  text-align: center;
 }
 </style>
