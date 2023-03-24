@@ -9,7 +9,7 @@
 
   <van-popup v-model:show="showCenter" round style="width: 80%">
     <div class="save">
-      <img :src="posterUrl" />
+      <img :src="posterUrl" class="share" />
       <span>长按保存</span>
     </div>
   </van-popup>
@@ -60,6 +60,7 @@ img {
   width: 100%;
   height: 100%;
   border: 1px solid #dfdfdf;
+  pointer-events: none;
 }
 .save {
   width: 100%;
@@ -67,5 +68,8 @@ img {
   background: #dfdfdf;
   padding: 8px;
   text-align: center;
+}
+.share{
+    pointer-events: auto;
 }
 </style>
