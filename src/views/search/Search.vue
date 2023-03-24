@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-23 17:29:08
+ * @LastEditTime: 2023-03-24 11:20:53
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -26,6 +26,9 @@
       />
       <span>{{ location }}</span>
     </div>
+    <div>
+      <Share />
+    </div>
   </div>
 </template>
 
@@ -34,10 +37,11 @@ import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
 import { onMounted, ref, getCurrentInstance } from "vue";
 import WeChat from "@/utils/initWechat.js";
-
+import Share from "@/views/share/Share.vue";
 export default {
   components: {
     Header,
+    Share,
   },
   setup() {
     const { proxy } = getCurrentInstance();

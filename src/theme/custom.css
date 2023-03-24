@@ -1,6 +1,11 @@
 body {
   --statusbar-height: 0px;
   --nav-bar-height: calc(var(--statusbar-height) + var(--van-nav-bar-height));
+  /* 禁止复制 */
+  -moz-user-select: none; 
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .app-body {
