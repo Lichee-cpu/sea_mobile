@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-24 10:02:19
+ * @LastEditTime: 2023-03-26 11:13:27
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -75,6 +75,7 @@ export default {
         .then((res) => {
           const adcode = res.data.result?.ad_info.adcode; // 行政区码
           const address = JSON.stringify(res.data.result?.address); // 地址信息
+          const lastUpdated = Date.now();
           localStorage.setItem(
             "location",
             JSON.stringify({
@@ -82,6 +83,7 @@ export default {
               lng,
               adcode,
               address,
+              lastUpdated,
             })
           );
           location.value = res.data.result?.address;
@@ -148,11 +150,17 @@ export default {
       });
     };
     onMounted(() => {
-      location.value = JSON.parse(localStorage.getItem("location"))?.address;
-      if (/MicroMessenger/.test(navigator.userAgent)) {
-        getWxLocation(); // 微信环境下获取定位
-      } else {
-        getLocation(); // 非微信环境下获取定位
+      const { lastUpdated, address } = JSON.parse(
+        localStorage.getItem("location")
+      ); // 获取定位信息
+      location.value = address.replace(/"/g, ""); // 去除双引号
+      // 超过2fen钟重新定位
+      if (lastUpdated && Date.now() - lastUpdated > 2 * 60 * 1000) {
+        if (/MicroMessenger/.test(navigator.userAgent)) {
+          getWxLocation(); // 微信环境下获取定位
+        } else {
+          getLocation(); // 非微信环境下获取定位
+        }
       }
     });
     return {

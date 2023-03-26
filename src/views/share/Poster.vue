@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-24 17:01:40
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-24 17:27:25
+ * @LastEditTime: 2023-03-26 10:57:55
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\share\Poster.vue
 -->
@@ -53,6 +53,7 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    pointer-events: auto; //解除禁止点击事件
   }
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2022-05-31 10:10:24
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-24 11:20:53
+ * @LastEditTime: 2023-03-26 11:19:06
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\search\Search.vue
 -->
@@ -177,13 +177,19 @@ export default {
     };
 
     onMounted(() => {
-      // 判断是不是微信中打开
-      const ua = navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        initWechat();
-        isWechat.value = true;
-      } else {
-        isWechat.value = false;
+      const { lastUpdated, address } = JSON.parse(
+        localStorage.getItem("location")
+      ); // 获取定位信息
+      location.value = address.replace(/"/g, ""); // 去除双引号
+      if (lastUpdated && Date.now() - lastUpdated > 5 * 60 * 1000) {
+        // 判断是不是微信中打开
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+          initWechat();
+          isWechat.value = true;
+        } else {
+          isWechat.value = false;
+        }
       }
     });
 

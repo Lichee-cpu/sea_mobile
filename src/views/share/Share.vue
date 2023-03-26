@@ -1,3 +1,11 @@
+<!--
+ * @Author: lxiang
+ * @Date: 2023-03-24 11:16:27
+ * @LastEditors: lxiang
+ * @LastEditTime: 2023-03-26 11:06:10
+ * @description: Modify here please
+ * @FilePath: \sea_mobile\src\views\share\Share.vue
+-->
 <template>
   <div class="container" ref="containerDom">
     <div>自定义内容</div>
@@ -29,7 +37,6 @@ export default {
      * 生成海报
      */
     const makePoster = () => {
-      showCenter.value = true; // 海报弹窗
       html2canvas(containerDom.value, {
         allowTaint: true,
         useCORS: true,
@@ -37,6 +44,7 @@ export default {
       }).then((canvas) => {
         const img = canvas.toDataURL("image/png");
         posterUrl.value = img; // 海报地址
+        showCenter.value = true; // 海报弹窗
       });
     };
 
