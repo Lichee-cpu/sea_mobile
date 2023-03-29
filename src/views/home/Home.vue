@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-26 11:13:27
+ * @LastEditTime: 2023-03-29 15:14:43
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -49,7 +49,7 @@ import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
-import WeChat from "@/utils/wechat";
+import WeChat from "@/utils/wechat2";
 
 export default {
   components: {
@@ -76,7 +76,7 @@ export default {
         .then((res) => {
           const adcode = res.data.result?.ad_info.adcode; // 行政区码
           const address = JSON.stringify(res.data.result?.address); // 地址信息
-          const lastUpdated = Date.now();
+          let lastUpdated = Date.now();
           localStorage.setItem(
             "location",
             JSON.stringify({
