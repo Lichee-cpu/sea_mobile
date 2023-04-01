@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-31 16:16:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-01 16:44:48
+ * @LastEditTime: 2023-04-01 17:40:34
  * @description: 文件上传压缩对比
  * @FilePath: \sea_mobile\src\views\project\upload\Upload.vue
 -->
@@ -39,8 +39,20 @@
       </div>
     </div>
     <div class="compare">
-      <img :src="original" alt="原图" />
-      <img :src="compressed" alt="压缩图" />
+      <!-- 原图 -->
+      <div class="original" v-if="original" @click="previewImage(original)">
+        <span>原图：{{ originalSize }}KB</span>
+        <img :src="original" alt="原图" />
+      </div>
+      <!-- 压缩 -->
+      <div
+        class="compressed"
+        v-if="compressed"
+        @click="previewImage(compressed)"
+      >
+        <span>压缩：{{ compressedSize }}KB </span>
+        <img :src="compressed" alt="压缩图" />
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +60,7 @@
 <script>
 import Header from "@/components/header/Header.vue";
 import { ref, getCurrentInstance } from "vue";
-import { Toast } from "vant";
+import { Toast, ImagePreview } from "vant";
 
 export default {
   components: {
@@ -61,6 +73,8 @@ export default {
     const fileList2 = ref([]); // 上传的文件列表不压缩
     const original = ref(""); // 原图
     const compressed = ref(""); // 压缩图
+    const originalSize = ref(""); // 原图大小
+    const compressedSize = ref(""); // 压缩图大小
 
     // 压缩
     const afterRead1 = (file) => {
@@ -82,7 +96,9 @@ export default {
           },
         })
         .then((res) => {
-          compressed.value = res.data.url; // 压缩图在线链接
+          const { url, size } = res.data;
+          compressed.value = url; // 压缩图在线链接
+          compressedSize.value = Math.round(size / 1024); // 压缩图大小
           Toast.clear();
           console.log("上传返回", res);
         });
@@ -109,7 +125,9 @@ export default {
         })
         .then((res) => {
           Toast.clear();
-          original.value = res.data.url; // 原图在线链接
+          const { url, size } = res.data;
+          original.value = url; // 原图在线链接
+          originalSize.value = Math.round(size / 1024); // 原图大小
           console.log("上传返回", res);
         });
     };
@@ -149,14 +167,23 @@ export default {
       });
     };
 
+    // 图片预览
+    const previewImage = (url) => {
+      console.log("预览图片", url);
+      ImagePreview([url]);
+    };
+
     return {
       original,
+      originalSize,
       compressed,
+      compressedSize,
       fileList1,
       fileList2,
       afterRead1,
       afterRead2,
       compressImage,
+      previewImage,
     };
   },
 };
@@ -193,10 +220,16 @@ export default {
   margin-top: 30px;
   display: flex;
   padding: 16px;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-evenly;
+  .original {
+    width: 48%;
+  }
+  .compressed {
+    width: 48%;
+  }
   img {
     width: 100%;
-    height: 100%;
   }
 }
 </style>
