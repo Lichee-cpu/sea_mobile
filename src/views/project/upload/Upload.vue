@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-31 16:16:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-01 16:41:33
+ * @LastEditTime: 2023-04-01 16:44:48
  * @description: 文件上传压缩对比
  * @FilePath: \sea_mobile\src\views\project\upload\Upload.vue
 -->
@@ -76,7 +76,7 @@ export default {
       });
       proxy.$http
         .post("/api/upload/add", formData, {
-          timeout: 30000,
+          timeout: 60000,
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -102,7 +102,7 @@ export default {
       });
       proxy.$http
         .post("/api/upload/add", formData, {
-          timeout: 30000,
+          timeout: 60000,
           headers: {
             "Content-Type": "multipart/form-data",
           },
