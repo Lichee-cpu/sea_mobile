@@ -42,4 +42,9 @@ export const home = [
     name: "PmpInfo",
     component: () => import("@/views/project/pmp/PmpInfo.vue"),
   },
+  {
+    path: "/upload",
+    name: "Upload",
+    component: () => import("@/views/project/upload/Upload.vue"),
+  },
 ];

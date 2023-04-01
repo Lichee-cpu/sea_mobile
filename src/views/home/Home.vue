@@ -39,6 +39,7 @@
       <div class="item" @click="goto('AutoShow')">360°</div>
       <div class="item" @click="goto('Chat')">聊天室</div>
       <div class="item" @click="goto('SeaPicker')">横向拉动选择</div>
+      <div class="item" @click="goto('Upload')">文件上传</div>
       <div class="item" @click="goto('Pmp')">pmp试题</div>
     </div>
   </div>

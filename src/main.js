@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:23
  * @LastEditors: lxiang
- * @LastEditTime: 2023-03-24 17:00:53
+ * @LastEditTime: 2023-03-31 16:24:19
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -26,6 +26,7 @@ import {
   NavBar,
   Icon,
   Popup,
+  Uploader,
 } from "vant";
 
 const app = createApp(App);
@@ -40,6 +41,7 @@ app.use(Search);
 app.use(NavBar);
 app.use(Icon);
 app.use(Popup);
+app.use(Uploader);
 
 app.use(router);
 app.use(i18n);
@@ -73,6 +75,6 @@ Date.prototype.Format = function (fmt) {
   return fmt;
 };
 
-document.addEventListener("contextmenu", function (e) {
-  e.preventDefault();
-}); // 禁止右键和长按弹出菜单
+// document.addEventListener("contextmenu", function (e) {
+//   e.preventDefault();
+// }); // 禁止右键和长按弹出菜单
