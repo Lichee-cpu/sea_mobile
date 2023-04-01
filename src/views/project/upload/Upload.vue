@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-31 16:16:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-01 15:16:16
+ * @LastEditTime: 2023-04-01 16:41:33
  * @description: 文件上传压缩对比
  * @FilePath: \sea_mobile\src\views\project\upload\Upload.vue
 -->
@@ -48,6 +48,7 @@
 <script>
 import Header from "@/components/header/Header.vue";
 import { ref, getCurrentInstance } from "vue";
+import { Toast } from "vant";
 
 export default {
   components: {
@@ -67,14 +68,22 @@ export default {
       formData.append("file", file.file);
       formData.append("type", "1"); //压缩类型   1：压缩  2：不压缩
       console.log("上传的文件", formData);
+      Toast.loading({
+        message: "上传中...",
+        forbidClick: true,
+        loadingType: "spinner",
+        duration: 0,
+      });
       proxy.$http
         .post("/api/upload/add", formData, {
+          timeout: 30000,
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
           compressed.value = res.data.url; // 压缩图在线链接
+          Toast.clear();
           console.log("上传返回", res);
         });
     };
@@ -85,13 +94,21 @@ export default {
       formData.append("file", file.file);
       formData.append("type", "2"); //压缩类型   1：压缩  2：不压缩
       console.log("上传的文件", formData);
+      Toast.loading({
+        message: "上传中...",
+        forbidClick: true,
+        loadingType: "spinner",
+        duration: 0,
+      });
       proxy.$http
         .post("/api/upload/add", formData, {
+          timeout: 30000,
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
+          Toast.clear();
           original.value = res.data.url; // 原图在线链接
           console.log("上传返回", res);
         });
@@ -133,6 +150,8 @@ export default {
     };
 
     return {
+      original,
+      compressed,
       fileList1,
       fileList2,
       afterRead1,
