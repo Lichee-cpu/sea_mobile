@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-03-29 15:14:43
+ * @LastEditTime: 2023-04-07 16:00:39
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -152,16 +152,17 @@ export default {
       });
     };
     onMounted(() => {
-      const { lastUpdated, address } = JSON.parse(
-        localStorage.getItem("location")
-      ); // 获取定位信息
-      location.value = address.replace(/"/g, ""); // 去除双引号
-      // 超过2fen钟重新定位
-      if (lastUpdated && Date.now() - lastUpdated > 2 * 60 * 1000) {
-        if (/MicroMessenger/.test(navigator.userAgent)) {
-          getWxLocation(); // 微信环境下获取定位
-        } else {
-          getLocation(); // 非微信环境下获取定位
+      const locations = JSON.parse(localStorage.getItem("location")); // 获取定位信息
+      if (locations) {
+        const { lastUpdated, address } = locations;
+        location.value = address.replace(/"/g, ""); // 去除双引号
+        // 超过2fen钟重新定位
+        if (lastUpdated && Date.now() - lastUpdated > 2 * 60 * 1000) {
+          if (/MicroMessenger/.test(navigator.userAgent)) {
+            getWxLocation(); // 微信环境下获取定位
+          } else {
+            getLocation(); // 非微信环境下获取定位
+          }
         }
       }
     });

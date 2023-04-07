@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-31 16:16:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-01 17:40:34
+ * @LastEditTime: 2023-04-07 18:28:53
  * @description: 文件上传压缩对比
  * @FilePath: \sea_mobile\src\views\project\upload\Upload.vue
 -->
@@ -78,10 +78,10 @@ export default {
 
     // 压缩
     const afterRead1 = (file) => {
+      console.log("压缩后实际上传", file.file.size / 1024 + "KB");
       let formData = new FormData();
       formData.append("file", file.file);
       formData.append("type", "1"); //压缩类型   1：压缩  2：不压缩
-      console.log("上传的文件", formData);
       Toast.loading({
         message: "上传中...",
         forbidClick: true,
@@ -109,7 +109,6 @@ export default {
       let formData = new FormData();
       formData.append("file", file.file);
       formData.append("type", "2"); //压缩类型   1：压缩  2：不压缩
-      console.log("上传的文件", formData);
       Toast.loading({
         message: "上传中...",
         forbidClick: true,
@@ -134,6 +133,7 @@ export default {
 
     // 压缩图片
     const compressImage = (file) => {
+      console.log("压缩前", file.size / 1024 + "KB");
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.src = URL.createObjectURL(file); // 将文件转换为图片路径
@@ -141,9 +141,23 @@ export default {
           // 创建一个canvas元素来进行图片压缩
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
+          let width = img.width;
+          let height = img.height;
+          // 如果图片大于四百万像素，计算压缩比并将大小压至400万以下
+          if (file.size > 5 * 1024 * 1024) {
+            console.log("大于5M");
+            let ratio;
+            if ((ratio = (width * height) / 4000000) > 1) {
+              ratio = Math.sqrt(ratio);
+              width /= ratio;
+              height /= ratio;
+            } else {
+              ratio = 1;
+            }
+          }
           // 设置画布尺寸
-          canvas.width = img.width;
-          canvas.height = img.height;
+          canvas.width = width;
+          canvas.height = height;
           // 将图片画到画布上
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           // 将画布内容转换为Blob
@@ -155,7 +169,10 @@ export default {
                 type: file.type,
                 lastModified: Date.now(),
               });
-              resolve(compressedFile);
+              const newfile =
+                compressedFile.size < file.size ? compressedFile : file;
+              console.log("压缩后的文件", newfile.size / 1024 + "KB");
+              resolve(newfile);
             },
             file.type,
             0.8 // 设置压缩质量，范围从0到1，1表示最高质量
