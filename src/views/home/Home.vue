@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-04-07 16:00:39
+ * @LastEditTime: 2023-04-11 11:57:05
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -151,6 +151,7 @@ export default {
         name: item,
       });
     };
+    
     onMounted(() => {
       const locations = JSON.parse(localStorage.getItem("location")); // 获取定位信息
       if (locations) {
