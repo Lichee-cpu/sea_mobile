@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-04-12 15:20:18
+ * @LastEditTime: 2023-04-12 18:40:05
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -124,7 +124,7 @@ export default {
         active.value = false;
       } else {
         const currentUrl = window.location.href.split("#")[0]; // 获取当前url
-        WeChat.init(["getLocation"], currentUrl)
+        WeChat.init(["getLocation", "invoke"], currentUrl)
           .then((wx) => {
             wx.getLocation({
               type: "wgs84",
@@ -139,6 +139,15 @@ export default {
                 active.value = false;
               },
             });
+            wx.invoke(
+              "setKeepScreenOn",
+              {
+                keepScreenOn: true,
+              },
+              function (res) {
+                console.log(res);
+              }
+            );
           })
           .catch(() => {
             this.getLocation(); // 微信环境下获取定位失败，使用h5定位
@@ -151,7 +160,7 @@ export default {
         name: item,
       });
     };
-    
+
     onMounted(() => {
       const locations = JSON.parse(localStorage.getItem("location")); // 获取定位信息
       if (locations) {
