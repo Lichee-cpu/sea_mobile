@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-04-11 11:57:05
+ * @LastEditTime: 2023-04-12 15:20:18
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -127,7 +127,7 @@ export default {
         WeChat.init(["getLocation"], currentUrl)
           .then((wx) => {
             wx.getLocation({
-              type: "gcj02",
+              type: "wgs84",
               success: (res) => {
                 const lat = res.latitude; // 纬度，浮点数，范围为90 ~ -90
                 const lng = res.longitude; // 经度，浮点数，范围为180 ~ -180。
