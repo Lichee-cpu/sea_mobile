@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-18 09:39:26
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-18 16:38:35
+ * @LastEditTime: 2023-04-18 16:43:53
  * @description: 审批流程工作台
  * @FilePath: \sea_mobile\src\views\project\approve\Approve.vue
 -->
@@ -38,7 +38,7 @@ export default {
     .item {
       flex: 1;
       margin: 10px;
-      background-color: #fff;
+      background-color: var(--group-bg2);
       height: 100px;
       border-radius: 10px;
       text-align: center;
