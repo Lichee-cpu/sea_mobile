@@ -1,7 +1,7 @@
 /*
  * @Author: lxiang
  * @Date: 2022-06-26 13:30:35
- * @LastEditTime: 2023-03-26 16:03:09
+ * @LastEditTime: 2023-04-18 09:39:11
  * @LastEditors: lxiang
  * @Description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
@@ -46,5 +46,10 @@ export const home = [
     path: "/upload",
     name: "Upload",
     component: () => import("@/views/project/upload/Upload.vue"),
+  },
+  {
+    path: "/approve",
+    name: "Approve",
+    component: () => import("@/views/project/approve/Approve.vue"),
   },
 ];

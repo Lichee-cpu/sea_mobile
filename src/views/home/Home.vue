@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-04-12 18:40:05
+ * @LastEditTime: 2023-04-18 09:38:37
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -41,6 +41,7 @@
       <div class="item" @click="goto('SeaPicker')">横向拉动选择</div>
       <div class="item" @click="goto('Upload')">文件上传</div>
       <div class="item" @click="goto('Pmp')">pmp试题</div>
+      <div class="item" @click="goto('Approve')">审批流</div>
     </div>
   </div>
 </template>
