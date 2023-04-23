@@ -43,10 +43,10 @@ export const three = [
   }, {
     path: "/three-7",
     name: "ThreeDemo7",
-    component: () => import("@/views/threejs/demo/e"),
+    component: () => import("@/views/threejs/demo/g"),
   }, {
     path: "/three-8",
     name: "ThreeDemo8",
-    component: () => import("@/views/threejs/demo/e"),
+    component: () => import("@/views/threejs/demo/h"),
   },
 ];

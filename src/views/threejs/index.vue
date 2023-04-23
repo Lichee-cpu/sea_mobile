@@ -29,6 +29,8 @@ export default {
       { section: 4, name: "第四节--缩放与旋转" },
       { section: 5, name: "第五节--requestAnimationFrame" },
       { section: 6, name: "第六节--跟踪时间对象-Clock" },
+      { section: 7, name: "第七节--动画库" },
+      { section: 8, name: "第八节--用户界面更改变量" },
     ]);
     const setSection = (i) => {
       router.push({
