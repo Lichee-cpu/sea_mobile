@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:21:22
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-23 09:21:11
+ * @LastEditTime: 2023-04-25 15:30:04
  * @description: Three.js
  * @FilePath: \sea_mobile\src\router\three.js
  */
@@ -36,17 +36,60 @@ export const three = [
     path: "/three-5",
     name: "ThreeDemo5",
     component: () => import("@/views/threejs/demo/e"),
-  }, {
+  },
+  {
     path: "/three-6",
     name: "ThreeDemo6",
     component: () => import("@/views/threejs/demo/f"),
-  }, {
+  },
+  {
     path: "/three-7",
     name: "ThreeDemo7",
     component: () => import("@/views/threejs/demo/g"),
-  }, {
+  },
+  {
     path: "/three-8",
     name: "ThreeDemo8",
     component: () => import("@/views/threejs/demo/h"),
+  },
+  {
+    path: "/three-9",
+    name: "ThreeDemo9",
+    component: () => import("@/views/threejs/demo/i"),
+  },
+  {
+    path: "/three-10",
+    name: "ThreeDemo10",
+    component: () => import("@/views/threejs/demo/j"),
+  },
+  {
+    path: "/three-11",
+    name: "ThreeDemo11",
+    component: () => import("@/views/threejs/demo/k"),
+  },
+  {
+    path: "/three-12",
+    name: "ThreeDemo12",
+    component: () => import("@/views/threejs/demo/l"),
+  },
+  {
+    path: "/three-13",
+    name: "ThreeDemo13",
+    component: () => import("@/views/threejs/demo/l"),
+  },
+  {
+    path: "/three-14",
+    name: "ThreeDemo14",
+    component: () => import("@/views/threejs/demo/l"),
+  },
+  {
+    path: "/three-15",
+    name: "ThreeDemo15",
+    component: () => import("@/views/threejs/demo/l"),
+  },
+  {
+    path: "/three-16",
+    name: "ThreeDemo16",
+    component: () => import("@/views/threejs/demo/l"),
   },
 ];

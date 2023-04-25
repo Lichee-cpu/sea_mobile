@@ -31,6 +31,11 @@ export default {
       { section: 6, name: "第六节--跟踪时间对象-Clock" },
       { section: 7, name: "第七节--动画库" },
       { section: 8, name: "第八节--用户界面更改变量" },
+      { section: 9, name: "第九节--法向属性" },
+      { section: 10, name: "第十节--三角形" },
+      { section: 11, name: "第十一节--材质" },
+      { section: 12, name: "第十二节--纹理适应" },
+      { section: 13, name: "第十三节--环境遮挡与贴图强度" },
     ]);
     const setSection = (i) => {
       router.push({
