@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-25 15:21:53
+ * @LastEditTime: 2023-04-25 15:46:50
  * @description: 纹理显示算法/透明纹理
  * @FilePath: \sea_mobile\src\views\threejs\demo\l.vue
 -->
@@ -47,10 +47,10 @@ export default {
       const textureLoader = new THREE.TextureLoader();
       // const imgMaterial = textureLoader.load(require("@/assets/home/16x16.jpg"));
       const imgMaterial = textureLoader.load(
-        require("@/assets/home/black-1.jpg")
+        require("@/assets/textures/door/color.jpg")
       ); // 透明纹理
       const imgMaterial2 = textureLoader.load(
-        require("@/assets/home/black-0.jpg")
+        require("@/assets/textures/door/alpha.jpg")
       ); // 透明纹理(蒙版)
 
       // 添加物体
