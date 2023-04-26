@@ -2,9 +2,9 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-26 11:30:29
- * @description: PBR
- * @FilePath: \sea_mobile\src\views\threejs\demo\n.vue
+ * @LastEditTime: 2023-04-26 11:48:27
+ * @description: 贴图 素材：poliigon.com
+ * @FilePath: \sea_mobile\src\views\threejs\demo\o.vue
 -->
 <template>
   <div class="info">
@@ -54,9 +54,21 @@ export default {
       const doorAoTexture = textureLoader.load(
         require("@/assets/textures/door/ambientOcclusion.jpg")
       ); // AO环境遮挡贴图
+      const doorHeightTexture = textureLoader.load(
+        require("@/assets/textures/door/height.jpg")
+      ); //导入置换贴图
+      const roughnessTexture = textureLoader.load(
+        require("@/assets/textures/door/roughness.jpg")
+      ); // 粗糙度贴图
+      const metalnessTexture = textureLoader.load(
+        require("@/assets/textures/door/metalness.jpg")
+      ); // 金属度贴图
+      const normalTexture = textureLoader.load(
+        require("@/assets/textures/door/normal.jpg")
+      ); // 法线贴图
 
       // 添加物体
-      const cubeGeometry = new THREE.BoxGeometry(1, 1, 1); // 创建一个立方体几何体
+      const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 100, 100, 100); // 创建一个立方体几何体
       // 材质
       const material = new THREE.MeshStandardMaterial({
         color: "#ffff00",
@@ -65,6 +77,14 @@ export default {
         transparent: true,
         aoMap: doorAoTexture,
         aoMapIntensity: 1,
+        displacementMap: doorHeightTexture, // 置换贴图
+        displacementScale: 0.1, // 置换贴图的强度
+        roughnessMap: roughnessTexture, // 粗糙度贴图
+        roughness: 1,
+        metalnessMap: metalnessTexture, // 金属度贴图
+        metalness: 1,
+        normalMap: normalTexture, // 法线贴图
+        normalScale: new THREE.Vector2(0.5, 0.5), // 法线贴图的强度
         // opacity: 0.5, // 透明度
         side: THREE.DoubleSide, // 双面渲染
       });
@@ -77,7 +97,7 @@ export default {
       );
 
       // 添加平面
-      const planeGeometry = new THREE.PlaneGeometry(1, 1); // 创建一个平面几何体
+      const planeGeometry = new THREE.PlaneGeometry(1, 1, 200, 200); // 创建一个平面几何体
       const plane = new THREE.Mesh(planeGeometry, material);
       plane.position.set(1.5, 0, 0);
       scene.add(plane);

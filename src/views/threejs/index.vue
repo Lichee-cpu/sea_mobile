@@ -36,7 +36,8 @@ export default {
       { section: 11, name: "第十一节--材质" },
       { section: 12, name: "第十二节--纹理适应" },
       { section: 13, name: "第十三节--环境遮挡与贴图强度" },
-      { section: 14, name: "第十四节--PBR" },
+      { section: 14, name: "第十四节--PBR物理的渲染" },
+      { section: 15, name: "第十五节--贴图" },
     ]);
     const setSection = (i) => {
       router.push({
