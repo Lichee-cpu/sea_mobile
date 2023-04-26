@@ -10,6 +10,13 @@
   <div class="info">
     <Header :title="title" transparent :nav="true" :defaultNav="true" />
     <div class="box" ref="box"></div>
+    <van-popup v-model:show="show" round>
+      <van-circle
+        v-model:current-rate="currentRate"
+        :speed="100"
+        :text="text"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -20,7 +27,7 @@ import * as THREE from "three";
 // 导入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
-import { onMounted, ref, onUnmounted } from "vue";
+import { onMounted, ref, onUnmounted, computed } from "vue";
 
 export default {
   components: {
@@ -30,6 +37,9 @@ export default {
     const route = useRoute();
     const title = route?.query?.title;
     const box = ref(null);
+    const currentRate = ref(0);
+    const text = computed(() => currentRate.value.toFixed(0) + "%");
+    const show = ref(false);
 
     const draw = () => {
       const rgbeLoader = new RGBELoader();
@@ -57,6 +67,7 @@ export default {
       const event = {};
       event.onLoad = () => {
         console.log("纹理加载完成");
+        show.value = false;
       };
       event.onProgress = (url, num, total) => {
         console.log("纹理加载进度", url);
@@ -65,6 +76,7 @@ export default {
           "第" + num + "张",
           (num / total) * 100 + "%"
         );
+        currentRate.value = (num / total) * 100;
       };
       event.onError = (xhr) => {
         console.log("纹理加载失败", xhr);
@@ -158,13 +170,14 @@ export default {
     window.addEventListener("dblclick", dbclick);
 
     onMounted(() => {
+      show.value = true;
       draw();
     });
     onUnmounted(() => {
       document.removeEventListener("dblclick", dbclick);
     });
 
-    return { title, box };
+    return { title, box, currentRate, show, text };
   },
 };
 </script>
@@ -177,5 +190,8 @@ export default {
   .box {
     height: 100%;
   }
+}
+/deep/ .van-popup {
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>
