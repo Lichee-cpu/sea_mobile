@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-26 16:29:59
+ * @LastEditTime: 2023-04-26 19:01:31
  * @description: 环境纹理
  * @FilePath: \sea_mobile\src\views\threejs\demo\q.vue
 -->
@@ -10,6 +10,13 @@
   <div class="info">
     <Header :title="title" transparent :nav="true" :defaultNav="true" />
     <div class="box" ref="box"></div>
+    <van-popup v-model:show="show" round>
+      <van-circle
+        v-model:current-rate="currentRate"
+        :speed="100"
+        :text="text"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -19,7 +26,7 @@ import { useRoute } from "vue-router";
 import * as THREE from "three";
 // 导入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 export default {
   components: {
     Header,
@@ -28,6 +35,9 @@ export default {
     const route = useRoute();
     const title = route?.query?.title;
     const box = ref(null);
+    const currentRate = ref(0);
+    const text = computed(() => currentRate.value.toFixed(0) + "%");
+    const show = ref(false);
 
     const draw = () => {
       // 1. 创建场景
@@ -48,6 +58,7 @@ export default {
       const event = {};
       event.onLoad = () => {
         console.log("纹理加载完成");
+        show.value = false;
       };
       event.onProgress = (url, num, total) => {
         console.log("纹理加载进度", url);
@@ -56,6 +67,7 @@ export default {
           "第" + num + "张",
           (num / total) * 100 + "%"
         );
+        currentRate.value = (num / total) * 100;
       };
       event.onError = (xhr) => {
         console.log("纹理加载失败", xhr);
@@ -148,10 +160,11 @@ export default {
     };
 
     onMounted(() => {
+      show.value = true;
       draw();
     });
 
-    return { title, box };
+    return { title, box, currentRate, show, text };
   },
 };
 </script>
@@ -164,5 +177,8 @@ export default {
   .box {
     height: 100%;
   }
+}
+/deep/ .van-popup {
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>
