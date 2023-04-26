@@ -2,9 +2,9 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-26 16:03:33
+ * @LastEditTime: 2023-04-26 16:29:59
  * @description: 环境纹理
- * @FilePath: \sea_mobile\src\views\threejs\demo\p.vue
+ * @FilePath: \sea_mobile\src\views\threejs\demo\q.vue
 -->
 <template>
   <div class="info">
@@ -51,7 +51,11 @@ export default {
       };
       event.onProgress = (url, num, total) => {
         console.log("纹理加载进度", url);
-        console.log("总数:"+total,"第"+num+"张",num/total*100+"%");
+        console.log(
+          "总数:" + total,
+          "第" + num + "张",
+          (num / total) * 100 + "%"
+        );
       };
       event.onError = (xhr) => {
         console.log("纹理加载失败", xhr);
@@ -64,74 +68,30 @@ export default {
         event.onError
       );
 
-      // 导入纹理
-      const textureLoader = new THREE.TextureLoader(loadingManager);
-      // 单张纹理的加载
-      const doorColorTexture = textureLoader.load(
-        require("@/assets/textures/door/color.jpg")
-        // event.onLoad,
-        // event.onProgress,
-        // event.onError
-      ); // 透明纹理
+      // 设置cube纹理加载器
+      const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
+      const envMapTexture = cubeTextureLoader.load([
+        require("@/assets/textures/environmentMaps/1/px.jpg"),
+        require("@/assets/textures/environmentMaps/1/nx.jpg"),
+        require("@/assets/textures/environmentMaps/1/py.jpg"),
+        require("@/assets/textures/environmentMaps/1/ny.jpg"),
+        require("@/assets/textures/environmentMaps/1/pz.jpg"),
+        require("@/assets/textures/environmentMaps/1/nz.jpg"),
+      ]);
 
-      const doorAplhaTexture = textureLoader.load(
-        require("@/assets/textures/door/alpha.jpg")
-      ); // 透明纹理(蒙版)
-      const doorAoTexture = textureLoader.load(
-        require("@/assets/textures/door/ambientOcclusion.jpg")
-      ); // AO环境遮挡贴图
-      const doorHeightTexture = textureLoader.load(
-        require("@/assets/textures/door/height.jpg")
-      ); //导入置换贴图
-      const roughnessTexture = textureLoader.load(
-        require("@/assets/textures/door/roughness.jpg")
-      ); // 粗糙度贴图
-      const metalnessTexture = textureLoader.load(
-        require("@/assets/textures/door/metalness.jpg")
-      ); // 金属度贴图
-      const normalTexture = textureLoader.load(
-        require("@/assets/textures/door/normal.jpg")
-      ); // 法线贴图
-
-      // 添加物体
-      const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 100, 100, 100); // 创建一个立方体几何体
-      // 材质
+      const spereGeometry = new THREE.SphereGeometry(1, 32, 32);
       const material = new THREE.MeshStandardMaterial({
-        color: "#ffff00",
-        map: doorColorTexture,
-        alphaMap: doorAplhaTexture,
-        transparent: true,
-        aoMap: doorAoTexture,
-        aoMapIntensity: 1,
-        displacementMap: doorHeightTexture, // 置换贴图
-        displacementScale: 0.1, // 置换贴图的强度
-        roughnessMap: roughnessTexture, // 粗糙度贴图
-        roughness: 1,
-        metalnessMap: metalnessTexture, // 金属度贴图
-        metalness: 1,
-        normalMap: normalTexture, // 法线贴图
-        normalScale: new THREE.Vector2(0.5, 0.5), // 法线贴图的强度
-        // opacity: 0.5, // 透明度
-        side: THREE.DoubleSide, // 双面渲染
+        color: 0xffffff,
+        metalness: 0.7, // 金属感
+        roughness: 0.1, // 粗糙度
+        // envMap: envMapTexture,
       });
-      const cube = new THREE.Mesh(cubeGeometry, material); // 创建一个立方体网格模型
-      scene.add(cube); // 将立方体网格模型添加到场景中
-      // 给立方体设置第二组UV
-      cubeGeometry.setAttribute(
-        "uv2",
-        new THREE.BufferAttribute(cubeGeometry.attributes.uv.array, 2)
-      );
 
-      // 添加平面
-      const planeGeometry = new THREE.PlaneGeometry(1, 1, 200, 200); // 创建一个平面几何体
-      const plane = new THREE.Mesh(planeGeometry, material);
-      plane.position.set(1.5, 0, 0);
-      scene.add(plane);
-      // 给平面设置第二组UV
-      planeGeometry.setAttribute(
-        "uv2",
-        new THREE.BufferAttribute(planeGeometry.attributes.uv.array, 2)
-      );
+      const sphere = new THREE.Mesh(spereGeometry, material);
+      scene.add(sphere);
+
+      scene.background = envMapTexture; // 给场景添加背景
+      scene.environment = envMapTexture; // 设置默认环境纹理(同上面的envMap: envMapTexture)
 
       // 灯光
       // 环境光

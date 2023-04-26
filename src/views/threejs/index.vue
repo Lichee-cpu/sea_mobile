@@ -40,6 +40,7 @@ export default {
       { section: 15, name: "第十五节--贴图" },
       { section: 16, name: "第十六节--加载进度" },
       { section: 17, name: "第十七节--环境纹理" },
+      { section: 18, name: "第十八节--HDR加载" },
     ]);
     const setSection = (i) => {
       router.push({
