@@ -2,9 +2,9 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-26 11:48:27
- * @description: 贴图 素材：poliigon.com、3dtextures.me、arroway-textures.ch、cc0textures.com、quixel.com
- * @FilePath: \sea_mobile\src\views\threejs\demo\o.vue
+ * @LastEditTime: 2023-04-26 16:03:33
+ * @description: 环境纹理
+ * @FilePath: \sea_mobile\src\views\threejs\demo\p.vue
 -->
 <template>
   <div class="info">
@@ -39,15 +39,41 @@ export default {
         0.1,
         1000
       );
+
       // 3. 设置相机位置
       camera.position.set(0, 0, 10); // 默认相机位置是(0,0,0)
       scene.add(camera); // 将相机添加到场景中
 
+      // 事件
+      const event = {};
+      event.onLoad = () => {
+        console.log("纹理加载完成");
+      };
+      event.onProgress = (url, num, total) => {
+        console.log("纹理加载进度", url);
+        console.log("总数:"+total,"第"+num+"张",num/total*100+"%");
+      };
+      event.onError = (xhr) => {
+        console.log("纹理加载失败", xhr);
+      };
+
+      // 设置加载管理器
+      const loadingManager = new THREE.LoadingManager(
+        event.onLoad,
+        event.onProgress,
+        event.onError
+      );
+
       // 导入纹理
-      const textureLoader = new THREE.TextureLoader();
+      const textureLoader = new THREE.TextureLoader(loadingManager);
+      // 单张纹理的加载
       const doorColorTexture = textureLoader.load(
         require("@/assets/textures/door/color.jpg")
+        // event.onLoad,
+        // event.onProgress,
+        // event.onError
       ); // 透明纹理
+
       const doorAplhaTexture = textureLoader.load(
         require("@/assets/textures/door/alpha.jpg")
       ); // 透明纹理(蒙版)

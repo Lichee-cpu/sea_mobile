@@ -90,6 +90,16 @@ export const three = [
   {
     path: "/three-16",
     name: "ThreeDemo16",
-    component: () => import("@/views/threejs/demo/l"),
+    component: () => import("@/views/threejs/demo/p"),
+  },
+  {
+    path: "/three-17",
+    name: "ThreeDemo17",
+    component: () => import("@/views/threejs/demo/q"),
+  },
+  {
+    path: "/three-18",
+    name: "ThreeDemo18",
+    component: () => import("@/views/threejs/demo/p"),
   },
 ];
