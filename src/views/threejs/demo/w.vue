@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-28 16:29:14
+ * @LastEditTime: 2023-04-28 16:43:58
  * @description: VR看房
  * @FilePath: \sea_mobile\src\views\threejs\demo\w.vue
 -->
@@ -24,17 +24,31 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const title = route?.query?.title;
 
+// 陀螺仪数据
+const lastBeta = ref(0); // x轴
+const lastGamma = ref(0); // y轴
+const lastAlpha = ref(0); // z轴
+
 const handleDeviceOrientation = (event) => {
   // 获取陀螺仪数据
-  console.log("陀螺仪", event);
-  const alpha = event.alpha;
-  const beta = event.beta;
-  const gamma = event.gamma;
+  const beta = event.beta; // x轴
+  const gamma = event.gamma; // y轴
+  const alpha = event.alpha; // z轴
 
-  // 将陀螺仪数据应用于立方体的旋转
-  cube.rotation.x = (beta * Math.PI) / 180; // 俯仰角
-  cube.rotation.y = (gamma * Math.PI) / 180; // 方位角
-  cube.rotation.z = (alpha * Math.PI) / 180; // 滚动角
+  // 计算变化值
+  const betaChange = beta - lastBeta.value;
+  const gammaChange = gamma - lastGamma.value;
+  const alphaChange = alpha - lastAlpha.value;
+
+  // 保存当前值
+  lastBeta.value = beta;
+  lastGamma.value = gamma;
+  lastAlpha.value = alpha;
+
+  // 旋转相机, 陀螺仪的值是弧度, 除以180度转换为弧度, 降低旋转速度
+  camera.rotation.x += betaChange * (Math.PI / 180);
+  camera.rotation.y += gammaChange * (Math.PI / 180);
+  camera.rotation.z += alphaChange * (Math.PI / 180);
 
   // 渲染场景
   renderer.render(scene, camera);
