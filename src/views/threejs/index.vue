@@ -1,3 +1,11 @@
+<!--
+ * @Author: lxiang
+ * @Date: 2023-04-21 09:14:27
+ * @LastEditors: lxiang
+ * @LastEditTime: 2023-04-27 10:20:00
+ * @description: Modify here please
+ * @FilePath: \sea_mobile\src\views\threejs\index.vue
+-->
 <template>
   <div class="three">
     <Header title="ThreeJs" transparent :nav="true" :defaultNav="true" />
@@ -41,6 +49,11 @@ export default {
       { section: 16, name: "第十六节--加载进度" },
       { section: 17, name: "第十七节--环境纹理" },
       { section: 18, name: "第十八节--HDR加载" },
+      { section: 19, name: "第十九节--灯光" },
+      { section: 20, name: "第二十节--聚光灯" },
+      { section: 21, name: "第二十一节--点光源" },
+      { section: 22, name: "第二十二节--VR看房" },
+      { section: 23, name: "第二十三节--VR看房点击" },
     ]);
     const setSection = (i) => {
       router.push({
