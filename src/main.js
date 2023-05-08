@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:23
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 10:12:42
+ * @LastEditTime: 2023-05-08 16:34:19
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -30,6 +30,7 @@ import {
   Circle,
   Tab,
   Tabs,
+  Lazyload,
 } from "vant";
 
 const app = createApp(App);
@@ -49,6 +50,7 @@ app.use(Circle);
 app.use(Tab);
 app.use(Tabs);
 
+app.use(Lazyload);
 app.use(router);
 app.use(i18n);
 app.use(store);

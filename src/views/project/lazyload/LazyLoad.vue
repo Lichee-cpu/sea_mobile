@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-08 09:04:28
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 15:29:17
+ * @LastEditTime: 2023-05-08 16:43:25
  * @description: 原生懒加载
  * @FilePath: \sea_mobile\src\views\project\lazyload\LazyLoad.vue
 -->
@@ -30,9 +30,7 @@ export default {
       22, 23, 24, 25, 26, 27, 28, 29, 30,
     ];
     const observer = new IntersectionObserver((entries, observer) => {
-      console.log("entries", entries);
       entries.forEach((entry) => {
-        console.log("entry", entry.isIntersecting);
         if (entry.isIntersecting) {
           const lazyImage = entry.target; // 获取当前被观察的元素
           lazyImage.src = lazyImage.dataset.src; // 将data-src的值赋给src
