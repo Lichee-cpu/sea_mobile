@@ -1,7 +1,7 @@
 /*
  * @Author: lxiang
  * @Date: 2022-06-26 13:30:35
- * @LastEditTime: 2023-04-18 09:39:11
+ * @LastEditTime: 2023-05-08 10:14:03
  * @LastEditors: lxiang
  * @Description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
@@ -51,5 +51,10 @@ export const home = [
     path: "/approve",
     name: "Approve",
     component: () => import("@/views/project/approve/Approve.vue"),
+  },
+  {
+    path: "/lazy-load",
+    name: "LazyLoad",
+    component: () => import("@/views/project/lazyload/index.vue"),
   },
 ];

@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:23
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-26 18:43:51
+ * @LastEditTime: 2023-05-08 10:12:42
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -28,6 +28,8 @@ import {
   Popup,
   Uploader,
   Circle,
+  Tab,
+  Tabs,
 } from "vant";
 
 const app = createApp(App);
@@ -44,6 +46,8 @@ app.use(Icon);
 app.use(Popup);
 app.use(Uploader);
 app.use(Circle);
+app.use(Tab);
+app.use(Tabs);
 
 app.use(router);
 app.use(i18n);

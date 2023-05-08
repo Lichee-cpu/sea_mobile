@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-04-21 09:26:12
+ * @LastEditTime: 2023-05-08 10:09:55
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -40,6 +40,7 @@
       <div class="item" @click="goto('Chat')">聊天室</div>
       <div class="item" @click="goto('SeaPicker')">横向拉动选择</div>
       <div class="item" @click="goto('Upload')">文件上传</div>
+      <div class="item" @click="goto('LazyLoad')">懒加载</div>
       <div class="item" @click="goto('Pmp')">pmp试题</div>
       <div class="item" @click="goto('Approve')">审批流</div>
       <div class="item" @click="goto('Three')">ThreeJs</div>
