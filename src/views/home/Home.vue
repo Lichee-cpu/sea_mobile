@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-05-08 10:09:55
+ * @LastEditTime: 2023-05-08 17:24:27
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -35,14 +35,14 @@
       <span>{{ location }}</span>
     </div>
     <div class="middle">
-      <div class="item" @click="goto('Barrage')">弹幕</div>
-      <div class="item" @click="goto('AutoShow')">360°</div>
-      <div class="item" @click="goto('Chat')">聊天室</div>
-      <div class="item" @click="goto('SeaPicker')">横向拉动选择</div>
-      <div class="item" @click="goto('Upload')">文件上传</div>
-      <div class="item" @click="goto('LazyLoad')">懒加载</div>
-      <div class="item" @click="goto('Pmp')">pmp试题</div>
-      <div class="item" @click="goto('Approve')">审批流</div>
+      <div class="item" @click="goto('Barrage')">Barrage</div>
+      <div class="item" @click="goto('AutoShow')">car show</div>
+      <div class="item" @click="goto('Chat')">chatroom</div>
+      <div class="item" @click="goto('SeaPicker')">picker</div>
+      <div class="item" @click="goto('Upload')">Upload</div>
+      <div class="item" @click="goto('LazyLoad')">LazyLoad</div>
+      <div class="item" @click="goto('Pmp')">PMP</div>
+      <div class="item" @click="goto('Approve')">approval</div>
       <div class="item" @click="goto('Three')">ThreeJs</div>
     </div>
   </div>

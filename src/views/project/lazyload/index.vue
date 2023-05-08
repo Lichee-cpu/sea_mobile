@@ -47,5 +47,6 @@ export default {
 }
 .van-tabs {
   z-index: 1;
+  background-color: var(--group-bg);
 }
 </style>

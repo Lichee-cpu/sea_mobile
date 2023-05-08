@@ -2,72 +2,61 @@
  * @Author: lxiang
  * @Date: 2023-03-31 16:16:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-11 10:54:41
+ * @LastEditTime: 2023-05-08 17:35:28
  * @description: 文件上传压缩对比
  * @FilePath: \sea_mobile\src\views\project\upload\Upload.vue
 -->
 
 <template>
-  <div class="uplaod">
-    <Header title="文件上传" transparent :nav="true" :defaultNav="true" />
-    <div class="upload-box">
-      <div class="title">直接上传</div>
-      <div class="uploader">
-        <van-uploader
-          v-model="fileList2"
-          capture="camera"
-          :max-count="1"
-          :after-read="afterRead2"
-        >
-          <div class="image">
-            <img src="@/assets/login/sea.png" alt="" />
-          </div>
-        </van-uploader>
-      </div>
-
-      <div class="title">压缩上传</div>
-      <div class="uploader">
-        <van-uploader
-          v-model="fileList1"
-          capture="camera"
-          :max-count="1"
-          :after-read="afterRead1"
-          :before-read="compressImage"
-        >
-          <div class="image">
-            <img src="@/assets/login/sea.png" alt="" />
-          </div>
-        </van-uploader>
-      </div>
-    </div>
-    <div class="compare">
-      <!-- 原图 -->
-      <div class="original" v-if="original" @click="previewImage(original)">
-        <span>原图：{{ originalSize }}KB</span>
-        <img :src="original" alt="原图" />
-      </div>
-      <!-- 压缩 -->
-      <div
-        class="compressed"
-        v-if="compressed"
-        @click="previewImage(compressed)"
+  <div class="upload-box">
+    <div class="title">直接上传</div>
+    <div class="uploader">
+      <van-uploader
+        v-model="fileList2"
+        capture="camera"
+        :max-count="1"
+        :after-read="afterRead2"
       >
-        <span>压缩：{{ compressedSize }}KB </span>
-        <img :src="compressed" alt="压缩图" />
-      </div>
+        <div class="image">
+          <img src="@/assets/login/sea.png" alt="" />
+        </div>
+      </van-uploader>
+    </div>
+
+    <div class="title">压缩上传</div>
+    <div class="uploader">
+      <van-uploader
+        v-model="fileList1"
+        capture="camera"
+        :max-count="1"
+        :after-read="afterRead1"
+        :before-read="compressImage"
+      >
+        <div class="image">
+          <img src="@/assets/login/sea.png" alt="" />
+        </div>
+      </van-uploader>
+    </div>
+  </div>
+  <div class="compare">
+    <!-- 原图 -->
+    <div class="original" v-if="original" @click="previewImage(original)">
+      <span>原图：{{ originalSize }}KB</span>
+      <img :src="original" alt="原图" />
+    </div>
+    <!-- 压缩 -->
+    <div class="compressed" v-if="compressed" @click="previewImage(compressed)">
+      <span>压缩：{{ compressedSize }}KB </span>
+      <img :src="compressed" alt="压缩图" />
     </div>
   </div>
 </template>
 
 <script>
-import Header from "@/components/header/Header.vue";
 import { ref, getCurrentInstance } from "vue";
 import { Toast, ImagePreview } from "vant";
 
 export default {
-  components: {
-    Header,
-  },
   setup() {
     const { proxy } = getCurrentInstance();
 
@@ -209,9 +198,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.uplaod {
-  padding-top: var(--nav-bar-height);
-}
 .upload-box {
   padding: 16px;
   .title {
@@ -225,7 +211,7 @@ export default {
     }
   }
   .image {
-    background: #e3e3e3;
+    background: var(--group-bg2);
     width: 100%;
     border-radius: 24px;
     img {
