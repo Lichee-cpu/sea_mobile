@@ -3,7 +3,7 @@
  * @Date: 2023-05-08 16:34:50
  * @LastEditors: lxiang
  * @LastEditTime: 2023-05-08 16:37:44
- * @description: Modify here please
+ * @description: vant的懒加载
  * @FilePath: \sea_mobile\src\views\project\lazyload\LazyVant.vue
 -->
 <template>

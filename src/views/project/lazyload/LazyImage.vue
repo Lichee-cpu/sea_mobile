@@ -1,5 +1,9 @@
 <template>
-  <img src="@/assets/login/sea.png" :data-src="src" ref="imgRef" />
+  <img
+    src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    :data-src="src"
+    ref="imgRef"
+  />
 </template>
 
 <script>
@@ -12,7 +16,6 @@ export default {
   },
   setup() {
     const imgRef = ref(null);
-    const defaultImg = require("@/assets/login/sea.png");
     useIntersectionObserver(imgRef, ([{ isIntersecting }], observerElement) => {
       if (isIntersecting) {
         imgRef.value.src = imgRef.value.dataset.src; // 将data-src的值赋给src
@@ -22,7 +25,6 @@ export default {
 
     return {
       imgRef,
-      defaultImg,
     };
   },
 };

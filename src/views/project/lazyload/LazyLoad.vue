@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-08 09:04:28
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 16:43:25
+ * @LastEditTime: 2023-05-08 16:59:18
  * @description: 原生懒加载
  * @FilePath: \sea_mobile\src\views\project\lazyload\LazyLoad.vue
 -->
@@ -13,7 +13,7 @@
         v-for="item in images"
         :key="item"
         class="img"
-        src="@/assets/login/sea.png"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
         :data-src="`http://img.lichee.top/img/autoshow/golf${item}.jpg`"
       />
     </div>
@@ -38,10 +38,15 @@ export default {
         }
       });
     });
+    // q:是否需要设置图片高度，否则会一次把所有图片加载完
+    // a:不需要，因为图片的高度是固定的，所以不需要设置高度
+    // q:图片高度不固定怎么办？
+    // a:可以在图片加载完成之后，获取图片的高度，然后设置图片的高度
 
     onMounted(() => {
       const images = Native.value.querySelectorAll("img"); // 获取所有img元素
       images.forEach((image) => {
+        console.log("image", image.height);
         observer.observe(image);
       });
     });

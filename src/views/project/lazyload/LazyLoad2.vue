@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-08 09:04:28
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 15:48:34
+ * @LastEditTime: 2023-05-08 17:02:54
  * @description: 原生懒加载
  * @FilePath: \sea_mobile\src\views\project\lazyload\LazyLoad2.vue
 -->
@@ -18,19 +18,14 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import {  ref } from "vue";
 import LazyImage from "./LazyImage.vue";
 export default {
   components: {
     LazyImage,
   },
   setup() {
-    const images = ref([]);
-
-    onMounted(() => {
-      // 等到所有图片元素都被渲染到页面上之后，进行观察，否则第一次还是会出现加载全部图片的情况
-      images.value.push(2, 12, 32, 42, 52, 62, 3, 13, 23, 33, 43);
-    });
+    const images = ref([2, 12, 32, 42, 52, 62, 3, 13, 23, 33, 43]);
 
     return {
       images,

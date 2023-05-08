@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-08 09:04:28
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 16:40:07
+ * @LastEditTime: 2023-05-08 16:46:41
  * @description: 懒加载
  * @FilePath: \sea_mobile\src\views\project\lazyload\index.vue
 -->
@@ -14,10 +14,10 @@
         <LazyVant />
       </van-tab>
       <van-tab title="原生js">
-        <LazyLoad v-if="active == 1" />
+        <LazyLoad />
       </van-tab>
       <van-tab title="vueuse">
-        <LazyLoad2 v-if="active == 2" />
+        <LazyLoad2 />
       </van-tab>
     </van-tabs>
     <router-view />
