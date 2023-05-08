@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-08 09:04:28
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 16:59:18
+ * @LastEditTime: 2023-05-08 17:07:33
  * @description: 原生懒加载
  * @FilePath: \sea_mobile\src\views\project\lazyload\LazyLoad.vue
 -->
@@ -46,7 +46,6 @@ export default {
     onMounted(() => {
       const images = Native.value.querySelectorAll("img"); // 获取所有img元素
       images.forEach((image) => {
-        console.log("image", image.height);
         observer.observe(image);
       });
     });
