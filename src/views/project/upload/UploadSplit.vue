@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-09 09:00:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-09 11:34:29
+ * @LastEditTime: 2023-05-09 16:07:17
  * @description: 分片上传
  * @FilePath: \sea_mobile\src\views\project\upload\UploadSplit.vue
 -->
@@ -105,7 +105,7 @@ export default {
               const currentProgress = Math.round(
                 (uploadedSize / file.value.size) * 100
               );
-              progress.value = currentProgress;
+              progress.value = currentProgress >= 100 ? 100 : currentProgress;
             },
           });
           uploadedChunks++;
