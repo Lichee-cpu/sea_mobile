@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-31 16:16:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 17:37:29
+ * @LastEditTime: 2023-05-09 08:50:39
  * @description: 文件上传
  * @FilePath: \sea_mobile\src\views\project\upload\index.vue
 -->
@@ -14,7 +14,9 @@
       <van-tab title="压缩">
         <Upload />
       </van-tab>
-      <van-tab title="分片"> 分片上传、断点续传 </van-tab>
+      <van-tab title="分片">
+        <UploadSplit />
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -23,10 +25,12 @@
 import Header from "@/components/header/Header.vue";
 import { ref } from "vue";
 import Upload from "./Upload.vue";
+import UploadSplit from "./UploadSplit.vue";
 export default {
   components: {
     Header,
     Upload,
+    UploadSplit,
   },
   setup() {
     const active = ref(0);
