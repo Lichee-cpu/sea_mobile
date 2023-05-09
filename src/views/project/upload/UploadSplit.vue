@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-09 09:00:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-09 16:07:17
+ * @LastEditTime: 2023-05-09 11:34:29
  * @description: 分片上传
  * @FilePath: \sea_mobile\src\views\project\upload\UploadSplit.vue
 -->
@@ -95,6 +95,7 @@ export default {
 
         try {
           const res = await proxy.$http.post("/api/upload/split", formData, {
+            timeout: 60000,
             headers: {
               "Content-Type": "multipart/form-data",
             },
