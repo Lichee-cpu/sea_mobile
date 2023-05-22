@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:56
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-12 18:43:24
+ * @LastEditTime: 2023-05-22 09:29:33
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\utils\wechat2.js
  */
@@ -19,7 +19,7 @@ const WeChat = {
           if (appId) {
             wx.config({
               beta: true,
-              debug: true,
+              debug: false,
               appId: appId,
               timestamp: timestamp,
               nonceStr: noncestr,
