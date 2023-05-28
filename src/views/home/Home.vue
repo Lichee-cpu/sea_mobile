@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-05-08 17:24:27
+ * @LastEditTime: 2023-05-25 13:02:35
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -44,6 +44,7 @@
       <div class="item" @click="goto('Pmp')">PMP</div>
       <div class="item" @click="goto('Approve')">approval</div>
       <div class="item" @click="goto('Three')">ThreeJs</div>
+      <div class="item" @click="goto('Web3')">web3</div>
     </div>
   </div>
 </template>

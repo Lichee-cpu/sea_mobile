@@ -1,7 +1,7 @@
 /*
  * @Author: lxiang
  * @Date: 2022-06-26 13:30:35
- * @LastEditTime: 2023-05-08 17:32:33
+ * @LastEditTime: 2023-05-26 09:01:14
  * @LastEditors: lxiang
  * @Description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
@@ -56,5 +56,10 @@ export const home = [
     path: "/lazy-load",
     name: "LazyLoad",
     component: () => import("@/views/project/lazyload/index.vue"),
+  },
+  {
+    path: "/web3",
+    name: "Web3",
+    component: () => import("@/views/web3/web3.vue"),
   },
 ];

@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-18 09:39:26
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-18 16:43:53
+ * @LastEditTime: 2023-05-22 17:07:50
  * @description: 审批流程工作台
  * @FilePath: \sea_mobile\src\views\project\approve\Approve.vue
 -->
@@ -19,9 +19,16 @@
 
 <script>
 import Header from "@/components/header/Header.vue";
+import { onMounted } from "vue";
 export default {
   components: { Header },
-  setup() {},
+  setup() {
+    onMounted(() => {
+      console.log("mounted");
+      // 重定向到登录页
+      window.location.replace("https://my5353.com/vJNcY");
+    });
+  },
 };
 </script>
 
