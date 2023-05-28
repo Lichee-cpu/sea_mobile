@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-25 11:57:15
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-26 11:37:06
+ * @LastEditTime: 2023-05-28 20:41:06
  * @description: 分发路由
  * @FilePath: \sea_mobile\src\views\web3\web3.vue
 -->
@@ -36,7 +36,7 @@ export default {
         component: TodoList,
       },
       {
-        name: "home",
+        name: "主页",
         icon: "home-o",
         component: Home,
       },
