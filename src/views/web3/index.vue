@@ -47,49 +47,33 @@
     </div>
     <!-- 转账 -->
     <div class="send-box" v-show="active == 'send'">
-      <div class="step1" v-if="step == 1">
+      <div class="form">
+        <div :class="[step !== 1 ? 'show' : '', 'address']" v-if="step !== 1">
+          {{ to.substring(0, 4) + "..." + to.substring(to.length - 6) }}
+        </div>
         <div class="input-box">
           <input
-            v-model="to"
             type="text"
             placeholder="请输入接收地址"
-            class="input"
+            v-model="to"
+            :class="[step == 1 ? '' : 'shrink']"
           />
-        </div>
-        <div
-          :class="[to.length == 42 ? 'active' : '', 'next']"
-          @click="if (to.length == 42) stepAdd();"
-        >
-          下一步
-        </div>
-      </div>
-      <div class="step2" v-if="step == 2">
-        <span>
-          {{ to.substring(0, 4) + "..." + to.substring(to.length - 6) }}
-        </span>
-        <div class="input-box">
           <input
-            v-model="amount"
-            type="number"
+            v-if="step == 2"
+            type="text"
             placeholder="请输入转账金额"
-            class="input"
+            v-model="amount"
+            class="animated-block block-1"
           />
-          <span>ETH</span>
-        </div>
-        <div class="submit">
-          <van-icon
-            name="close"
-            size="48px"
-            color="var(--grey)"
-            @click="close"
-          />
-          <van-icon
-            name="passed"
-            size="48px"
-            color="var(--green)"
-            @click="transfer"
+          <input
+            v-if="step == 2"
+            type="text"
+            placeholder="请输入备注"
+            v-model="remark"
+            class="animated-block block-2"
           />
         </div>
+        <div class="next" @click="stepAdd">下一步</div>
       </div>
     </div>
     <!-- 接收 -->
@@ -125,6 +109,7 @@ export default {
       unit: "ETH", // 余额单位
       to: "", // 接收地址
       amount: "", // 转账金额
+      remark: "", // 备注
     });
     const active = ref("send"); // 交易类型
     const qrCodeDataUrl = ref(null); // 二维码
@@ -208,6 +193,8 @@ export default {
     const stepAdd = () => {
       if (step.value < 2) {
         step.value++;
+      } else if (step.value == 2) {
+        transfer();
       }
     };
 
@@ -220,9 +207,7 @@ export default {
     // 发送交易
     const transfer = async () => {
       try {
-        const data = web3.utils.asciiToHex(
-          "This is a transaction remark. CCCC"
-        );
+        const data = web3.utils.asciiToHex(state.remark);
         const value = web3.utils.toWei(state.amount.toString(), "ether"); // 转账金额
         await web3.eth.sendTransaction({
           from: walletAddress.value,
@@ -366,55 +351,84 @@ export default {
 }
 
 .send-box {
-  position: relative;
-  text-align: center;
-  border: 1px solid var(--split2);
-  width: 90%;
-  height: 164px;
-  margin: 10% auto;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 5px 6px 5px 2px #e2e2e2;
-  .step1 {
-    margin-top: 20px;
-  }
-  .step2 {
-    text-align: left;
-    .input-box {
-      margin-top: 4px;
-      .input {
-        width: 85%;
-      }
-      span {
-        margin-left: 4px;
-      }
-    }
-  }
-  .input-box {
-    height: 3em;
-    .input {
-      padding: 8px;
-      width: 100%;
-      height: 100%;
-      border: 0.5px solid var(--split);
-      background: none;
-    }
-  }
-  .next {
-    width: 80%;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
+  .form {
+    width: 90%;
+    margin: 60px auto;
+    border: 1px solid;
+    padding: 16px;
     border-radius: 8px;
-    background-color: var(--tag3);
-    color: #ffffff;
-    margin: 20px auto;
-  }
-  .submit {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 12px;
+    transition: all 2s ease;
+
+    .address {
+      color: var(--tag2);
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      input {
+        padding: 4px;
+        border: 0.5px solid #e0e0e0;
+        line-height: 24px;
+        margin-bottom: 14px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+      .shrink {
+        width: 0;
+        height: 0;
+        padding: 0;
+        margin: 0;
+        animation: show 0.3s linear reverse;
+      }
+
+      .animated-block {
+        opacity: 0;
+        animation: fade-in 1s forwards;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .block-1 {
+        animation-delay: 0s;
+      }
+
+      .block-2 {
+        animation-delay: 1s;
+      }
+    }
+
+    .next {
+      width: 50%;
+      margin: 0 auto;
+      border: 1px solid var(--yellow);
+      background: var(--yellow);
+      border-radius: 4px;
+      color: #fff;
+      text-align: center;
+      padding: 8px;
+    }
+    .show {
+      margin-bottom: 14px;
+      animation: show 0.3s linear;
+    }
+
+    @keyframes show {
+      0% {
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 0.8;
+      }
+    }
   }
 }
 
