@@ -1,7 +1,7 @@
 /*
  * @Author: lxiang
  * @Date: 2022-06-26 13:30:35
- * @LastEditTime: 2023-05-26 09:01:14
+ * @LastEditTime: 2023-05-28 21:01:44
  * @LastEditors: lxiang
  * @Description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
@@ -61,5 +61,10 @@ export const home = [
     path: "/web3",
     name: "Web3",
     component: () => import("@/views/web3/web3.vue"),
+  },
+  {
+    path: "/qr-code",
+    name: "QrCode",
+    component: () => import("@/views/project/qr-droid/index.vue"),
   },
 ];
