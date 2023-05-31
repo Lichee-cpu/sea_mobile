@@ -87,6 +87,11 @@ export default {
       startCamera();
     });
 
+    // 销毁时停止视频流
+    onBeforeUnmount(() => {
+      stopCamera();
+    });
+
     return {
       video,
       canvas,
