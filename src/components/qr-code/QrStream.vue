@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onBeforeUnmount } from "vue";
 import jsQR from "jsqr";
 
 export default {
