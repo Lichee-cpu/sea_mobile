@@ -2,13 +2,14 @@
  * @Author: lxiang
  * @Date: 2023-03-16 14:22:51
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-07 16:09:16
+ * @LastEditTime: 2023-05-28 21:38:20
  * @description: Modify here please
  * @FilePath: \sea_mobile\vue.config.js
  */
 module.exports = {
   devServer: {
     port: 8088,
+    https: true,
     proxy: {
       "/api/test": {
         target: "https://wechat.pmxyj.cn",
@@ -36,5 +37,6 @@ module.exports = {
         logLevel: "debug",
       },
     },
+    
   },
 };

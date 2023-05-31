@@ -52,12 +52,21 @@
           {{ to.substring(0, 4) + "..." + to.substring(to.length - 6) }}
         </div>
         <div class="input-box">
-          <input
-            type="text"
-            placeholder="请输入接收地址"
-            v-model="to"
-            :class="[step == 1 ? '' : 'shrink']"
-          />
+          <div :class="[step == 1 ? 'step1-box' : 'shrink']">
+            <input
+              type="text"
+              placeholder="请输入接收地址"
+              v-model="to"
+              :class="[step == 1 ? 'step1' : 'shrink']"
+            />
+            <van-icon
+              @click="scanAddress"
+              v-if="step == 1"
+              name="scan"
+              :class="[step == 1 ? 'step1-icon' : 'shrink']"
+            />
+          </div>
+
           <input
             v-if="step == 2"
             type="text"
@@ -91,6 +100,11 @@
         }}<van-icon name="link-o" />
       </div>
     </div>
+
+    <!-- 弹窗 -->
+    <van-popup v-model:show="showTop" position="top" :style="{ height: '30%' }">
+      <qr-stream @decode="result" v-if="showTop" />
+    </van-popup>
   </div>
 </template>
 
@@ -99,8 +113,12 @@ import { onMounted, reactive, ref, toRefs } from "vue";
 import web3 from "./web3";
 import { Toast } from "vant";
 import QRCode from "qrcode";
+import QrStream from "@/components/qr-code/QrStream.vue";
 
 export default {
+  components: {
+    QrStream,
+  },
   setup() {
     const walletAddress = ref(null); // 当前钱包地址
     const connected = ref(false); // 是否连接钱包
@@ -224,6 +242,19 @@ export default {
       }
     };
 
+    // 扫描模块
+    const showTop = ref(false); // 是否显示弹窗
+
+    // 打开弹窗进行扫描
+    const scanAddress = () => {
+      showTop.value = true;
+    };
+    const result = (res) => {
+      state.to = res;
+      showTop.value = false;
+      console.log("扫描结果", res);
+    };
+
     onMounted(() => {
       checkConnection(); // 检查是否连接钱包
       // 监听Metamask中帐户切换事件
@@ -240,12 +271,15 @@ export default {
       walletAddress,
       qrCodeDataUrl,
       step,
+      showTop,
       close,
       transfer,
       getWalletAddress,
       copyAddress,
       change,
       stepAdd,
+      scanAddress,
+      result,
     };
   },
 };
@@ -374,6 +408,19 @@ export default {
         margin-bottom: 14px;
         border-radius: 4px;
         transition: all 0.3s ease;
+      }
+      .step1-box {
+        display: flex;
+        align-items: center;
+      }
+      .step1 {
+        width: 90%;
+      }
+      .step1-icon {
+        font-size: larger;
+        font-weight: bold;
+        margin-left: 8px;
+        margin-bottom: 14px;
       }
       .shrink {
         width: 0;
