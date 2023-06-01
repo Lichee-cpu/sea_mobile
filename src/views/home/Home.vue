@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-05-25 13:02:35
+ * @LastEditTime: 2023-05-31 17:01:27
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -154,7 +154,7 @@ export default {
             );
           })
           .catch(() => {
-            this.getLocation(); // 微信环境下获取定位失败，使用h5定位
+            getLocation(); // 微信环境下获取定位失败，使用h5定位
           });
       }
     };

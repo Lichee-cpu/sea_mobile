@@ -2,11 +2,11 @@
  * @Author: lxiang
  * @Date: 2022-05-30 17:45:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-21 09:25:53
+ * @LastEditTime: 2023-06-01 15:50:30
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\index.js
  */
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import { home } from "./home";
 import { login } from "./login";
 import { three } from "./three";
@@ -35,7 +35,8 @@ const routes = [
 ];
 const router = createRouter({
   routes,
-  history: createWebHashHistory(),
+  history: createWebHistory(), // hash模式：createWebHashHistory，history模式：createWebHistory
+  // history: createWebHashHistory(), // hash模式：createWebHashHistory，history模式：createWebHistory
 });
 
 // 路由守卫
