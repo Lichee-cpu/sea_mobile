@@ -2,12 +2,12 @@
  * @Author: lxiang
  * @Date: 2023-06-07 15:20:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-08 15:21:42
+ * @LastEditTime: 2023-06-13 17:37:50
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\metting\index.vue
 -->
 <template>
-  <div>
+  <div class="metting" @click="pos.isDragging = false">
     <!-- 开关 -->
     <div class="switch">
       <div
@@ -26,26 +26,40 @@
       </div>
     </div>
     <div class="canvas">
-      <!-- 摄像头 -->
-      <div class="camera-box">
-        <video src="" ref="camera"></video>
-      </div>
       <!-- 共享屏幕 -->
       <div class="screen-box">
         <video src="" ref="screen"></video>
+      </div>
+      <!-- 摄像头 -->
+      <div
+        v-show="cameraStatus"
+        class="camera-box"
+        ref="cameraBox"
+        :style="`top:${pos.ypos}px;left:${pos.xpos}px`"
+        @mousedown="dragStart"
+        @mousemove="drag"
+        @mouseup="dragEnd"
+      >
+        <video src="" ref="camera"></video>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 export default {
   setup() {
     const camera = ref(null); // 摄像头
     const screen = ref(null); // 共享屏幕
     const cameraStatus = ref(false); // 摄像头开关状态
     const screenStatus = ref(false); // 共享屏幕开关状态
+    const cameraBox = ref(null); // 摄像头显示模块
+    const pos = reactive({
+      xpos: 0,
+      ypos: 80,
+      isDragging: false,
+    });
 
     // 控制摄像头
     const handleCamera = async () => {
@@ -100,24 +114,48 @@ export default {
       }
     };
 
+    // dragStart
+    const dragStart = () => {
+      pos.isDragging = true;
+    };
+    // drag
+    const drag = (e) => {
+      if (pos.isDragging) {
+        pos.xpos += e.movementX;
+        pos.ypos += e.movementY;
+      }
+    };
+    //dragEnd
+    const dragEnd = () => {
+      pos.isDragging = false;
+    };
+
     return {
       camera,
       screen,
+      cameraBox,
       cameraStatus,
       screenStatus,
+      pos,
       handleCamera,
       handleScreen,
+      dragStart,
+      drag,
+      dragEnd,
     };
   },
 };
 </script>
 
 <style lang="less" scoped>
+.metting {
+  height: 100vh;
+}
 .switch {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 20px;
+  padding: 20px;
   .camera,
   .screen {
     width: 30%;
@@ -130,6 +168,24 @@ export default {
   }
   .active {
     background-color: var(--yellow);
+  }
+}
+.canvas {
+  height: calc(~"100% - 80px");
+  .screen-box {
+    height: 100%;
+  }
+}
+.camera-box {
+  position: fixed;
+  bottom: 8px;
+  left: 8px;
+  height: 200px;
+  cursor: move;
+  z-index: 9;
+  video {
+    height: 100%;
+    transform: scaleX(-1);
   }
 }
 </style>
