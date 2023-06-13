@@ -1,9 +1,9 @@
 /*
  * @Author: lxiang
- * @Date: 2022-06-26 13:30:35
- * @LastEditTime: 2023-05-31 09:49:24
+ * @Date: 2023-05-22 16:58:57
  * @LastEditors: lxiang
- * @Description: Modify here please
+ * @LastEditTime: 2023-06-07 15:23:53
+ * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
  */
 export const home = [
@@ -66,5 +66,10 @@ export const home = [
     path: "/qr-code",
     name: "QrCode",
     component: () => import("@/components/qr-code/QrStream.vue"),
+  },
+  {
+    path: "/metting",
+    name: "Metting",
+    component: () => import("@/views/project/metting/index.vue"),
   },
 ];

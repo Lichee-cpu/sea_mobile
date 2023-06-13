@@ -2,15 +2,15 @@
  * @Author: lxiang
  * @Date: 2023-03-16 14:22:51
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-02 19:16:43
+ * @LastEditTime: 2023-06-13 15:12:35
  * @description: Modify here please
  * @FilePath: \sea_mobile\vue.config.js
  */
 module.exports = {
   devServer: {
     port: 8088,
-    https: true,
-    publicPath: "/app/",
+    // https: true,
+    // publicPath: "/app/",
     proxy: {
       "/api/test": {
         target: "https://wechat.pmxyj.cn",
