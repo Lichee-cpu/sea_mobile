@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-06-07 15:20:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-13 17:37:50
+ * @LastEditTime: 2023-06-16 09:57:36
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\metting\index.vue
 -->
@@ -86,31 +86,26 @@ export default {
     };
 
     // 控制共享屏幕开关
-    const handleScreen = () => {
-      screenStatus.value = !screenStatus.value;
-      if (screenStatus.value) {
-        console.log("打开共享屏幕");
-        //创建mediaStreamConstraints对象
-        const mediaStreamConstraints = {
-          video: {
-            mediaSource: "screen",
-            width: { max: "1920" },
-            height: { max: "1080" },
-            frameRate: { max: "30" },
-          },
-        };
-        navigator.mediaDevices
-          .getUserMedia(mediaStreamConstraints)
-          .then((stream) => {
-            screen.value.srcObject = stream; // 将视频流设置为video元素的源
-            screen.value.play(); // 播放视频
-          })
-          .catch((err) => {
-            console.error("Failed to get screen share stream", err);
+    const handleScreen = async () => {
+      if (!screenStatus.value) {
+        try {
+          const stream = await navigator.mediaDevices.getDisplayMedia({
+            audio: false,
+            video: { mediaSource: "screen" },
           });
+          screen.value.srcObject = stream; // 将视频流设置为video元素的源
+          screen.value.play(); // 播放视频
+          screenStatus.value = !screenStatus.value;
+        } catch (err) {
+          console.error(err); // 无法访问用户媒体设备
+        }
       } else {
-        console.log("关闭共享屏幕");
-        screen.value.srcObject.getTracks().forEach((track) => track.stop()); // 停止视频流
+        try {
+          screen.value.srcObject.getTracks().forEach((track) => track.stop()); // 停止视频流
+          screenStatus.value = !screenStatus.value;
+        } catch (err) {
+          console.error(err);
+        }
       }
     };
 
@@ -170,22 +165,59 @@ export default {
     background-color: var(--yellow);
   }
 }
+/* 默认布局 */
 .canvas {
   height: calc(~"100% - 80px");
+  display: flex;
+  justify-content: space-between; /* 在每个项目之间添加间隔 */
+
   .screen-box {
+    padding: 10px;
+    margin: 0 5px; /* 项目内部的间隔 */
+    // background: var(--teat);
     height: 100%;
+    flex: 1;
+    video {
+      border: 1px solid var(--tag3);
+      border-radius: 8px;
+      padding: 4px;
+      width: 100%;
+    }
+  }
+  .camera-box {
+    padding: 10px;
+    margin: 0 5px; /* 项目内部的间隔 */
+    // background: var(--teat);
+    width: 16%;
+    video {
+      border-radius: 8px;
+      width: 100%;
+      transform: scaleX(-1);
+    }
   }
 }
-.camera-box {
-  position: fixed;
-  bottom: 8px;
-  left: 8px;
-  height: 200px;
-  cursor: move;
-  z-index: 9;
-  video {
-    height: 100%;
-    transform: scaleX(-1);
-  }
-}
+/* 拖拽 */
+// .canvas {
+//   height: calc(~"100% - 80px");
+//   .screen-box {
+//     width: 100%;
+//     height: 100%;
+//     video {
+//       width: 100%;
+//       max-height: 100%;
+//     }
+//   }
+//   .camera-box {
+//     position: fixed;
+//     bottom: 8px;
+//     left: 8px;
+//     height: 200px;
+//     cursor: move;
+//     z-index: 9;
+//     video {
+//       height: 100%;
+//       transform: scaleX(-1);
+//     }
+//   }
+// }
 </style>
