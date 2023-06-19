@@ -2,8 +2,8 @@
  * @Author: lxiang
  * @Date: 2023-06-07 15:20:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-16 09:57:36
- * @description: Modify here please
+ * @LastEditTime: 2023-06-19 15:37:03
+ * @description: webRTC视频会议
  * @FilePath: \sea_mobile\src\views\project\metting\index.vue
 -->
 <template>
@@ -32,7 +32,6 @@
       </div>
       <!-- 摄像头 -->
       <div
-        v-show="cameraStatus"
         class="camera-box"
         ref="cameraBox"
         :style="`top:${pos.ypos}px;left:${pos.xpos}px`"
@@ -40,6 +39,7 @@
         @mousemove="drag"
         @mouseup="dragEnd"
       >
+        <canvas ref="canvas" class="camera-canvas"></canvas>
         <video src="" ref="camera"></video>
       </div>
     </div>
@@ -47,14 +47,20 @@
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { onMounted, onUnmounted, reactive, ref } from "vue";
+import { io } from "socket.io-client";
+
 export default {
   setup() {
+    const socket = io("http://localhost:8989");
     const camera = ref(null); // 摄像头
     const screen = ref(null); // 共享屏幕
     const cameraStatus = ref(false); // 摄像头开关状态
     const screenStatus = ref(false); // 共享屏幕开关状态
     const cameraBox = ref(null); // 摄像头显示模块
+    const canvas = ref(null); // 画布
+    const context = ref(null); // 画布上下文
+    const animationId = ref(null); // 动画id
     const pos = reactive({
       xpos: 0,
       ypos: 80,
@@ -72,6 +78,7 @@ export default {
           camera.value.srcObject = stream; // 将视频流设置为video元素的源
           camera.value.play(); // 播放视频
           cameraStatus.value = !cameraStatus.value;
+          animationId.value = requestAnimationFrame(sendVideoData);
         } catch (err) {
           console.error(err); // 无法访问用户媒体设备
         }
@@ -79,6 +86,7 @@ export default {
         try {
           camera.value.srcObject.getTracks().forEach((track) => track.stop()); // 停止视频流
           cameraStatus.value = !cameraStatus.value;
+          cancelAnimationFrame(animationId.value);
         } catch (err) {
           console.error(err);
         }
@@ -109,6 +117,52 @@ export default {
       }
     };
 
+    // 将视频数据转换成画布数据，并将画布数据转换成Base64编码的字符串
+    const sendVideoData = () => {
+      context.value = canvas.value.getContext("2d");
+      canvas.value.width = camera.value.offsetWidth;
+      canvas.value.height = camera.value.offsetWidth * 0.75; // 4:3
+      // 将视频数据绘制到画布上
+      context.value.drawImage(
+        camera.value,
+        0,
+        0,
+        canvas.value.width,
+        canvas.value.height
+      );
+      const data = canvas.value.toDataURL();
+      socket.emit("message", data);
+      animationId.value = requestAnimationFrame(sendVideoData);
+    };
+
+    onMounted(() => {
+      socket.on("connect", () => {
+        console.log("连接成功");
+      });
+      socket.emit("message", "data11");
+      context.value = canvas.value.getContext("2d");
+
+      // 接收消息
+      socket.on("message", (data) => {
+        canvas.value.width = camera.value.offsetWidth;
+        canvas.value.height = camera.value.offsetWidth * 0.75; // 4:3
+        const img = new Image();
+        img.src = data;
+        img.onload = () => {
+          context.value.drawImage(
+            img,
+            0,
+            0,
+            canvas.value.width,
+            canvas.value.height
+          );
+        };
+      });
+    });
+    onUnmounted(() => {
+      socket.disconnect();
+    });
+
     // dragStart
     const dragStart = () => {
       pos.isDragging = true;
@@ -126,6 +180,7 @@ export default {
     };
 
     return {
+      canvas,
       camera,
       screen,
       cameraBox,
@@ -192,6 +247,7 @@ export default {
     video {
       border-radius: 8px;
       width: 100%;
+      height: auto;
       transform: scaleX(-1);
     }
   }
