@@ -2,12 +2,12 @@
  * @Author: lxiang
  * @Date: 2023-06-07 15:20:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-19 18:15:01
+ * @LastEditTime: 2023-06-19 15:37:03
  * @description: webRTC视频会议
  * @FilePath: \sea_mobile\src\views\project\metting\index.vue
 -->
 <template>
-  <div class="metting">
+  <div class="metting" @click="pos.isDragging = false">
     <!-- 开关 -->
     <div class="switch">
       <div
@@ -31,30 +31,23 @@
         <video src="" ref="screen"></video>
       </div>
       <!-- 摄像头 -->
-      <div class="camera-box" ref="cameraBox">
-        <video src="" ref="camera" controls></video>
-        <div @click="micClick">
-          <img
-            src="@/assets/project/maikefeng.png"
-            class="mic"
-            alt=""
-            v-show="!mic"
-          />
-          <img
-            src="@/assets/project/maikefengactive.png"
-            class="mic"
-            alt=""
-            v-show="mic"
-          />
-        </div>
-        <audio src="" ref="audio"></audio>
+      <div
+        class="camera-box"
+        ref="cameraBox"
+        :style="`top:${pos.ypos}px;left:${pos.xpos}px`"
+        @mousedown="dragStart"
+        @mousemove="drag"
+        @mouseup="dragEnd"
+      >
+        <canvas ref="canvas" class="camera-canvas"></canvas>
+        <video src="" ref="camera"></video>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, reactive, ref } from "vue";
 import { io } from "socket.io-client";
 
 export default {
@@ -65,8 +58,14 @@ export default {
     const cameraStatus = ref(false); // 摄像头开关状态
     const screenStatus = ref(false); // 共享屏幕开关状态
     const cameraBox = ref(null); // 摄像头显示模块
-    const audio = ref(null); // 音频
-    const mic = ref(false); // 麦克风
+    const canvas = ref(null); // 画布
+    const context = ref(null); // 画布上下文
+    const animationId = ref(null); // 动画id
+    const pos = reactive({
+      xpos: 0,
+      ypos: 80,
+      isDragging: false,
+    });
 
     // 控制摄像头
     const handleCamera = async () => {
@@ -79,7 +78,7 @@ export default {
           camera.value.srcObject = stream; // 将视频流设置为video元素的源
           camera.value.play(); // 播放视频
           cameraStatus.value = !cameraStatus.value;
-          micClick(true); // 打开麦克风
+          animationId.value = requestAnimationFrame(sendVideoData);
         } catch (err) {
           console.error(err); // 无法访问用户媒体设备
         }
@@ -87,32 +86,7 @@ export default {
         try {
           camera.value.srcObject.getTracks().forEach((track) => track.stop()); // 停止视频流
           cameraStatus.value = !cameraStatus.value;
-          micClick(false); // 打开麦克风
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    };
-
-    // 控制麦克风
-    const micClick = async (...params) => {
-      mic.value = params.some((param) => typeof param === "boolean")
-        ? params[0]
-        : !mic.value;
-      if (mic.value) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: false,
-          });
-          audio.value.srcObject = stream; // 将视频流设置为video元素的源
-          audio.value.play(); // 播放视频
-        } catch (err) {
-          console.error(err); // 无法访问用户媒体设备
-        }
-      } else {
-        try {
-          audio.value.srcObject.getTracks().forEach((track) => track.stop()); // 停止视频流
+          cancelAnimationFrame(animationId.value);
         } catch (err) {
           console.error(err);
         }
@@ -143,32 +117,81 @@ export default {
       }
     };
 
-    // 初始化推流
-    const initPull = () => {
-      // 初始化websocket
+    // 将视频数据转换成画布数据，并将画布数据转换成Base64编码的字符串
+    const sendVideoData = () => {
+      context.value = canvas.value.getContext("2d");
+      canvas.value.width = camera.value.offsetWidth;
+      canvas.value.height = camera.value.offsetWidth * 0.75; // 4:3
+      // 将视频数据绘制到画布上
+      context.value.drawImage(
+        camera.value,
+        0,
+        0,
+        canvas.value.width,
+        canvas.value.height
+      );
+      const data = canvas.value.toDataURL();
+      socket.emit("message", data);
+      animationId.value = requestAnimationFrame(sendVideoData);
     };
 
     onMounted(() => {
       socket.on("connect", () => {
         console.log("连接成功");
       });
-      initPull();
+      socket.emit("message", "data11");
+      context.value = canvas.value.getContext("2d");
+
+      // 接收消息
+      socket.on("message", (data) => {
+        canvas.value.width = camera.value.offsetWidth;
+        canvas.value.height = camera.value.offsetWidth * 0.75; // 4:3
+        const img = new Image();
+        img.src = data;
+        img.onload = () => {
+          context.value.drawImage(
+            img,
+            0,
+            0,
+            canvas.value.width,
+            canvas.value.height
+          );
+        };
+      });
     });
     onUnmounted(() => {
       socket.disconnect();
     });
 
+    // dragStart
+    const dragStart = () => {
+      pos.isDragging = true;
+    };
+    // drag
+    const drag = (e) => {
+      if (pos.isDragging) {
+        pos.xpos += e.movementX;
+        pos.ypos += e.movementY;
+      }
+    };
+    //dragEnd
+    const dragEnd = () => {
+      pos.isDragging = false;
+    };
+
     return {
+      canvas,
       camera,
       screen,
       cameraBox,
       cameraStatus,
       screenStatus,
-      mic,
-      audio,
+      pos,
       handleCamera,
       handleScreen,
-      micClick,
+      dragStart,
+      drag,
+      dragEnd,
     };
   },
 };
@@ -220,7 +243,6 @@ export default {
     padding: 10px;
     margin: 0 5px; /* 项目内部的间隔 */
     // background: var(--teat);
-    position: relative;
     width: 16%;
     video {
       border-radius: 8px;
@@ -254,9 +276,4 @@ export default {
 //     }
 //   }
 // }
-.mic {
-  width: 24px;
-  height: 24px;
-  z-index: 99;
-}
 </style>

@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-22 16:58:57
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-07 15:23:53
+ * @LastEditTime: 2023-06-21 16:17:03
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
  */
@@ -71,5 +71,10 @@ export const home = [
     path: "/metting",
     name: "Metting",
     component: () => import("@/views/project/metting/index.vue"),
+  },
+  {
+    path: "/oneTone",
+    name: "oneTone",
+    component: () => import("@/views/project/metting/oneToOne.vue"),
   },
 ];
