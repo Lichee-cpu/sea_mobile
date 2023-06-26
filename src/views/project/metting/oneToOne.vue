@@ -106,7 +106,25 @@ export default {
     const createPeerConnection = (data) => {
       console.log("创建对等连接=====>", data);
       remoteUid.value = data;
-      pc.value = new RTCPeerConnection();
+      pc.value = new RTCPeerConnection({
+        iceTransportPolicy: "relay", //all: 将使用所有网络接口类型，包括relay(中继)和srflx(对称NAT)
+        iceServers: [
+          {
+            urls: "stun:1.15.15.164:8989",
+          },
+          {
+            urls: "stun:stun.l.google.com:19302",
+          },
+          {
+            urls: [
+              "turn:1.15.15.164:8989?transport=tcp",
+              "turn:1.15.15.164:8989?transport=udp",
+            ],
+            username: "webrtc",
+            credential: "webrtc666",
+          },
+        ],
+      });
       //  ICE协商时收集本地网络接口的信息，并将其打包成一个或多个 "候选者"
       pc.value.onicecandidate = (event) => {
         if (event.candidate) {
@@ -308,7 +326,7 @@ export default {
   padding: 8px;
   border-radius: 50%;
   background: var(--brown);
-  top: 16px;
+  bottom: 32px;
   right: 16px;
   width: 32px;
   height: 32px;
