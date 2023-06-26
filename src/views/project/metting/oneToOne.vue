@@ -1,14 +1,26 @@
 <template>
   <div>
-    <div class="buttons">
-      <van-field v-model="roomId" label="房间号" placeholder="请输入房间号" />
-      <van-button type="success" @click="join">加入</van-button>
-      <van-button type="primary" @click="remove">离开</van-button>
-    </div>
     <div class="videos">
-      <video ref="localVideo" autoplay muted playsinline="">本地窗口</video>
-      <video ref="remoteVideo" autoplay muted playsinline="">远程窗口</video>
+      <div class="local-video">
+        <video ref="localVideo" autoplay muted playsinline="">本地窗口</video>
+      </div>
+      <div class="remote-video">
+        <video ref="remoteVideo" autoplay muted playsinline="">远程窗口</video>
+      </div>
     </div>
+    <div class="setting">
+      <van-icon name="wap-nav" color="#fff" @click="show = !show" />
+    </div>
+
+    <van-popup v-model:show="show">
+      <div class="room">
+        <van-field v-model="roomId" label="房间号" placeholder="请输入房间号" />
+        <div class="buttons">
+          <van-button type="primary" @click="remove">离开</van-button>
+          <van-button type="success" @click="join">加入</van-button>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -19,15 +31,18 @@ import { Toast } from "vant";
 
 export default {
   setup() {
+    const show = ref(false); // 是否显示弹窗
     const roomId = ref("");
     const localVideo = ref(null);
     const remoteVideo = ref(null);
     const localStream = ref(null); // 本地流
     const remoteStream = ref(null); // 远程流
-    const socket = io("https://car-service.lichee.top/");
+    // const socket = io("https://car-service.lichee.top/");
+    const socket = io("http://localhost:8989/");
     const pc = ref(null); // RTCPeerConnection实例
 
     const join = async () => {
+      show.value = false;
       if (!roomId.value) {
         Toast("请输入房间号");
         return;
@@ -47,9 +62,14 @@ export default {
       }
     };
     const remove = () => {
-      localStream.value.getTracks().forEach((track) => track.stop());
-      localVideo.value.srcObject = null;
-      doLeave(roomId.value);
+      show.value = false;
+      try {
+        localStream.value.getTracks().forEach((track) => track.stop());
+        localVideo.value.srcObject = null;
+        doLeave(roomId.value);
+      } catch (err) {
+        console.error("localStream错误", err);
+      }
     };
 
     // 信令
@@ -61,49 +81,53 @@ export default {
     const SIGNAL_TYPE_OFFER = "offer";
     const SIGNAL_TYPE_ANSWER = "answer";
     const SIGNAL_TYPE_CANDIDATE = "candidate";
-    const loaclUid = Math.random().toString(36).substr(2);
+    const loaclUid = ref(Math.random().toString(36).substr(2));
     const remoteUid = ref("");
 
     const doJoin = (roomId) => {
       const jsonMsg = {
         cmd: SIGNAL_TYPE_JOIN,
         roomId: roomId,
-        uid: loaclUid,
+        uid: loaclUid.value,
       };
       socket.emit("text", JSON.stringify(jsonMsg));
     };
     const doLeave = (roomId) => {
+      console.log("执行离开房间====================");
       const jsonMsg = {
         cmd: SIGNAL_TYPE_LEAVE,
         roomId: roomId,
-        uid: loaclUid,
+        uid: loaclUid.value,
       };
       socket.emit("text", JSON.stringify(jsonMsg));
     };
 
     // 创建对等连接
     const createPeerConnection = (data) => {
+      console.log("创建对等连接=====>", data);
       remoteUid.value = data;
       pc.value = new RTCPeerConnection();
+      //  ICE协商时收集本地网络接口的信息，并将其打包成一个或多个 "候选者"
       pc.value.onicecandidate = (event) => {
         if (event.candidate) {
           const jsonMsg = {
             cmd: SIGNAL_TYPE_CANDIDATE,
             roomId: roomId.value,
-            uid: loaclUid,
+            uid: loaclUid.value,
             remoteUid: remoteUid.value,
             msg: JSON.stringify(event.candidate),
           };
-          console.log("有ICE候选者", jsonMsg);
           socket.emit("text", JSON.stringify(jsonMsg));
         } else {
-          console.log("没有找到ICE候选者");
+          console.log("没有ICE候选者");
         }
       };
+      // 一旦远程流到达RTCPeerConnection，将触发此事件
       pc.value.ontrack = (event) => {
         remoteStream.value = event.streams[0];
         remoteVideo.value.srcObject = remoteStream.value;
       };
+      // 一旦本地流到达RTCPeerConnection，将触发此事件
       localStream.value.getTracks().forEach((track) => {
         pc.value.addTrack(track, localStream.value);
       });
@@ -112,7 +136,7 @@ export default {
     };
 
     const doOffer = (data) => {
-      console.log("doOffer", data);
+      console.log("doOffer", data, pc.value);
       remoteUid.value = data;
       //创建RTCPeerConnection对象
       if (pc.value == null) {
@@ -127,7 +151,7 @@ export default {
               const jsonMsg = {
                 cmd: SIGNAL_TYPE_OFFER,
                 roomId: roomId.value,
-                uid: loaclUid,
+                uid: loaclUid.value,
                 remoteUid: remoteUid.value,
                 msg: JSON.stringify(desc),
               };
@@ -138,7 +162,7 @@ export default {
             });
         })
         .catch((err) => {
-          console.err("createOffer报错", err);
+          console.error("createOffer报错", err);
         });
     };
 
@@ -157,7 +181,7 @@ export default {
               const jsonMsg = {
                 cmd: SIGNAL_TYPE_ANSWER,
                 roomId: roomId.value,
-                uid: loaclUid,
+                uid: loaclUid.value,
                 remoteUid: remoteUid.value,
                 msg: JSON.stringify(desc),
               };
@@ -224,22 +248,34 @@ export default {
             }
             console.log("加入房间响应", data, jsonMsg);
             break;
-          case SIGNAL_TYPE_LEAVE:
-            if (jsonMsg.result == "fail") {
-              Toast("房间不存在");
-              return;
-            } else {
-              Toast("离开房间成功");
-            }
-            break;
           case SIGNAL_TYPE_NEW_PEER:
+            console.log("新用户加入房间", jsonMsg);
             remoteUid.value = jsonMsg.remoteUid;
             doOffer(jsonMsg.remoteUid);
             break;
+
+          case SIGNAL_TYPE_LEAVE:
+            if (jsonMsg.result == "fail") {
+              Toast(jsonMsg.msg);
+              return;
+            } else {
+              Toast("离开房间成功");
+              // 离开成功后断开连接
+              pc.value.close();
+              pc.value = null;
+              // 关闭远程视频
+              remoteVideo.value.srcObject = null;
+            }
+            break;
           case SIGNAL_TYPE_PEER_LEAVE:
+            remoteVideo.value.srcObject = null;
             Toast(`用户${jsonMsg.remoteUid}离开房间`);
+            pc.value.close();
+            pc.value = null;
+            remoteVideo.value.srcObject = null;
             console.log("用户离开房间响应", data, jsonMsg);
             break;
+
           case SIGNAL_TYPE_OFFER:
             handleRemoteOffer(jsonMsg);
             break;
@@ -256,6 +292,7 @@ export default {
     });
 
     return {
+      show,
       roomId,
       localVideo,
       remoteVideo,
@@ -266,12 +303,64 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.buttons {
+.setting {
+  position: fixed;
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--brown);
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  .van-cell {
-    width: 30%;
+  justify-content: center;
+}
+.room {
+  padding: 8px;
+  min-width: 300px;
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 16px;
+  }
+}
+.videos {
+  video {
+    width: 100%;
+  }
+  .local-video {
+    max-width: 100%;
+    transform: rotateY(180deg);
+    border: 2px solid #15ff00;
+    position: relative;
+  }
+  .local-video::before {
+    position: absolute;
+    content: "本地视频";
+    top: 0;
+    left: 0;
+    color: #15ff00;
+    width: 100%;
+    height: 14px;
+    transform: rotateY(180deg);
+  }
+  .remote-video {
+    max-width: 100%;
+    transform: rotateY(180deg);
+    border: 2px solid #ff0000;
+    position: relative;
+  }
+  .remote-video::before {
+    position: absolute;
+    content: "远程视频";
+    top: 0;
+    left: 0;
+    color: #ff0000;
+    width: 100%;
+    height: 14px;
+    transform: rotateY(180deg);
   }
 }
 </style>
