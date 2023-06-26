@@ -37,8 +37,8 @@ export default {
     const remoteVideo = ref(null);
     const localStream = ref(null); // 本地流
     const remoteStream = ref(null); // 远程流
-    // const socket = io("https://car-service.lichee.top/");
-    const socket = io("http://localhost:8989/");
+    const socket = io("https://car-service.lichee.top/");
+    // const socket = io("http://localhost:8989/");
     const pc = ref(null); // RTCPeerConnection实例
 
     const join = async () => {
