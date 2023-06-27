@@ -253,6 +253,7 @@ export default {
         msg: "",
       };
       socket.emit("text", JSON.stringify(jsonMsg));
+      console.log("发送心跳包", jsonMsg);
     };
 
     onMounted(() => {
