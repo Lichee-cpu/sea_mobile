@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-06-27 14:57:24
+ * @LastEditTime: 2023-06-27 15:58:32
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -29,7 +29,7 @@
         v-else
         name="location-o"
         :color="active ? '#1989fa' : ''"
-        @click="getLocation"
+        @click="getLocations"
         size="30"
       />
       <span>{{ location }}</span>
@@ -43,6 +43,7 @@
       <div class="item" @click="goto('LazyLoad')">LazyLoad</div>
       <div class="item" @click="goto('Pmp')">PMP</div>
       <div class="item" @click="goto('Approve')">approval</div>
+      <div class="item" @click="goto('SaveImg')">SaveImg</div>
       <div class="item" @click="goto('Three')">ThreeJs</div>
       <div class="item" @click="goto('Web3')">web3</div>
       <div class="item" @click="goto('Metting')">Metting</div>
@@ -56,7 +57,7 @@ import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import Header from "@/components/header/Header.vue";
 import { Toast } from "vant";
-import WeChat from "@/utils/wechat2";
+import WeChat from "@/utils/initWechat.js";
 
 export default {
   components: {
@@ -64,7 +65,15 @@ export default {
   },
   setup() {
     const value = ref("");
+    /* ====== 项目路由跳转 ======*/
     const router = useRouter();
+    const goto = (item) => {
+      router.push({
+        name: item,
+      });
+    };
+
+    /* ====== 获取定位信息 ======*/
     const { proxy } = getCurrentInstance();
     const isWechat = /MicroMessenger/.test(navigator.userAgent);
     const active = ref(false); //是否定位成功
@@ -83,7 +92,7 @@ export default {
         .then((res) => {
           const adcode = res.data.result?.ad_info.adcode; // 行政区码
           const address = JSON.stringify(res.data.result?.address); // 地址信息
-          let lastUpdated = Date.now();
+          const lastUpdated = new Date().getTime(); // 最后更新时间
           localStorage.setItem(
             "location",
             JSON.stringify({
@@ -99,9 +108,11 @@ export default {
     };
 
     /* h5定位获取定位信息 */
-    const getLocation = () => {
+    const getLocations = () => {
       if (active.value) {
         active.value = false;
+        localStorage.removeItem("location");
+        location.value = "";
       } else {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -109,7 +120,7 @@ export default {
               // 获取到设备的位置信息
               const latitude = position.coords.latitude; // 纬度
               const longitude = Math.abs(position.coords.longitude); // 经度
-              active.value = true;
+              Toast.success("原生H5定位中...");
               getAdcode(latitude, longitude);
             },
             function () {
@@ -118,70 +129,116 @@ export default {
             }
           );
         } else {
-          active.value = false;
           Toast.fail("不支持H5定位");
         }
+        active.value = true;
       }
     };
 
-    // 获取当前位置
-    const getWxLocation = async () => {
+    /* 初始化微信SDK */
+    const initWechat = () => {
+      const currentUrl = window.location.href.split("#")[0];
+      proxy.$http
+        .post("/api/user/wxticket", { currentUrl: currentUrl })
+        .then((res) => {
+          const { appId, timestamp, noncestr, signature } = res.data;
+          WeChat.init({
+            appId: appId,
+            timestamp: timestamp,
+            nonceStr: noncestr,
+            signature: signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareAppMessage",
+              "onMenuShareWechat",
+              "onMenuShareTimeline",
+              "shareAppMessage",
+              "shareWechatMessage",
+              "startRecord",
+              "stopRecord",
+              "onVoiceRecordEnd",
+              "playVoice",
+              "pauseVoice",
+              "stopVoice",
+              "uploadVoice",
+              "downloadVoice",
+              "chooseImage",
+              "previewImage",
+              "uploadImage",
+              "downloadImage",
+              "getNetworkType",
+              "openLocation",
+              "getLocation",
+              "hideOptionMenu",
+              "showOptionMenu",
+              "hideMenuItems",
+              "showMenuItems",
+              "hideAllNonBaseMenuItem",
+              "showAllNonBaseMenuItem",
+              "closeWindow",
+              "scanQRCode",
+              "previewFile",
+              "openEnterpriseChat",
+              "selectEnterpriseContact",
+              "onHistoryBack",
+              "openDefaultBrowser",
+            ],
+          })
+            .then(() => {
+              Toast.success("初始化成功");
+            })
+            .catch(() => {
+              Toast.fail("初始化失败");
+            });
+        });
+    };
+    /* 企业微信SDK获取定位信息 */
+    const getWxLocation = () => {
       if (active.value) {
         active.value = false;
+        localStorage.removeItem("location");
+        location.value = "";
       } else {
-        const currentUrl = window.location.href.split("#")[0]; // 获取当前url
-        WeChat.init(["getLocation", "invoke"], currentUrl)
-          .then((wx) => {
-            wx.getLocation({
-              type: "wgs84",
-              success: (res) => {
-                const lat = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                const lng = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                getAdcode(lat, lng);
-                active.value = true;
-              },
-              fail: () => {
-                Toast("获取定位失败");
-                active.value = false;
-              },
-            });
-            wx.invoke(
-              "setKeepScreenOn",
-              {
-                keepScreenOn: true,
-              },
-              function (res) {
-                console.log(res);
-              }
-            );
+        WeChat.getLocation()
+          .then((position) => {
+            active.value = true;
+            const latitude = position.latitude; // 纬度
+            const longitude = position.longitude; // 经度
+            Toast.success("微信SDK定位中...");
+            getAdcode(latitude, longitude);
           })
           .catch(() => {
-            getLocation(); // 微信环境下获取定位失败，使用h5定位
+            active.value = false;
+            Toast.fail("获取位置信息失败");
           });
       }
     };
 
-    const goto = (item) => {
-      router.push({
-        name: item,
-      });
-    };
-
-    onMounted(() => {
-      const locations = JSON.parse(localStorage.getItem("location")); // 获取定位信息
-      if (locations) {
-        const { lastUpdated, address } = locations;
+    /* 获取定位信息 */
+    const setLocattion = () => {
+      if (localStorage.getItem("location") || isWechat) {
+        const { lastUpdated, address } = JSON.parse(
+          localStorage.getItem("location")
+        ); // 获取定位信息
         location.value = address.replace(/"/g, ""); // 去除双引号
-        // 超过2fen钟重新定位
-        if (lastUpdated && Date.now() - lastUpdated > 2 * 60 * 1000) {
-          if (/MicroMessenger/.test(navigator.userAgent)) {
-            getWxLocation(); // 微信环境下获取定位
+        active.value = location.value ? true : false;
+        if (lastUpdated && Date.now() - lastUpdated > 5 * 60 * 1000) {
+          // 判断是不是微信中打开
+          const ua = navigator.userAgent.toLowerCase();
+          if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            initWechat();
+            getWxLocation();
           } else {
-            getLocation(); // 非微信环境下获取定位
+            getLocations();
           }
         }
       }
+    };
+
+    onMounted(() => {
+      setLocattion();
     });
+
     return {
       value,
       isWechat,
@@ -189,7 +246,7 @@ export default {
       location,
       goto,
       getWxLocation,
-      getLocation,
+      getLocations,
     };
   },
 };

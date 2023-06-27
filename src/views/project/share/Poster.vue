@@ -24,18 +24,24 @@ export default {
     },
   },
   setup() {
-    const restoreDefaultContextMenu = (event) => {
-      event.stopPropagation();
-    };
+    // const restoreDefaultContextMenu = (event) => {
+    //   event.stopPropagation();
+    // };
     // 在组件挂载时添加事件监听器
     onMounted(() => {
       console.log("onMounted");
-      document.addEventListener("contextmenu", restoreDefaultContextMenu);
+      // document.addEventListener("contextmenu", restoreDefaultContextMenu);
+      document.oncontextmenu = function () {
+        return true;
+      };
     });
     // 在组件卸载时删除事件监听器
     onUnmounted(() => {
       console.log("onUnmounted");
-      document.removeEventListener("contextmenu", restoreDefaultContextMenu);
+      // document.removeEventListener("contextmenu", restoreDefaultContextMenu);
+      document.oncontextmenu = function (e) {
+        return e.preventDefault();
+      };
     });
     return {};
   },

@@ -77,4 +77,9 @@ export const home = [
     name: "oneTone",
     component: () => import("@/views/project/metting/oneToOne.vue"),
   },
+  {
+    path: "/saveImg",
+    name: "SaveImg",
+    component: () => import("@/views/project/share/Share.vue"),
+  },
 ];
