@@ -1,8 +1,8 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-07-12 16:30:51
- * @LastEditors: home 1400256031@qq.com
- * @LastEditTime: 2022-09-13 09:41:43
+ * @LastEditors: lxiang
+ * @LastEditTime: 2023-06-27 15:07:30
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\chat\Chat.vue
 -->
@@ -36,7 +36,8 @@ import { Toast } from "vant";
 export default {
   components: { Header },
   setup() {
-    const socket = io("http://localhost:8989");
+    // const socket = io("http://localhost:8989");
+    const socket = io("https://car-service.lichee.top/");
     const { proxy } = getCurrentInstance();
     const messageList = reactive([
       { name: "system", time: "00:00", message: "初始化" },

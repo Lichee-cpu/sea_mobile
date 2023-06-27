@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-06-07 15:20:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-19 18:15:01
+ * @LastEditTime: 2023-06-27 15:08:06
  * @description: webRTC视频会议
  * @FilePath: \sea_mobile\src\views\project\metting\index.vue
 -->
@@ -59,7 +59,8 @@ import { io } from "socket.io-client";
 
 export default {
   setup() {
-    const socket = io("http://localhost:8989");
+    const socket = io("https://car-service.lichee.top/");
+    // const socket = io("http://localhost:8989");
     const camera = ref(null); // 摄像头
     const screen = ref(null); // 共享屏幕
     const cameraStatus = ref(false); // 摄像头开关状态

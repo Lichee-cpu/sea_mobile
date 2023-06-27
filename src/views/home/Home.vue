@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-06-07 15:19:35
+ * @LastEditTime: 2023-06-27 14:57:24
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -46,6 +46,7 @@
       <div class="item" @click="goto('Three')">ThreeJs</div>
       <div class="item" @click="goto('Web3')">web3</div>
       <div class="item" @click="goto('Metting')">Metting</div>
+      <div class="item" @click="goto('oneTone')">1v1视频</div>
     </div>
   </div>
 </template>
