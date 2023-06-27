@@ -110,15 +110,12 @@ export default {
         iceTransportPolicy: "relay", //all: 将使用所有网络接口类型，包括relay(中继)和srflx(对称NAT)
         iceServers: [
           {
-            urls: "stun:1.15.15.164:8989",
-          },
-          {
-            urls: "stun:stun.l.google.com:19302",
+            urls: "stun:1.15.15.164:3478",
           },
           {
             urls: [
-              "turn:1.15.15.164:8989?transport=tcp",
-              "turn:1.15.15.164:8989?transport=udp",
+              "turn:1.15.15.164:3478?transport=tcp",
+              "turn:1.15.15.164:3478?transport=udp",
             ],
             username: "webrtc",
             credential: "webrtc666",
@@ -144,11 +141,13 @@ export default {
       pc.value.ontrack = (event) => {
         remoteStream.value = event.streams[0];
         remoteVideo.value.srcObject = remoteStream.value;
+        console.log("remoteStream.value", remoteStream.value);
       };
       // 一旦本地流到达RTCPeerConnection，将触发此事件
       localStream.value.getTracks().forEach((track) => {
         pc.value.addTrack(track, localStream.value);
       });
+      console.log("pc.value", pc.value, remoteStream.value);
       // pc.addTrack(localStream.value.getTracks()[0], localStream.value);// 添加音频轨道
       // pc.addTrack(localStream.value.getTracks()[1], localStream.value);// 添加视频轨道
     };
