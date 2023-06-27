@@ -294,8 +294,8 @@ export default {
               // 离开成功后断开连接
               pc.value.close();
               pc.value = null;
-              // 关闭远程视频
-              remoteVideo.value.srcObject = null;
+              remoteVideo.value.srcObject = null; // 关闭远程视频
+              clearInterval(keepalive); // 关闭心跳包
             }
             break;
           case SIGNAL_TYPE_PEER_LEAVE:
