@@ -316,6 +316,10 @@ export default {
           case SIGNAL_TYPE_CANDIDATE:
             handleCandidate(jsonMsg);
             break;
+
+          case SIGNAL_TYPE_KEEPALIVE:
+            console.log("收到心跳包", data, jsonMsg);
+            break;
           default:
             break;
         }
