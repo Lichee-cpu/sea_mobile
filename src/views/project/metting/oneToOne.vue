@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { io } from "socket.io-client";
 import { Toast } from "vant";
 
@@ -308,6 +308,9 @@ export default {
       });
     });
 
+    onUnmounted(() => {
+      remove();
+    });
     return {
       show,
       roomId,
