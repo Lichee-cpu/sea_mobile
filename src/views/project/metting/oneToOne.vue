@@ -266,7 +266,6 @@ export default {
             } else {
               Toast("加入房间成功");
               // 加入房间成功后，每隔一段时间发送一次心跳包
-              setInterval(keepalive, 5000);
             }
             console.log("加入房间", data, jsonMsg);
             break;
@@ -276,6 +275,7 @@ export default {
               return;
             } else {
               Toast("加入房间成功");
+              setInterval(keepalive, 5000);
             }
             console.log("加入房间响应", data, jsonMsg);
             break;
