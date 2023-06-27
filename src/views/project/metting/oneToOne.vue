@@ -81,6 +81,7 @@ export default {
     const SIGNAL_TYPE_OFFER = "offer";
     const SIGNAL_TYPE_ANSWER = "answer";
     const SIGNAL_TYPE_CANDIDATE = "candidate";
+    const SIGNAL_TYPE_KEEPALIVE = "keepalive"; // 心跳
     const loaclUid = ref(Math.random().toString(36).substr(2));
     const remoteUid = ref("");
 
@@ -243,6 +244,17 @@ export default {
       });
     };
 
+    const keepalive = () => {
+      const jsonMsg = {
+        cmd: SIGNAL_TYPE_KEEPALIVE,
+        roomId: roomId.value,
+        uid: loaclUid.value,
+        remoteUid: remoteUid.value,
+        msg: "",
+      };
+      socket.emit("text", JSON.stringify(jsonMsg));
+    };
+
     onMounted(() => {
       socket.on("text", (data) => {
         const jsonMsg = JSON.parse(data);
@@ -253,6 +265,8 @@ export default {
               return;
             } else {
               Toast("加入房间成功");
+              // 加入房间成功后，每隔一段时间发送一次心跳包
+              setInterval(keepalive, 5000);
             }
             console.log("加入房间", data, jsonMsg);
             break;
