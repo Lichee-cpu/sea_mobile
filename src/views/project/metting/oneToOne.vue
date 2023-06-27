@@ -2,7 +2,7 @@
   <div>
     <div class="videos">
       <div class="local-video">
-        <video ref="localVideo" autoplay playsinline="">本地窗口</video>
+        <video ref="localVideo" autoplay muted playsinline="">本地窗口</video>
       </div>
       <div class="remote-video">
         <video ref="remoteVideo" autoplay playsinline="">远程窗口</video>
