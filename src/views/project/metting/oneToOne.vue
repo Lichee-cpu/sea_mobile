@@ -283,6 +283,8 @@ export default {
     };
 
     onMounted(() => {
+      // 设置全屏
+      // document.documentElement.requestFullscreen();
       socket.on("text", (data) => {
         const jsonMsg = JSON.parse(data);
         switch (jsonMsg.cmd) {
@@ -396,10 +398,10 @@ export default {
 .videos {
   video {
     width: 100%;
+    transform: rotateY(180deg);
   }
   .local-video {
     max-width: 100%;
-    transform: rotateY(180deg);
     border: 2px solid #15ff00;
     position: relative;
   }
@@ -411,11 +413,9 @@ export default {
     color: #15ff00;
     width: 100%;
     height: 14px;
-    transform: rotateY(180deg);
   }
   .remote-video {
     max-width: 100%;
-    transform: rotateY(180deg);
     border: 2px solid #ff0000;
     position: relative;
   }
@@ -427,7 +427,6 @@ export default {
     color: #ff0000;
     width: 100%;
     height: 14px;
-    transform: rotateY(180deg);
   }
 }
 </style>
