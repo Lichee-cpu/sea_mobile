@@ -3,7 +3,7 @@
  * @Date: 2023-04-21 10:32:17
  * @LastEditors: lxiang
  * @LastEditTime: 2023-04-21 10:46:56
- * @description: Modify here please
+ * @description: 轨道控制器
  * @FilePath: \sea_mobile\src\views\threejs\demo\b.vue
 -->
 <template>
@@ -60,11 +60,11 @@ export default {
       new OrbitControls(camera, renderer.domElement);
 
       function animate() {
-				requestAnimationFrame( animate );
-				renderer.render( scene, camera );
-			}
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
 
-			animate();
+      animate();
     };
 
     onMounted(() => {

@@ -3,7 +3,7 @@
  * @Date: 2023-04-21 10:32:17
  * @LastEditors: lxiang
  * @LastEditTime: 2023-04-21 10:50:12
- * @description: Modify here please
+ * @description: 坐标辅助器
  * @FilePath: \sea_mobile\src\views\threejs\demo\c.vue
 -->
 <template>

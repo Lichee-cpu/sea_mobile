@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-23 16:05:07
+ * @LastEditTime: 2023-07-10 17:31:54
  * @description: 用户界面更改变量
  * @FilePath: \sea_mobile\src\views\threejs\demo\h.vue
 -->
@@ -18,7 +18,8 @@ import Header from "@/components/header/Header.vue";
 import { useRoute } from "vue-router";
 import * as THREE from "three";
 import gsap from "gsap";
-import * as dat from "dat.gui";
+// import * as dat from "dat.gui";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 // 导入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { onBeforeUnmount, onMounted, ref } from "vue";
@@ -31,7 +32,8 @@ export default {
     const title = route?.query?.title;
     const box = ref(null);
     // 初始化GUI
-    const gui = new dat.GUI();
+    // const gui = new dat.GUI();
+    const gui = new GUI();
 
     const draw = () => {
       // 创建场景
@@ -126,6 +128,17 @@ export default {
             param.tweenObj.paused(!value); // paused() 方法用于暂停或恢复动画
           }
         });
+      let eventObj = {
+        FullScreen: function () {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else {
+            box.value.requestFullscreen();
+          }
+        },
+      };
+      //接收一个对象和一个属性名，属性名对应的值是一个函数，点击时会调用这个函数
+      folder1.add(eventObj, "FullScreen").name("全屏");
 
       // 初始化渲染器
       const renderer = new THREE.WebGLRenderer();

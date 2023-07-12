@@ -2,8 +2,8 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-28 16:43:58
- * @description: VR看房
+ * @LastEditTime: 2023-07-11 15:00:37
+ * @description: VR看房点击
  * @FilePath: \sea_mobile\src\views\threejs\demo\w.vue
 -->
 <template>

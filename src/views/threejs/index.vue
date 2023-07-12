@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:14:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-04-27 10:20:00
+ * @LastEditTime: 2023-07-12 16:14:52
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\threejs\index.vue
 -->
@@ -54,6 +54,9 @@ export default {
       { section: 21, name: "第二十一节--点光源" },
       { section: 22, name: "第二十二节--VR看房" },
       { section: 23, name: "第二十三节--VR看房点击" },
+      { section: 24, name: "第二十四节--包围盒" },
+      { section: 25, name: "第二十五节--边缘几何矩阵与线框几何体" },
+      { section: 26, name: "第二十六节--雪花" },
     ]);
     const setSection = (i) => {
       router.push({

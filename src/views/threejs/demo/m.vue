@@ -3,7 +3,7 @@
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
  * @LastEditTime: 2023-04-25 15:59:06
- * @description: AO环境遮挡贴图与强度
+ * @description: AO 环境遮挡贴图与强度
  * @FilePath: \sea_mobile\src\views\threejs\demo\m.vue
 -->
 <template>

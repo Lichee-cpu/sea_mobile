@@ -3,7 +3,7 @@
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
  * @LastEditTime: 2023-04-26 11:30:29
- * @description: PBR
+ * @description: PBR物理的渲染
  * @FilePath: \sea_mobile\src\views\threejs\demo\n.vue
 -->
 <template>

@@ -3,7 +3,7 @@
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
  * @LastEditTime: 2023-04-25 09:31:12
- * @description: 几何体法向属性
+ * @description: 三角形
  * @FilePath: \sea_mobile\src\views\threejs\demo\j.vue
 -->
 <template>
