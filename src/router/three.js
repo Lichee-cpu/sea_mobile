@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:21:22
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-11 13:45:55
+ * @LastEditTime: 2023-07-13 11:50:04
  * @description: Three.js
  * @FilePath: \sea_mobile\src\router\three.js
  */
@@ -15,131 +15,131 @@ export const three = [
   {
     path: "/three-1",
     name: "ThreeDemo1",
-    component: () => import("@/views/threejs/demo/a"),
+    component: () => import("@/views/threejs/demo/Aa"),
   },
   {
     path: "/three-2",
     name: "ThreeDemo2",
-    component: () => import("@/views/threejs/demo/b"),
+    component: () => import("@/views/threejs/demo/Ab"),
   },
   {
     path: "/three-3",
     name: "ThreeDemo3",
-    component: () => import("@/views/threejs/demo/c"),
+    component: () => import("@/views/threejs/demo/Ac"),
   },
   {
     path: "/three-4",
     name: "ThreeDemo4",
-    component: () => import("@/views/threejs/demo/d"),
+    component: () => import("@/views/threejs/demo/Ad"),
   },
   {
     path: "/three-5",
     name: "ThreeDemo5",
-    component: () => import("@/views/threejs/demo/e"),
+    component: () => import("@/views/threejs/demo/Ae"),
   },
   {
     path: "/three-6",
     name: "ThreeDemo6",
-    component: () => import("@/views/threejs/demo/f"),
+    component: () => import("@/views/threejs/demo/Af"),
   },
   {
     path: "/three-7",
     name: "ThreeDemo7",
-    component: () => import("@/views/threejs/demo/g"),
+    component: () => import("@/views/threejs/demo/Ag"),
   },
   {
     path: "/three-8",
     name: "ThreeDemo8",
-    component: () => import("@/views/threejs/demo/h"),
+    component: () => import("@/views/threejs/demo/Ah"),
   },
   {
     path: "/three-9",
     name: "ThreeDemo9",
-    component: () => import("@/views/threejs/demo/i"),
+    component: () => import("@/views/threejs/demo/Ai"),
   },
   {
     path: "/three-10",
     name: "ThreeDemo10",
-    component: () => import("@/views/threejs/demo/j"),
+    component: () => import("@/views/threejs/demo/Aj"),
   },
   {
     path: "/three-11",
     name: "ThreeDemo11",
-    component: () => import("@/views/threejs/demo/k"),
+    component: () => import("@/views/threejs/demo/Ak"),
   },
   {
     path: "/three-12",
     name: "ThreeDemo12",
-    component: () => import("@/views/threejs/demo/l"),
+    component: () => import("@/views/threejs/demo/Al"),
   },
   {
     path: "/three-13",
     name: "ThreeDemo13",
-    component: () => import("@/views/threejs/demo/m"),
+    component: () => import("@/views/threejs/demo/Am"),
   },
   {
     path: "/three-14",
     name: "ThreeDemo14",
-    component: () => import("@/views/threejs/demo/n"),
+    component: () => import("@/views/threejs/demo/An"),
   },
   {
     path: "/three-15",
     name: "ThreeDemo15",
-    component: () => import("@/views/threejs/demo/o"),
+    component: () => import("@/views/threejs/demo/Ao"),
   },
   {
     path: "/three-16",
     name: "ThreeDemo16",
-    component: () => import("@/views/threejs/demo/p"),
+    component: () => import("@/views/threejs/demo/Ap"),
   },
   {
     path: "/three-17",
     name: "ThreeDemo17",
-    component: () => import("@/views/threejs/demo/q"),
+    component: () => import("@/views/threejs/demo/Aq"),
   },
   {
     path: "/three-18",
     name: "ThreeDemo18",
-    component: () => import("@/views/threejs/demo/r"),
+    component: () => import("@/views/threejs/demo/Ar"),
   },
   {
     path: "/three-19",
     name: "ThreeDemo19",
-    component: () => import("@/views/threejs/demo/s"),
+    component: () => import("@/views/threejs/demo/As"),
   },
   {
     path: "/three-20",
     name: "ThreeDemo20",
-    component: () => import("@/views/threejs/demo/t"),
+    component: () => import("@/views/threejs/demo/At"),
   },
   {
     path: "/three-21",
     name: "ThreeDemo21",
-    component: () => import("@/views/threejs/demo/u"),
+    component: () => import("@/views/threejs/demo/Au"),
   },
   {
     path: "/three-22",
     name: "ThreeDemo22",
-    component: () => import("@/views/threejs/demo/v"),
+    component: () => import("@/views/threejs/demo/Av"),
   },
   {
     path: "/three-23",
     name: "ThreeDemo23",
-    component: () => import("@/views/threejs/demo/w"),
+    component: () => import("@/views/threejs/demo/Aw"),
   },
   {
     path: "/three-24",
     name: "ThreeDemo24",
-    component: () => import("@/views/threejs/demo/x"),
+    component: () => import("@/views/threejs/demo/Ax"),
   },
   {
     path: "/three-25",
     name: "ThreeDemo25",
-    component: () => import("@/views/threejs/demo/y"),
+    component: () => import("@/views/threejs/demo/Ay"),
   },
   {
     path: "/three-26",
     name: "ThreeDemo26",
-    component: () => import("@/views/threejs/demo/z"),
+    component: () => import("@/views/threejs/demo/Az"),
   },
 ];
