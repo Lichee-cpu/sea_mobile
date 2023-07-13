@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:14:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-12 16:14:52
+ * @LastEditTime: 2023-07-13 15:35:36
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\threejs\index.vue
 -->
@@ -57,6 +57,10 @@ export default {
       { section: 24, name: "第二十四节--包围盒" },
       { section: 25, name: "第二十五节--边缘几何矩阵与线框几何体" },
       { section: 26, name: "第二十六节--雪花" },
+      { section: 27, name: "第二十七节--形状的星系" },
+      { section: 28, name: "第二十八节--选中目标" },
+      { section: 29, name: "第二十九节--物理碰撞" },
+      { section: 30, name: "第三十节--" },
     ]);
     const setSection = (i) => {
       router.push({

@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:21:22
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-13 11:50:04
+ * @LastEditTime: 2023-07-13 14:16:32
  * @description: Three.js
  * @FilePath: \sea_mobile\src\router\three.js
  */
@@ -141,5 +141,20 @@ export const three = [
     path: "/three-26",
     name: "ThreeDemo26",
     component: () => import("@/views/threejs/demo/Az"),
+  },
+  {
+    path: "/three-27",
+    name: "ThreeDemo27",
+    component: () => import("@/views/threejs/demo/Ba"),
+  },
+  {
+    path: "/three-28",
+    name: "ThreeDemo28",
+    component: () => import("@/views/threejs/demo/Bb"),
+  },
+  {
+    path: "/three-29",
+    name: "ThreeDemo29",
+    component: () => import("@/views/threejs/demo/Bc"),
   },
 ];
