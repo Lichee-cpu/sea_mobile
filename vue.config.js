@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-16 14:22:51
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-13 15:12:35
+ * @LastEditTime: 2023-07-13 10:20:12
  * @description: Modify here please
  * @FilePath: \sea_mobile\vue.config.js
  */
@@ -37,7 +37,16 @@ module.exports = {
         changeOrigin: true,
         logLevel: "debug",
       },
+      "/lichee-img.oss-cn-hangzhou.aliyuncs.com": {
+        target: "https://lichee-img.oss-cn-hangzhou.aliyuncs.com/",
+        secure: false,
+        changeOrigin: true,
+        logLevel: "debug",
+        pathRewrite: {
+          "^/lichee-img.oss-cn-hangzhou.aliyuncs.com/":
+            "https://lichee-img.oss-cn-hangzhou.aliyuncs.com/",
+        },
+      },
     },
-    
   },
 };

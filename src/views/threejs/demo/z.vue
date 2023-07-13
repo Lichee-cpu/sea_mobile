@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-12 17:45:42
+ * @LastEditTime: 2023-07-13 10:34:48
  * @description: 雪花
  * @FilePath: \sea_mobile\src\views\threejs\demo\z.vue
 -->
@@ -72,7 +72,9 @@ const draw = () => {
 
     // 载入纹理
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(`./texture/particles/${url}.png`);
+    const texture = textureLoader.load(
+      `lichee-img.oss-cn-hangzhou.aliyuncs.com/threejs/${url}.png`
+    );
     // 设置点材质纹理
     pointsMaterial.map = texture;
     pointsMaterial.alphaMap = texture;
@@ -88,7 +90,7 @@ const draw = () => {
     return points;
   }
 
-  const points = createPoints("1", 1.5);
+  const points = createPoints("11", 1.5);
   const points2 = createPoints("xh", 1);
   const points3 = createPoints("xh", 2);
 
