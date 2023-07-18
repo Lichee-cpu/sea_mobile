@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:14:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-13 15:35:36
+ * @LastEditTime: 2023-07-17 14:10:55
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\threejs\index.vue
 -->
@@ -60,7 +60,10 @@ export default {
       { section: 27, name: "第二十七节--形状的星系" },
       { section: 28, name: "第二十八节--选中目标" },
       { section: 29, name: "第二十九节--物理碰撞" },
-      { section: 30, name: "第三十节--" },
+      { section: 30, name: "第三十节--WebGL原理" },
+      { section: 31, name: "第三十一节--WebGL(孔明灯)" },
+      { section: 32, name: "第三十二节--WebGL(云雾)" },
+      { section: 33, name: "第三十三节--VR看房切换" },
     ]);
     const setSection = (i) => {
       router.push({

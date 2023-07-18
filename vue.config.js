@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-16 14:22:51
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-13 10:20:12
+ * @LastEditTime: 2023-07-17 11:01:51
  * @description: Modify here please
  * @FilePath: \sea_mobile\vue.config.js
  */
@@ -48,5 +48,16 @@ module.exports = {
         },
       },
     },
+  },
+  configureWebpack: (config) => {
+    config.module.rules.push({
+      test: /\.glsl$/,
+
+      use: [
+        {
+          loader: "webpack-glsl-loader",
+        },
+      ],
+    });
   },
 };
