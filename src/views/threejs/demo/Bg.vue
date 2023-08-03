@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-23 08:47:02
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-18 17:55:28
+ * @LastEditTime: 2023-07-26 10:16:20
  * @description: VR看房切换房间
  * @FilePath: \sea_mobile\src\views\threejs\demo\Bg.vue
 -->
@@ -147,6 +147,7 @@ class SpriteText {
     this.callbacks.push(callback);
   }
 }
+
 const progress = ref(0);
 THREE.DefaultLoadingManager.onProgress = function (item, loaded, total) {
   console.log(item, loaded, total);
@@ -219,8 +220,8 @@ onMounted(() => {
   new Room("客厅", 0, "./texture/vrRoom/livingroom/");
 
   // 创建厨房
-  let kitchenPostion = new THREE.Vector3(-5, 0, -10);
-  let kitEuler = new THREE.Euler(0, -Math.PI / 2, 0);
+  let kitchenPostion = new THREE.Vector3(-5, 0, -10); // 厨房位置
+  let kitEuler = new THREE.Euler(0, -Math.PI / 2, 0); // 厨房旋转角度
   new Room("厨房", 3, "./texture/vrRoom/kitchen/", kitchenPostion, kitEuler);
 
   // 创建厨房精灵文字

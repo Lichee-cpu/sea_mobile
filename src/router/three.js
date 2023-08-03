@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:21:22
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-18 14:34:00
+ * @LastEditTime: 2023-07-26 15:33:32
  * @description: Three.js
  * @FilePath: \sea_mobile\src\router\three.js
  */
@@ -180,6 +180,6 @@ export const three = [
   {
     path: "/three-34",
     name: "ThreeDemo34",
-    component: () => import("@/views/threejs/demo/Bf"),
+    component: () => import("@/views/threejs/demo/Bh"),
   },
 ];

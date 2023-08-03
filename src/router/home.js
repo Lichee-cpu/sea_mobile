@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-22 16:58:57
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-21 16:17:03
+ * @LastEditTime: 2023-08-02 15:57:32
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
  */
@@ -81,5 +81,10 @@ export const home = [
     path: "/saveImg",
     name: "SaveImg",
     component: () => import("@/views/project/share/Share.vue"),
+  },
+  {
+    path: "/online-read",
+    name: "OnlineRead",
+    component: () => import("@/views/project/online-read/index.vue"),
   },
 ];

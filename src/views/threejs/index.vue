@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-04-21 09:14:27
  * @LastEditors: lxiang
- * @LastEditTime: 2023-07-17 14:10:55
+ * @LastEditTime: 2023-07-19 11:23:46
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\threejs\index.vue
 -->
@@ -64,6 +64,7 @@ export default {
       { section: 31, name: "第三十一节--WebGL(孔明灯)" },
       { section: 32, name: "第三十二节--WebGL(云雾)" },
       { section: 33, name: "第三十三节--VR看房切换" },
+      { section: 34, name: "第三十四节--智慧城市" },
     ]);
     const setSection = (i) => {
       router.push({
