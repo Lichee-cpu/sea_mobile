@@ -2,12 +2,12 @@
  * @Author: lxiang
  * @Date: 2023-08-02 14:24:39
  * @LastEditors: lxiang
- * @LastEditTime: 2023-08-03 13:44:52
+ * @LastEditTime: 2023-08-04 14:35:36
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\views\project\online-read\word.vue
 -->
 <template>
-  <input type="file" @change="changeHandle" accept=".docx"/>
+  <input type="file" @change="changeHandle" accept=".docx" />
   <vue-office-docx
     :src="base64Docx"
     @rendered="renderedHandler"
@@ -21,7 +21,6 @@ import VueOfficeDocx from "@vue-office/docx";
 //引入相关样式
 import "@vue-office/docx/lib/index.css";
 import { ref } from "vue";
-import docx4js from "docx4js";
 
 export default {
   components: {
@@ -52,20 +51,7 @@ export default {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      if (file.type === "application/msword") {
-        const fs = require("fs");
-        reader.onload = (e) => {
-          const fileBuffer = e.target.result;
-          // 将doc文件转换为docx
-          docx4js
-            .convert(fileBuffer, { convertTo: "docx" })
-            .then(function (result) {
-              console.log("新文件", result);
-              // 将结果写入一个新的docx文件
-              fs.writeFileSync("path/to/your/new/docx/file.docx", result);
-            });
-        };
-      } else if (
+      if (
         file.type ===
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       ) {
