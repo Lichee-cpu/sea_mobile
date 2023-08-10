@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2023-08-02 15:57:39
+ * @LastEditTime: 2023-08-10 09:36:50
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -49,6 +49,8 @@
       <div class="item" @click="goto('Metting')">Metting</div>
       <div class="item" @click="goto('oneTone')">1v1视频</div>
       <div class="item" @click="goto('OnlineRead')">在线预览</div>
+      <div class="item" @click="goto('Test')">测试</div>
+
     </div>
   </div>
 </template>
