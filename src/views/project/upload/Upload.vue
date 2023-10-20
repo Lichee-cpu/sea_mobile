@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-31 16:16:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-08 17:35:28
+ * @LastEditTime: 2023-10-20 17:38:23
  * @description: 文件上传压缩对比
  * @FilePath: \sea_mobile\src\views\project\upload\Upload.vue
 -->
@@ -27,7 +27,7 @@
     <div class="uploader">
       <van-uploader
         v-model="fileList1"
-        capture="camera"
+        capture=""
         :max-count="1"
         :after-read="afterRead1"
         :before-read="compressImage"
