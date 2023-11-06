@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-03-21 21:36:23
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-25 12:59:53
+ * @LastEditTime: 2023-10-31 10:19:17
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\main.js
  */
@@ -31,6 +31,11 @@ import {
   Tab,
   Tabs,
   Lazyload,
+  Collapse,
+  CollapseItem,
+  ActionSheet,
+  ImagePreview,
+  Checkbox, CheckboxGroup
 } from "vant";
 
 const app = createApp(App);
@@ -49,6 +54,12 @@ app.use(Uploader);
 app.use(Circle);
 app.use(Tab);
 app.use(Tabs);
+app.use(Collapse);
+app.use(CollapseItem);
+app.use(ActionSheet);
+app.use(ImagePreview);
+app.use(Checkbox);
+app.use(CheckboxGroup);
 
 app.use(Lazyload);
 app.use(router);

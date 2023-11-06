@@ -1,0 +1,67 @@
+.image-acquisition-wrap {
+  height: 100%;
+  width: 100%;
+  background: #eafbff;
+  overflow: scroll;
+  padding: 16px;
+  padding-bottom: 70px;
+  .upload-files-wrap {
+    background-color: var(--upload-item);
+    height: 100%;
+    .upload-files-content {
+      .content-title {
+        text-align: left;
+      }
+      .image-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        .addIcon {
+          width: 80px;
+          height: 80px;
+          background: url("../../../assets/icon/image-collection/icon_ziliaoshangchuan.png");
+          background-size: cover;
+        }
+      }
+      .check-box {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+  .global-btn-con-p {
+    height: 60px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #eee;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .global-btn-con {
+      width: 90%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .global-btn {
+        width: 45%;
+      }
+      .clear {
+        background: #a9a9a9;
+        border: none;
+      }
+    }
+  }
+}
+:deep(.van-cell:after) {
+  display: none;
+}
+:deep(.van-image__img) {
+  object-fit: cover;
+}
+:deep(.van-uploader__preview-image) {
+  background: #f7f8fa;
+}
