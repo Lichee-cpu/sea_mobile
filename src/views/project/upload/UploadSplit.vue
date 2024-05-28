@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-09 09:00:34
  * @LastEditors: lxiang
- * @LastEditTime: 2023-05-09 11:34:29
+ * @LastEditTime: 2024-05-28 14:39:55
  * @description: 分片上传
  * @FilePath: \sea_mobile\src\views\project\upload\UploadSplit.vue
 -->
@@ -80,12 +80,18 @@ export default {
         Toast.fail("请选择要上传的文件");
         return;
       }
-
+      const needlist = await proxy.$http.post("/api/upload/querySplit", {
+        filename: file.value.name,
+        chunkCount: totalSize.value,
+        hash: hash.value,
+      });
+      const needUploadList = needlist.data.needUploadList;
       let uploadedChunks = 0; // 已上传的分片数
       let uploadedSize = 0; // 已上传的文件大小
-      const uploadedChunksList = []; // 已上传的分片索引
+      let uploadedAllSize = needUploadList.length * chunkSize;
 
-      for (let i = 0; i < totalSize.value; i++) {
+      for (let index = 0; index < needUploadList.length; index++) {
+        const i = needUploadList[index];
         const formData = new FormData();
         formData.append("chunk", chunks.value[i].file);
         formData.append("filename", file.value.name);
@@ -94,35 +100,34 @@ export default {
         formData.append("hash", hash.value); // 文件hash
 
         try {
-          const res = await proxy.$http.post("/api/upload/split", formData, {
+          await proxy.$http.post("/api/upload/split", formData, {
             timeout: 60000,
             headers: {
               "Content-Type": "multipart/form-data",
             },
             // 上传进度
             onUploadProgress: (progressEvent) => {
-              const { loaded } = progressEvent;
+              const { loaded } = progressEvent; //单片上传的大小
               uploadedSize += loaded;
-              const currentProgress = Math.round(
-                (uploadedSize / file.value.size) * 100
-              );
-              progress.value = currentProgress >= 100 ? 100 : currentProgress;
+              progress.value = Math.min(Math.round((uploadedSize / uploadedAllSize) * 100), 100);
             },
           });
           uploadedChunks++;
-          uploadedChunksList.push(res.data.chunkIndex);
         } catch (error) {
           console.error(error);
         }
       }
       // 上传完成后，通知服务端合并文件
-      if (uploadedChunks === totalSize.value) {
+      if (uploadedChunks === needUploadList.length) {
+        progress.value = 100;
         await proxy.$http.post(
           "/api/upload//merge",
           {
             filename: file.value.name,
             hash: hash.value,
-            uploadedChunks: uploadedChunksList,
+            uploadedChunks: Array.from({ length: totalSize.value }, (_, i) =>
+              i.toString()
+            ),
           },
           {
             timeout: 60000,
