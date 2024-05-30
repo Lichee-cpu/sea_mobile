@@ -2,14 +2,6 @@
  * @Author: lxiang
  * @Date: 2023-06-20 08:26:50
  * @LastEditors: lxiang
- * @LastEditTime: 2023-06-20 14:51:34
- * @description: Modify here please
- * @FilePath: \sea_mobile\src\views\project\metting\singal.js
- */
-/*
- * @Author: lxiang
- * @Date: 2023-06-20 08:26:50
- * @LastEditors: lxiang
  * @LastEditTime: 2023-06-20 08:43:47
  * @description: 信令设计
  * @FilePath: \sea_mobile\src\views\project\metting\singal.js

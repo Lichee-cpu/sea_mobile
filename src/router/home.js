@@ -78,6 +78,11 @@ export const home = [
     component: () => import("@/views/project/metting/oneToOne.vue"),
   },
   {
+    path: "/onlive",
+    name: "onLive",
+    component: () => import("@/views/project/metting/onlive.vue"),
+  },
+  {
     path: "/saveImg",
     name: "SaveImg",
     component: () => import("@/views/project/share/Share.vue"),
