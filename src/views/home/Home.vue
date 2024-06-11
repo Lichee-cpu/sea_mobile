@@ -1,7 +1,7 @@
 <!--
  * @Author: lxiang
  * @Date: 2022-06-26 10:57:37
- * @LastEditTime: 2024-05-30 12:44:39
+ * @LastEditTime: 2024-06-06 20:24:08
  * @LastEditors: lxiang
  * @Description: 主页
  * @FilePath: \sea_mobile\src\views\home\Home.vue
@@ -49,6 +49,7 @@
       <div class="item" @click="goto('Metting')">Metting</div>
       <div class="item" @click="goto('oneTone')">1v1视频</div>
       <div class="item" @click="goto('onLive')">直播推流</div>
+      <div class="item" @click="goto('onlineVideo')">边录边传</div>
       <div class="item" @click="goto('OnlineRead')">在线预览</div>
       <div class="item" @click="goto('Test')">测试</div>
       <div class="item" @click="goto('Uploader')">上传</div>

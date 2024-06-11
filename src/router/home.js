@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-22 16:58:57
  * @LastEditors: lxiang
- * @LastEditTime: 2023-10-30 19:08:18
+ * @LastEditTime: 2024-06-06 20:23:44
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
  */
@@ -81,6 +81,11 @@ export const home = [
     path: "/onlive",
     name: "onLive",
     component: () => import("@/views/project/metting/onlive.vue"),
+  },
+  {
+    path: "/onlineVideo",
+    name: "onlineVideo",
+    component: () => import("@/views/project/metting/onlineVideo.vue"),
   },
   {
     path: "/saveImg",
