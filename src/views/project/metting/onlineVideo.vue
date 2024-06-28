@@ -1,13 +1,23 @@
 <template>
   <div>
     <video ref="video" width="640" height="480" autoplay muted></video>
-    <button @click="startRecording">开始录制</button>
+    <button @click="show=true">开始录制</button>
     <button @click="stopRecording">停止录制</button>
   </div>
+  <van-popup v-model:show="show">
+      <div class="room">
+        <van-field v-model="roomId" label="采集号" placeholder="请输入采集号" />
+        <div class="buttons">
+          <van-button type="primary" @click="show=false">取消</van-button>
+          <van-button type="success" @click="startRecording">确认</van-button>
+        </div>
+      </div>
+    </van-popup>
 </template>
 
 <script>
 import { ref, getCurrentInstance } from "vue";
+
 export default {
   setup() {
     const video = ref(null);
@@ -16,6 +26,10 @@ export default {
     let setIntervalTimer = ref();
     const recorder = ref();
     const recordTime = 10; // 每隔recordTime时间(60秒)录制一个视频
+    const show = ref(false); // 是否显示弹窗
+    const roomId = ref("");
+
+
     // 开始录制
     const startRecording = async () => {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -77,8 +91,8 @@ export default {
         track.stop();
       });
       const res = await proxy.$http.post("/api/upload/videoMerge", {
-        directory: "BMA20240608",
-        filename: "BMA20240608.webm",
+        directory: roomId.value,
+        filename: `${roomId.value}.webm`,
       });
       console.log(res);
     };
@@ -88,10 +102,10 @@ export default {
       const blob = new Blob(chunks, { type: "video/webm" });
       const formData = new FormData();
       formData.append("file", blob);
-      formData.append("filename", "BMA20240608.webm");
+      formData.append("filename", `${roomId.value}.webm`);
       formData.append("time", `${new Date().getTime()}`);
       formData.append("duration", recordTime);
-      await proxy.$http.post("/api/upload/onlineVideo", formData);
+      await proxy.$http.post("/api/upload/webm", formData);
       // 下载到本地
       // let url = URL.createObjectURL(blob);
       // let fileName = `file_${new Date().getTime()}.webm`;
@@ -108,7 +122,21 @@ export default {
       video,
       startRecording,
       stopRecording,
+      show,
+      roomId
     };
   },
 };
 </script>
+<style lang="less" scoped>
+.room {
+  padding: 8px;
+  min-width: 300px;
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 16px;
+  }
+}
+</style>
