@@ -1,18 +1,28 @@
 <template>
   <div>
     <video ref="video" width="640" height="480" autoplay muted></video>
-    <button @click="show=true">开始录制</button>
+    <button @click="show = true">开始录制</button>
     <button @click="stopRecording">停止录制</button>
   </div>
   <van-popup v-model:show="show">
-      <div class="room">
-        <van-field v-model="roomId" label="采集号" placeholder="请输入采集号" />
-        <div class="buttons">
-          <van-button type="primary" @click="show=false">取消</van-button>
-          <van-button type="success" @click="startRecording">确认</van-button>
-        </div>
+    <div class="room">
+      <van-field v-model="roomId" label="采集号" placeholder="请输入采集号" />
+      <div class="buttons">
+        <van-button type="primary" @click="show = false">取消</van-button>
+        <van-button type="success" @click="startRecording">确认</van-button>
       </div>
-    </van-popup>
+    </div>
+  </van-popup>
+  <van-overlay :show="loading">
+    <div class="wrapper">
+      <van-loading vertical>
+        <template #icon>
+          <van-icon name="star-o" size="30" />
+        </template>
+        加载中...
+      </van-loading>
+    </div>
+  </van-overlay>
 </template>
 
 <script>
@@ -28,7 +38,7 @@ export default {
     const recordTime = 10; // 每隔recordTime时间(60秒)录制一个视频
     const show = ref(false); // 是否显示弹窗
     const roomId = ref("");
-
+    const loading = ref(false);
 
     // 开始录制
     const startRecording = async () => {
@@ -53,6 +63,7 @@ export default {
       } else {
         console.log("浏览器不支持MediaRecorder API");
       }
+      show.value = false;
     };
     //每隔recordTime时间(60秒)录制一个视频
     const recordAndUpload = (stream, mime, recordTime) => {
@@ -69,7 +80,7 @@ export default {
           uploadChunk(chunks, recordTime * 1000);
         } else {
           //当手动点了停止，那么这个时间就不是确定的了，需要计算
-          uploadChunk(chunks, Date.now() - videoStartTime);
+          uploadChunk(chunks, Date.now() - videoStartTime, "end");
         }
       };
       //每隔recordTime时间(60秒)自动去触发停止stop录像事件
@@ -90,15 +101,20 @@ export default {
       video.value.srcObject.getTracks().forEach((track) => {
         track.stop();
       });
-      const res = await proxy.$http.post("/api/upload/videoMerge", {
+      loading.value = true;
+    };
+    // 合并视频
+    const merageChunk = async () => {
+      const res = await proxy.$http.post("/api/upload/webmMerge", {
         directory: roomId.value,
         filename: `${roomId.value}.webm`,
       });
+      loading.value = false;
       console.log(res);
     };
 
     // 上传函数
-    const uploadChunk = async (chunks, recordTime) => {
+    const uploadChunk = async (chunks, recordTime, isEnd) => {
       const blob = new Blob(chunks, { type: "video/webm" });
       const formData = new FormData();
       formData.append("file", blob);
@@ -106,6 +122,9 @@ export default {
       formData.append("time", `${new Date().getTime()}`);
       formData.append("duration", recordTime);
       await proxy.$http.post("/api/upload/webm", formData);
+      if (isEnd) {
+        merageChunk(); // 防止没上传完就合并
+      }
       // 下载到本地
       // let url = URL.createObjectURL(blob);
       // let fileName = `file_${new Date().getTime()}.webm`;
@@ -123,7 +142,8 @@ export default {
       startRecording,
       stopRecording,
       show,
-      roomId
+      roomId,
+      loading,
     };
   },
 };
@@ -138,5 +158,11 @@ export default {
     align-items: center;
     margin-top: 16px;
   }
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 </style>

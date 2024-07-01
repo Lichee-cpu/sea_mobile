@@ -35,7 +35,9 @@ import {
   CollapseItem,
   ActionSheet,
   ImagePreview,
-  Checkbox, CheckboxGroup
+  Checkbox, CheckboxGroup,
+  overlay,
+  Loading 
 } from "vant";
 
 const app = createApp(App);
@@ -60,6 +62,8 @@ app.use(ActionSheet);
 app.use(ImagePreview);
 app.use(Checkbox);
 app.use(CheckboxGroup);
+app.use(overlay);
+app.use(Loading );
 
 app.use(Lazyload);
 app.use(router);
