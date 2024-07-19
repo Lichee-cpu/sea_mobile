@@ -53,6 +53,7 @@
       <div class="item" @click="goto('OnlineRead')">在线预览</div>
       <div class="item" @click="goto('Test')">测试</div>
       <div class="item" @click="goto('Uploader')">上传</div>
+      <div class="item" @click="goto('Record')">双录</div>
     </div>
   </div>
 </template>

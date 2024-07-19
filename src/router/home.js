@@ -2,7 +2,7 @@
  * @Author: lxiang
  * @Date: 2023-05-22 16:58:57
  * @LastEditors: lxiang
- * @LastEditTime: 2024-06-06 20:23:44
+ * @LastEditTime: 2024-07-17 18:53:03
  * @description: Modify here please
  * @FilePath: \sea_mobile\src\router\home.js
  */
@@ -106,5 +106,10 @@ export const home = [
     path: "/uploader",
     name: "Uploader",
     component: () => import("@/views/project/uploader/Uploader.vue"),
+  },
+  {
+    path: "/record",
+    name: "Record",
+    component: () => import("@/views/project/record/index.vue"),
   },
 ];
