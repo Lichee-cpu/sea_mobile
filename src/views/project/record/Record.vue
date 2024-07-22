@@ -45,6 +45,7 @@ export default {
       if (type === "video") {
         uploadVideo.value.click();
         uploadVideo.value.onchange = (e) => {
+          alert(JSON.stringify(e))
           videoFile.value = e.target.files[0];
           videoUrl.value = URL.createObjectURL(videoFile.value);
         };

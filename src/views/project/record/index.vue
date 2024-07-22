@@ -12,6 +12,9 @@
         <van-tab title="canvas">
           <RecordCanvas />
         </van-tab>
+        <van-tab title="OA">
+          <RecordJem />
+        </van-tab>
       </van-tabs>
     </div>
   </template>
@@ -22,12 +25,14 @@
   import Record from "./Record.vue";
   import RecordWebm from "./RecordWebm.vue";
   import RecordCanvas from "./RecordCanvas.vue"
+  import RecordJem from "./RecordJem.vue"
   export default {
     components: {
       Header,
       Record,
       RecordWebm,
       RecordCanvas,
+      RecordJem
     },
     setup() {
       const active = ref(0);
